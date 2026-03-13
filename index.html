@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PsycoIntera - Escudo Mental</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
     <style>
         :root {
             --bg-color: #f3f4f6;
@@ -12,244 +17,177 @@
             --orange-btn: #f97316;
             --yellow-btn: #eab308;
             --blue-sos: #3b82f6;
+            --green-success: #10b981;
             --card-bg: #ffffff;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
+        body { background-color: var(--bg-color); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
 
-        /* Header / Nav */
-        header {
-            background-color: var(--card-bg);
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            z-index: 10;
-        }
-
-        .logo { font-weight: 800; font-size: 1.2rem; }
+        header { background-color: var(--card-bg); padding: 1rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 10; position: sticky; top: 0; }
+        .logo { font-weight: 800; font-size: 1.1rem; color: var(--blue-sos); }
         
-        .btn-sos {
-            background-color: var(--blue-sos);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 999px;
-            font-weight: bold;
-            box-shadow: 0 2px 4px rgba(59, 130, 246, 0.4);
-            cursor: pointer;
-        }
+        .btn-sos { background-color: var(--blue-sos); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 999px; font-weight: bold; cursor: pointer; font-size: 0.8rem; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
 
-        /* Main Content Grid */
-        main {
-            flex: 1;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            overflow-y: auto;
-        }
+        main { flex: 1; padding: 1rem; display: flex; flex-direction: column; gap: 1.5rem; max-width: 500px; margin: 0 auto; width: 100%; }
+        h2 { font-size: 1rem; text-align: center; color: #4b5563; text-transform: uppercase; letter-spacing: 0.05em; }
 
-        h2 { font-size: 1.1rem; margin-bottom: 0.5rem; text-align: center; color: #4b5563; }
+        .section-card { background: white; padding: 1.2rem; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
 
-        /* Conflict Buttons */
-        .btn-conflict {
-            width: 100%;
-            padding: 1.5rem;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: transform 0.1s;
-        }
-        
-        .btn-conflict:active { transform: scale(0.98); }
+        /* Botones de Conflicto */
+        .grid-conflicts { display: grid; gap: 0.8rem; }
+        .btn-conflict { width: 100%; padding: 1.2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; color: white; cursor: pointer; transition: transform 0.1s; }
+        .btn-conflict:active { transform: scale(0.97); }
         .bg-red { background-color: var(--red-btn); }
         .bg-orange { background-color: var(--orange-btn); }
         .bg-yellow { background-color: var(--yellow-btn); color: #451a03; }
 
-        /* Script Display Card */
-        #script-container {
-            display: none;
-            background-color: var(--card-bg);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border-left: 6px solid #ccc;
-            animation: slideUp 0.3s ease-out;
-        }
+        /* Contenedor de Guiones */
+        #script-container { display: none; margin-top: 1rem; border-left: 6px solid #ccc; animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+        .script-step { margin-bottom: 1rem; padding-left: 1rem; }
+        .step-label { font-size: 0.75rem; font-weight: 800; color: #9ca3af; text-transform: uppercase; }
+        .step-text { font-size: 1rem; font-weight: 500; line-height: 1.5; color: var(--text-main); font-style: italic; }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .script-step { margin-bottom: 1.2rem; }
-        .script-step:last-child { margin-bottom: 0; }
-        .step-label { font-size: 0.8rem; font-weight: bold; color: #6b7280; text-transform: uppercase; margin-bottom: 0.2rem; display: block; }
-        .step-text { font-size: 1.1rem; font-weight: 500; line-height: 1.4; }
+        /* Hoja de Ruta */
+        .input-group { margin-bottom: 1rem; }
+        label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; color: #374151; }
+        input, select, textarea { width: 100%; padding: 0.8rem; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 0.9rem; }
+        .btn-save { background-color: var(--blue-sos); color: white; border: none; width: 100%; padding: 0.8rem; border-radius: 8px; font-weight: bold; margin-top: 0.5rem; }
 
         /* SOS Modal */
-        #sos-modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(17, 24, 39, 0.95);
-            color: white;
-            z-index: 50;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .circle {
-            width: 150px; height: 150px;
-            border-radius: 50%;
-            background-color: var(--blue-sos);
-            display: flex; justify-content: center; align-items: center;
-            font-size: 1.5rem; font-weight: bold;
-            transition: all 4s ease-in-out;
-        }
-
-        .btn-close-sos {
-            margin-top: 3rem;
-            background: transparent;
-            border: 2px solid white;
-            color: white;
-            padding: 0.8rem 2rem;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
+        #sos-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(17, 24, 39, 0.98); color: white; z-index: 100; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .circle { width: 180px; height: 180px; border-radius: 50%; background-color: var(--blue-sos); display: flex; justify-content: center; align-items: center; font-size: 1.6rem; font-weight: 800; transition: all 4s linear; box-shadow: 0 0 40px rgba(59, 130, 246, 0.4); }
+        .audio-toggle { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 0.5rem 1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.8rem; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">PsycoIntera</div>
-        <button class="btn-sos" onclick="toggleSOS()">🔥 BOTÓN RESET</button>
+        <div class="logo">PSYCOINTERA</div>
+        <button class="btn-sos" onclick="toggleSOS()">🔥 RESET 4-7-8</button>
     </header>
 
     <main>
-        <h2>¿Qué situación estás atendiendo?</h2>
-        
-        <button class="btn-conflict bg-red" onclick="showScript('red')">
-            Cliente Agresivo / Insulto
-        </button>
-        <button class="btn-conflict bg-orange" onclick="showScript('orange')">
-            Urgencia / Retraso Crítico
-        </button>
-        <button class="btn-conflict bg-yellow" onclick="showScript('yellow')">
-            Queja por Cobertura / Perito
-        </button>
+        <section class="section-card">
+            <h2>Gestión de Llamadas [Judo Verbal]</h2>
+            <div class="grid-conflicts">
+                <button class="btn-conflict bg-red" onclick="showScript('red')">Agresión / Insulto</button>
+                <button class="btn-conflict bg-orange" onclick="showScript('orange')">Retraso / Urgencia</button>
+                <button class="btn-conflict bg-yellow" onclick="showScript('yellow')">Rechazo Cobertura</button>
+            </div>
 
-        <div id="script-container">
-            <div class="script-step">
-                <span class="step-label">1. Amortiguador (Validar)</span>
-                <div class="step-text" id="text-amortiguador">...</div>
+            <div id="script-container" class="section-card" style="margin-top: 1rem; box-shadow: none; border-radius: 0;">
+                <div class="script-step"><span class="step-label">Validar Emoción</span><div id="text-amortiguador" class="step-text">...</div></div>
+                <div class="script-step"><span class="step-label">Pivotar a lo Técnico</span><div id="text-pivote" class="step-text">...</div></div>
+                <div class="script-step"><span class="step-label">Cierre de Control</span><div id="text-gancho" class="step-text">...</div></div>
             </div>
-            <div class="script-step">
-                <span class="step-label">2. Pivote (Redirigir)</span>
-                <div class="step-text" id="text-pivote">...</div>
+        </section>
+
+        <section class="section-card">
+            <h2>Hoja de Ruta Personal</h2>
+            <div class="input-group">
+                <label>Mi compromiso para mañana:</label>
+                <input type="text" id="plan-comp" placeholder="Ej: Usar anclaje en 2 llamadas">
             </div>
-            <div class="script-step">
-                <span class="step-label">3. Gancho (Accionar)</span>
-                <div class="step-text" id="text-gancho">...</div>
+            <div class="input-group">
+                <label>Protocolo Post-Llamada Crítica:</label>
+                <select id="plan-proto">
+                    <option value="respirar">3 Respiraciones profundas</option>
+                    <option value="agua">Beber agua y estirar</option>
+                    <option value="frase">Repetir mi frase de seguridad</option>
+                </select>
             </div>
-        </div>
+            <button class="btn-save" onclick="saveRoadmap()">Guardar en mi dispositivo</button>
+        </section>
+
+        <section class="section-card" style="margin-bottom: 2rem;">
+            <h2>Termómetro de Estrés Final</h2>
+            <input type="range" id="estres-slider" min="1" max="10" value="5" oninput="document.getElementById('estres-valor').innerText = this.value">
+            <div style="text-align: center; font-size: 2rem; font-weight: 800; margin: 1rem 0;" id="estres-valor">5</div>
+            <button class="btn-save" style="background-color: var(--green-success);" id="btn-enviar" onclick="enviarMetricas()">Enviar Reporte Anónimo</button>
+        </section>
     </main>
 
     <div id="sos-modal">
-        <h2 style="color: white; margin-bottom: 2rem; font-size: 1.5rem;">Disociación Empática</h2>
+        <button class="audio-toggle" id="audio-toggle" onclick="toggleAudio()">🔊 SONIDO: OFF</button>
+        <h3 style="margin-bottom: 2rem;">Disociación Empática</h3>
         <div class="circle" id="breathe-circle">INSPIRA</div>
-        <button class="btn-close-sos" onclick="toggleSOS()">Volver a la llamada</button>
+        <button class="btn-save" style="width: auto; padding: 1rem 2rem; background: none; border: 1px solid white;" onclick="toggleSOS()">Finalizar Reset</button>
     </div>
 
     <script>
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSUedDnDol8S1FWPty33tl9Yr5Wc3O2bkbFkyHAyc9iQlcCKCal-3JykAuYgyQatEl/exec';
+
+        // --- AUDIO ENGINE ---
+        let audioCtx = null;
+        let isMuted = true;
+        function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
+        function toggleAudio() { initAudio(); isMuted = !isMuted; document.getElementById('audio-toggle').innerText = isMuted ? "🔊 SONIDO: OFF" : "🔊 SONIDO: ON"; }
+        function playTone(startFreq, endFreq, duration) {
+            if (isMuted || !audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.frequency.setValueAtTime(startFreq, audioCtx.currentTime);
+            osc.frequency.linearRampToValueAtTime(endFreq, audioCtx.currentTime + duration);
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + duration);
+        }
+
+        // --- JUDO VERBAL SCRIPTS ---
         const scripts = {
-            red: {
-                color: 'var(--red-btn)',
-                amortiguador: '"Comprendo su nivel de enfado con esta situación..."',
-                pivote: '"...mi prioridad ahora mismo es gestionar esto de forma estrictamente técnica."',
-                gancho: '"¿Me puede confirmar el número de expediente para avanzar?"'
-            },
-            orange: {
-                color: 'var(--orange-btn)',
-                amortiguador: '"Entiendo perfectamente la urgencia y el malestar que le genera el retraso..."',
-                pivote: '"...vamos a revisar en qué punto exacto está la asignación con el técnico."',
-                gancho: '"¿Tiene a mano el último SMS o correo que le envió la compañía?"'
-            },
-            yellow: {
-                color: 'var(--yellow-btn)',
-                amortiguador: '"Veo que hay discrepancias con lo que cubre la póliza y lo que le han dicho..."',
-                pivote: '"...mi labor es ceñirme al informe que ha emitido el perito sobre el daño."',
-                gancho: '"¿Me permite detallarle lo que figura en la resolución técnica?"'
-            }
+            red: { color: 'var(--red-btn)', amortiguador: '"Entiendo que esta situación le esté generando mucha frustración..."', pivote: '"...mi labor ahora es centrarme en los datos técnicos para ver cómo avanzar."', gancho: '"¿Podemos retomar el número de expediente para agilizar el parte?"' },
+            orange: { color: 'var(--orange-btn)', amortiguador: '"Comprendo perfectamente la urgencia y el malestar por el retraso..."', pivote: '"...voy a verificar en este momento el estado de la asignación técnica."', gancho: '"¿Sigue siendo el mismo teléfono de contacto para que el técnico le llame?"' },
+            yellow: { color: 'var(--yellow-btn)', amortiguador: '"Veo que hay una discrepancia importante entre la póliza y lo solicitado..."', pivote: '"...mi función es detallarle lo que figura en la resolución técnica del perito."', gancho: '"¿Le parece si revisamos punto por punto lo que indica el informe oficial?"' }
         };
 
         function showScript(type) {
-            const container = document.getElementById('script-container');
             const data = scripts[type];
-
             document.getElementById('text-amortiguador').innerText = data.amortiguador;
             document.getElementById('text-pivote').innerText = data.pivote;
             document.getElementById('text-gancho').innerText = data.gancho;
-            
-            container.style.borderLeftColor = data.color;
-            container.style.display = 'block';
-            
-            // Scroll to the script so it's fully visible
-            setTimeout(() => {
-                container.scrollIntoView({ behavior: 'smooth', block: 'end' });
-            }, 50);
+            const container = document.getElementById('script-container');
+            container.style.display = 'block'; container.style.borderLeftColor = data.color;
+            container.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        // Lógica de Respiración Táctica (Botón Reset)
+        // --- LÓGICA 4-7-8 ---
         let breatheInterval;
         function toggleSOS() {
             const modal = document.getElementById('sos-modal');
             const circle = document.getElementById('breathe-circle');
-            
-            if (modal.style.display === 'flex') {
-                modal.style.display = 'none';
-                clearInterval(breatheInterval);
-            } else {
-                modal.style.display = 'flex';
-                runBreatheCycle(circle);
-                breatheInterval = setInterval(() => runBreatheCycle(circle), 8000);
-            }
+            if (modal.style.display === 'flex') { modal.style.display = 'none'; clearInterval(breatheInterval); } 
+            else { modal.style.display = 'flex'; initAudio(); runCycle(circle); breatheInterval = setInterval(() => runCycle(circle), 19000); }
+        }
+        function runCycle(c) {
+            c.innerText = 'INSPIRA'; c.style.transition = 'all 4s linear'; c.style.transform = 'scale(1.5)'; playTone(440, 880, 4);
+            setTimeout(() => { c.innerText = 'RETÉN'; c.style.transition = 'none'; }, 4000);
+            setTimeout(() => { c.innerText = 'EXHALA'; c.style.transition = 'all 8s linear'; c.style.transform = 'scale(1)'; playTone(880, 220, 8); }, 11000);
         }
 
-        function runBreatheCycle(circle) {
-            circle.innerText = 'INSPIRA';
-            circle.style.transform = 'scale(1.5)';
-            
-            setTimeout(() => {
-                circle.innerText = 'AGUANTA';
-            }, 4000);
-
-            setTimeout(() => {
-                circle.innerText = 'SUELTA';
-                circle.style.transform = 'scale(1)';
-            }, 6000);
+        // --- PERSISTENCIA Y MÉTRICAS ---
+        function saveRoadmap() {
+            localStorage.setItem('plan-comp', document.getElementById('plan-comp').value);
+            localStorage.setItem('plan-proto', document.getElementById('plan-proto').value);
+            alert("Plan guardado localmente en tu dispositivo.");
         }
+        window.onload = () => {
+            document.getElementById('plan-comp').value = localStorage.getItem('plan-comp') || "";
+            document.getElementById('plan-proto').value = localStorage.getItem('plan-proto') || "respirar";
+        };
+
+        function enviarMetricas() {
+            const btn = document.getElementById('btn-enviar'); btn.innerText = 'Enviando...'; btn.disabled = true;
+            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ 
+                nivelEstres: document.getElementById('estres-slider').value, 
+                usoAnclaje: "Reporte Diario"
+            })}).then(() => { btn.innerText = '¡Enviado!'; btn.style.backgroundColor = '#3b82f6'; });
+        }
+
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
     </script>
 </body>
 </html>
