@@ -35,10 +35,8 @@
 
         .section-card { background: white; padding: 1.2rem; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); position: relative; }
 
-        /* Indicador de Autoguardado */
         .autosave-status { font-size: 0.75rem; color: var(--green-success); font-weight: bold; position: absolute; top: 1.2rem; right: 1.2rem; opacity: 0; transition: opacity 0.3s; }
 
-        /* Botones de Conflicto */
         .grid-conflicts { display: grid; gap: 0.8rem; margin-top: 1rem; }
         .btn-conflict { width: 100%; padding: 1.2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; color: white; cursor: pointer; transition: transform 0.1s; }
         .btn-conflict:active { transform: scale(0.97); }
@@ -46,23 +44,27 @@
         .bg-orange { background-color: var(--orange-btn); }
         .bg-yellow { background-color: var(--yellow-btn); color: #451a03; }
 
-        /* Contenedor de Guiones */
         #script-container { display: none; margin-top: 1rem; border-left: 6px solid #ccc; animation: slideIn 0.3s ease-out; padding-left: 1rem; }
         @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
         .script-step { margin-bottom: 1rem; }
         .step-label { font-size: 0.75rem; font-weight: 800; color: #9ca3af; text-transform: uppercase; }
         .step-text { font-size: 1rem; font-weight: 500; line-height: 1.5; color: var(--text-main); font-style: italic; }
 
-        /* Formularios y Checkboxes */
         .input-group { margin-bottom: 1rem; }
         label.title-label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; color: #374151; }
         input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 0.8rem; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 0.9rem; }
         
         .checkbox-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
-        .checkbox-label { font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; color: #4b5563; }
-        .checkbox-label input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--blue-sos); }
+        .checkbox-label { font-size: 0.85rem; font-weight: 500; display: flex; align-items: flex-start; gap: 0.5rem; color: #4b5563; }
+        .checkbox-label input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--blue-sos); margin-top: 0.2rem; }
 
-        /* SOS Modal */
+        /* Legal / Consent */
+        .legal-consent { font-size: 0.75rem; color: #6b7280; margin-bottom: 1rem; padding: 0.8rem; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb; }
+        .legal-consent a { color: var(--blue-sos); text-decoration: underline; font-weight: bold; }
+        #btn-enviar:disabled { background-color: #9ca3af; cursor: not-allowed; opacity: 0.7; }
+
+        footer { padding: 1.5rem 1rem; text-align: center; font-size: 0.75rem; color: #9ca3af; }
+
         #sos-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(17, 24, 39, 0.98); color: white; z-index: 100; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .circle { width: 180px; height: 180px; border-radius: 50%; background-color: var(--blue-sos); display: flex; justify-content: center; align-items: center; font-size: 1.6rem; font-weight: 800; transition: all 4s linear; box-shadow: 0 0 40px rgba(59, 130, 246, 0.4); }
         .audio-toggle { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 0.5rem 1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.8rem; cursor: pointer; }
@@ -80,24 +82,23 @@
             <h2>1. Mi Autodiagnóstico</h2>
             <div class="autosave-status">Guardado ✓</div>
             
-            <label class="title-label" style="margin-top: 1rem;">Mapa de Sensaciones (¿Qué siento primero?):</label>
+            <label class="title-label" style="margin-top: 1rem;">Mapa de Sensaciones:</label>
             <div class="checkbox-group">
-                <label class="checkbox-label"><input type="checkbox" id="diag-taqui"> Taquicardia / Calor repentino</label>
-                <label class="checkbox-label"><input type="checkbox" id="diag-tension"> Tensión muscular / Mandíbula</label>
-                <label class="checkbox-label"><input type="checkbox" id="diag-sudor"> Sudoración / Agitación motora</label>
+                <label class="checkbox-label"><input type="checkbox" id="diag-taqui"> Taquicardia / Calor</label>
+                <label class="checkbox-label"><input type="checkbox" id="diag-tension"> Tensión / Mandíbula</label>
+                <label class="checkbox-label"><input type="checkbox" id="diag-sudor"> Sudoración / Agitación</label>
             </div>
 
-            <label class="title-label">Inventario de Disparadores (Mis Triggers):</label>
+            <label class="title-label">Mis Triggers:</label>
             <div class="checkbox-group">
-                <label class="checkbox-label"><input type="checkbox" id="trig-info"> Ambigüedad / Falta de información</label>
-                <label class="checkbox-label"><input type="checkbox" id="trig-urgencia"> Urgencia desmedida del cliente</label>
-                <label class="checkbox-label"><input type="checkbox" id="trig-agresion"> Tono hostil / Faltas de respeto</label>
+                <label class="checkbox-label"><input type="checkbox" id="trig-info"> Falta de información</label>
+                <label class="checkbox-label"><input type="checkbox" id="trig-urgencia"> Urgencia desmedida</label>
+                <label class="checkbox-label"><input type="checkbox" id="trig-agresion"> Tono hostil / Insulto</label>
             </div>
 
             <div class="input-group" style="margin-bottom: 0;">
                 <label class="title-label">Umbral de Secuestro:</label>
-                <p style="font-size: 0.75rem; color: #6b7280; margin-bottom: 0.5rem;">Frecuencia estimada de llamadas hostiles que atiendes por semana.</p>
-                <input type="number" id="diag-umbral" placeholder="Ej: 5" min="0">
+                <input type="number" id="diag-umbral" placeholder="Llamadas hostiles/semana" min="0">
             </div>
         </section>
 
@@ -122,25 +123,36 @@
             
             <div class="input-group" style="margin-top: 1rem;">
                 <label class="title-label">Mi compromiso para mañana:</label>
-                <input type="text" id="plan-comp" placeholder="Ej: Usar anclaje en 2 llamadas">
+                <input type="text" id="plan-comp" placeholder="Ej: Respirar antes de descolgar">
             </div>
             <div class="input-group" style="margin-bottom: 0;">
-                <label class="title-label">Protocolo Post-Llamada Crítica:</label>
+                <label class="title-label">Protocolo Post-Llamada:</label>
                 <select id="plan-proto">
-                    <option value="respirar">3 Ciclos de Respiración 4-7-8</option>
-                    <option value="agua">Beber agua y estiramiento breve</option>
-                    <option value="frase">Repetir mi frase de seguridad</option>
+                    <option value="respirar">3 Ciclos 4-7-8</option>
+                    <option value="agua">Beber agua y estirar</option>
+                    <option value="frase">Mi frase de seguridad</option>
                 </select>
             </div>
         </section>
 
-        <section class="section-card" style="margin-bottom: 2rem;">
-            <h2>Termómetro de Estrés Final</h2>
-            <p style="font-size: 0.75rem; text-align: center; color: #6b7280; margin-bottom: 1rem;">Registro voluntario de cierre de jornada.</p>
+        <section class="section-card" style="margin-bottom: 1rem;">
+            <h2>Termómetro de Estrés</h2>
             <input type="range" id="estres-slider" min="1" max="10" value="5" style="width: 100%;" oninput="document.getElementById('estres-valor').innerText = this.value">
             <div style="text-align: center; font-size: 2.5rem; font-weight: 800; margin: 1rem 0;" id="estres-valor">5</div>
-            <button style="width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--green-success); color: white; cursor: pointer;" id="btn-enviar" onclick="enviarMetricas()">Enviar Reporte Anónimo</button>
+            
+            <div class="legal-consent">
+                <label class="checkbox-label" style="align-items: center; cursor: pointer;">
+                    <input type="checkbox" id="check-consentimiento" onchange="toggleSendBtn()">
+                    <span>Acepto el tratamiento estadístico de mis datos según la <a href="privacidad.html" target="_blank">Política de Privacidad</a>.</span>
+                </label>
+            </div>
+
+            <button style="width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--green-success); color: white; cursor: pointer;" id="btn-enviar" onclick="enviarMetricas()" disabled>Enviar Reporte Anónimo</button>
         </section>
+
+        <footer>
+            PsycoIntera - Escudo Mental v1.0
+        </footer>
     </main>
 
     <div id="sos-modal">
@@ -153,7 +165,6 @@
     <script>
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSUedDnDol8S1FWPty33tl9Yr5Wc3O2bkbFkyHAyc9iQlcCKCal-3JykAuYgyQatEl/exec';
 
-        // --- SISTEMA DE AUTOGUARDADO GLOBAL ---
         const autoSaveElements = [
             { id: 'diag-taqui', type: 'checkbox' }, { id: 'diag-tension', type: 'checkbox' }, { id: 'diag-sudor', type: 'checkbox' },
             { id: 'trig-info', type: 'checkbox' }, { id: 'trig-urgencia', type: 'checkbox' }, { id: 'trig-agresion', type: 'checkbox' },
@@ -169,8 +180,15 @@
             }
         }
 
-        // Cargar datos al abrir
+        // --- Gestión del Consentimiento Legal ---
+        function toggleSendBtn() {
+            const consentChecked = document.getElementById('check-consentimiento').checked;
+            document.getElementById('btn-enviar').disabled = !consentChecked;
+            localStorage.setItem('user-consent', consentChecked); // Guarda la decisión del usuario
+        }
+
         window.onload = () => {
+            // Restaurar datos guardados
             autoSaveElements.forEach(item => {
                 const el = document.getElementById(item.id);
                 if (!el) return;
@@ -179,16 +197,20 @@
                     if (item.type === 'checkbox') el.checked = (saved === 'true');
                     else el.value = saved;
                 }
-                
-                // Añadir event listeners para guardar en tiempo real
                 el.addEventListener('input', () => {
                     localStorage.setItem(item.id, item.type === 'checkbox' ? el.checked : el.value);
                     triggerSaveStatus(el);
                 });
             });
+
+            // Restaurar estado del consentimiento
+            const savedConsent = localStorage.getItem('user-consent');
+            if (savedConsent === 'true') {
+                document.getElementById('check-consentimiento').checked = true;
+                document.getElementById('btn-enviar').disabled = false;
+            }
         };
 
-        // --- AUDIO ENGINE ---
         let audioCtx = null;
         let isMuted = true;
         function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
@@ -205,7 +227,6 @@
             osc.start(); osc.stop(audioCtx.currentTime + duration);
         }
 
-        // --- JUDO VERBAL SCRIPTS ---
         const scripts = {
             red: { color: 'var(--red-btn)', amortiguador: '"Entiendo que esta situación le esté generando mucha frustración..."', pivote: '"...mi labor ahora es centrarme en los datos técnicos para ver cómo avanzar."', gancho: '"¿Podemos retomar el número de expediente para agilizar el parte?"' },
             orange: { color: 'var(--orange-btn)', amortiguador: '"Comprendo perfectamente la urgencia y el malestar por el retraso..."', pivote: '"...voy a verificar en este momento el estado de la asignación técnica."', gancho: '"¿Sigue siendo el mismo teléfono de contacto para que el técnico le llame?"' },
@@ -222,7 +243,6 @@
             container.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
-        // --- LÓGICA 4-7-8 ---
         let breatheInterval;
         function toggleSOS() {
             const modal = document.getElementById('sos-modal');
@@ -236,13 +256,11 @@
             setTimeout(() => { c.innerText = 'EXHALA'; c.style.transition = 'all 8s linear'; c.style.transform = 'scale(1)'; playTone(880, 220, 8); }, 11000);
         }
 
-        // --- MÉTRICAS HACIA GOOGLE SHEETS ---
         function enviarMetricas() {
             const btn = document.getElementById('btn-enviar'); 
-            btn.innerText = 'Enviando Reporte...'; 
+            btn.innerText = 'Enviando...'; 
             btn.disabled = true;
             
-            // Recopilación de datos (Excluyendo 'planComp' por privacidad)
             const payload = { 
                 nivelEstres: document.getElementById('estres-slider').value,
                 diagTaqui: document.getElementById('diag-taqui').checked ? "Sí" : "No",
@@ -252,23 +270,12 @@
                 trigUrgencia: document.getElementById('trig-urgencia').checked ? "Sí" : "No",
                 trigAgresion: document.getElementById('trig-agresion').checked ? "Sí" : "No",
                 diagUmbral: document.getElementById('diag-umbral').value || "No indicado",
-                planComp: "Privado (Local)", // Protección RGPD
+                planComp: "Privado (Local)", 
                 planProto: document.getElementById('plan-proto').value
             };
 
-            fetch(GOOGLE_SCRIPT_URL, { 
-                method: 'POST', 
-                mode: 'no-cors', 
-                body: JSON.stringify(payload)
-            }).then(() => { 
-                btn.innerText = '¡Reporte Enviado!'; 
-                btn.style.backgroundColor = '#3b82f6'; 
-            }).catch(err => {
-                console.error("Error al enviar", err);
-                btn.innerText = 'Error. Reintentar';
-                btn.disabled = false;
-                btn.style.backgroundColor = '#ef4444';
-            });
+            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) })
+            .then(() => { btn.innerText = '¡Reporte Enviado!'; btn.style.backgroundColor = '#3b82f6'; });
         }
 
         if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
