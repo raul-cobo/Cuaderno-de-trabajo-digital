@@ -238,11 +238,37 @@
 
         // --- MÉTRICAS HACIA GOOGLE SHEETS ---
         function enviarMetricas() {
-            const btn = document.getElementById('btn-enviar'); btn.innerText = 'Enviando...'; btn.disabled = true;
-            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ 
-                nivelEstres: document.getElementById('estres-slider').value, 
-                usoAnclaje: "Reporte Diario"
-            })}).then(() => { btn.innerText = '¡Enviado!'; btn.style.backgroundColor = '#3b82f6'; });
+            const btn = document.getElementById('btn-enviar'); 
+            btn.innerText = 'Enviando Reporte...'; 
+            btn.disabled = true;
+            
+            // Recopilación de datos (Excluyendo 'planComp' por privacidad)
+            const payload = { 
+                nivelEstres: document.getElementById('estres-slider').value,
+                diagTaqui: document.getElementById('diag-taqui').checked ? "Sí" : "No",
+                diagTension: document.getElementById('diag-tension').checked ? "Sí" : "No",
+                diagSudor: document.getElementById('diag-sudor').checked ? "Sí" : "No",
+                trigInfo: document.getElementById('trig-info').checked ? "Sí" : "No",
+                trigUrgencia: document.getElementById('trig-urgencia').checked ? "Sí" : "No",
+                trigAgresion: document.getElementById('trig-agresion').checked ? "Sí" : "No",
+                diagUmbral: document.getElementById('diag-umbral').value || "No indicado",
+                planComp: "Privado (Local)", // Protección RGPD
+                planProto: document.getElementById('plan-proto').value
+            };
+
+            fetch(GOOGLE_SCRIPT_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                body: JSON.stringify(payload)
+            }).then(() => { 
+                btn.innerText = '¡Reporte Enviado!'; 
+                btn.style.backgroundColor = '#3b82f6'; 
+            }).catch(err => {
+                console.error("Error al enviar", err);
+                btn.innerText = 'Error. Reintentar';
+                btn.disabled = false;
+                btn.style.backgroundColor = '#ef4444';
+            });
         }
 
         if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
