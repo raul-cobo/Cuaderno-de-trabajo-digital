@@ -31,12 +31,15 @@
         .btn-sos { background-color: var(--blue-sos); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 999px; font-weight: bold; cursor: pointer; font-size: 0.8rem; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
 
         main { flex: 1; padding: 1rem; display: flex; flex-direction: column; gap: 1.5rem; max-width: 500px; margin: 0 auto; width: 100%; }
-        h2 { font-size: 1rem; text-align: center; color: #4b5563; text-transform: uppercase; letter-spacing: 0.05em; }
+        h2 { font-size: 1rem; text-align: center; color: #4b5563; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;}
 
-        .section-card { background: white; padding: 1.2rem; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .section-card { background: white; padding: 1.2rem; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); position: relative; }
+
+        /* Indicador de Autoguardado */
+        .autosave-status { font-size: 0.75rem; color: var(--green-success); font-weight: bold; position: absolute; top: 1.2rem; right: 1.2rem; opacity: 0; transition: opacity 0.3s; }
 
         /* Botones de Conflicto */
-        .grid-conflicts { display: grid; gap: 0.8rem; }
+        .grid-conflicts { display: grid; gap: 0.8rem; margin-top: 1rem; }
         .btn-conflict { width: 100%; padding: 1.2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; color: white; cursor: pointer; transition: transform 0.1s; }
         .btn-conflict:active { transform: scale(0.97); }
         .bg-red { background-color: var(--red-btn); }
@@ -44,22 +47,25 @@
         .bg-yellow { background-color: var(--yellow-btn); color: #451a03; }
 
         /* Contenedor de Guiones */
-        #script-container { display: none; margin-top: 1rem; border-left: 6px solid #ccc; animation: slideIn 0.3s ease-out; }
+        #script-container { display: none; margin-top: 1rem; border-left: 6px solid #ccc; animation: slideIn 0.3s ease-out; padding-left: 1rem; }
         @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
-        .script-step { margin-bottom: 1rem; padding-left: 1rem; }
+        .script-step { margin-bottom: 1rem; }
         .step-label { font-size: 0.75rem; font-weight: 800; color: #9ca3af; text-transform: uppercase; }
         .step-text { font-size: 1rem; font-weight: 500; line-height: 1.5; color: var(--text-main); font-style: italic; }
 
-        /* Hoja de Ruta */
+        /* Formularios y Checkboxes */
         .input-group { margin-bottom: 1rem; }
-        label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; color: #374151; }
-        input, select, textarea { width: 100%; padding: 0.8rem; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 0.9rem; }
-        .btn-save { background-color: var(--blue-sos); color: white; border: none; width: 100%; padding: 0.8rem; border-radius: 8px; font-weight: bold; margin-top: 0.5rem; }
+        label.title-label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; color: #374151; }
+        input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 0.8rem; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 0.9rem; }
+        
+        .checkbox-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+        .checkbox-label { font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 0.5rem; color: #4b5563; }
+        .checkbox-label input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--blue-sos); }
 
         /* SOS Modal */
         #sos-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(17, 24, 39, 0.98); color: white; z-index: 100; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
         .circle { width: 180px; height: 180px; border-radius: 50%; background-color: var(--blue-sos); display: flex; justify-content: center; align-items: center; font-size: 1.6rem; font-weight: 800; transition: all 4s linear; box-shadow: 0 0 40px rgba(59, 130, 246, 0.4); }
-        .audio-toggle { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 0.5rem 1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.8rem; }
+        .audio-toggle { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 0.5rem 1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.8rem; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -71,14 +77,39 @@
 
     <main>
         <section class="section-card">
-            <h2>Gestión de Llamadas [Judo Verbal]</h2>
+            <h2>1. Mi Autodiagnóstico</h2>
+            <div class="autosave-status">Guardado ✓</div>
+            
+            <label class="title-label" style="margin-top: 1rem;">Mapa de Sensaciones (¿Qué siento primero?):</label>
+            <div class="checkbox-group">
+                <label class="checkbox-label"><input type="checkbox" id="diag-taqui"> Taquicardia / Calor repentino</label>
+                <label class="checkbox-label"><input type="checkbox" id="diag-tension"> Tensión muscular / Mandíbula</label>
+                <label class="checkbox-label"><input type="checkbox" id="diag-sudor"> Sudoración / Agitación motora</label>
+            </div>
+
+            <label class="title-label">Inventario de Disparadores (Mis Triggers):</label>
+            <div class="checkbox-group">
+                <label class="checkbox-label"><input type="checkbox" id="trig-info"> Ambigüedad / Falta de información</label>
+                <label class="checkbox-label"><input type="checkbox" id="trig-urgencia"> Urgencia desmedida del cliente</label>
+                <label class="checkbox-label"><input type="checkbox" id="trig-agresion"> Tono hostil / Faltas de respeto</label>
+            </div>
+
+            <div class="input-group" style="margin-bottom: 0;">
+                <label class="title-label">Umbral de Secuestro:</label>
+                <p style="font-size: 0.75rem; color: #6b7280; margin-bottom: 0.5rem;">Frecuencia estimada de llamadas hostiles que atiendes por semana.</p>
+                <input type="number" id="diag-umbral" placeholder="Ej: 5" min="0">
+            </div>
+        </section>
+
+        <section class="section-card">
+            <h2>2. Gestión [Judo Verbal]</h2>
             <div class="grid-conflicts">
                 <button class="btn-conflict bg-red" onclick="showScript('red')">Agresión / Insulto</button>
                 <button class="btn-conflict bg-orange" onclick="showScript('orange')">Retraso / Urgencia</button>
                 <button class="btn-conflict bg-yellow" onclick="showScript('yellow')">Rechazo Cobertura</button>
             </div>
 
-            <div id="script-container" class="section-card" style="margin-top: 1rem; box-shadow: none; border-radius: 0;">
+            <div id="script-container">
                 <div class="script-step"><span class="step-label">Validar Emoción</span><div id="text-amortiguador" class="step-text">...</div></div>
                 <div class="script-step"><span class="step-label">Pivotar a lo Técnico</span><div id="text-pivote" class="step-text">...</div></div>
                 <div class="script-step"><span class="step-label">Cierre de Control</span><div id="text-gancho" class="step-text">...</div></div>
@@ -86,27 +117,29 @@
         </section>
 
         <section class="section-card">
-            <h2>Hoja de Ruta Personal</h2>
-            <div class="input-group">
-                <label>Mi compromiso para mañana:</label>
+            <h2>3. Hoja de Ruta Personal</h2>
+            <div class="autosave-status">Guardado ✓</div>
+            
+            <div class="input-group" style="margin-top: 1rem;">
+                <label class="title-label">Mi compromiso para mañana:</label>
                 <input type="text" id="plan-comp" placeholder="Ej: Usar anclaje en 2 llamadas">
             </div>
-            <div class="input-group">
-                <label>Protocolo Post-Llamada Crítica:</label>
+            <div class="input-group" style="margin-bottom: 0;">
+                <label class="title-label">Protocolo Post-Llamada Crítica:</label>
                 <select id="plan-proto">
-                    <option value="respirar">3 Respiraciones profundas</option>
-                    <option value="agua">Beber agua y estirar</option>
+                    <option value="respirar">3 Ciclos de Respiración 4-7-8</option>
+                    <option value="agua">Beber agua y estiramiento breve</option>
                     <option value="frase">Repetir mi frase de seguridad</option>
                 </select>
             </div>
-            <button class="btn-save" onclick="saveRoadmap()">Guardar en mi dispositivo</button>
         </section>
 
         <section class="section-card" style="margin-bottom: 2rem;">
             <h2>Termómetro de Estrés Final</h2>
-            <input type="range" id="estres-slider" min="1" max="10" value="5" oninput="document.getElementById('estres-valor').innerText = this.value">
-            <div style="text-align: center; font-size: 2rem; font-weight: 800; margin: 1rem 0;" id="estres-valor">5</div>
-            <button class="btn-save" style="background-color: var(--green-success);" id="btn-enviar" onclick="enviarMetricas()">Enviar Reporte Anónimo</button>
+            <p style="font-size: 0.75rem; text-align: center; color: #6b7280; margin-bottom: 1rem;">Registro voluntario de cierre de jornada.</p>
+            <input type="range" id="estres-slider" min="1" max="10" value="5" style="width: 100%;" oninput="document.getElementById('estres-valor').innerText = this.value">
+            <div style="text-align: center; font-size: 2.5rem; font-weight: 800; margin: 1rem 0;" id="estres-valor">5</div>
+            <button style="width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--green-success); color: white; cursor: pointer;" id="btn-enviar" onclick="enviarMetricas()">Enviar Reporte Anónimo</button>
         </section>
     </main>
 
@@ -114,11 +147,46 @@
         <button class="audio-toggle" id="audio-toggle" onclick="toggleAudio()">🔊 SONIDO: OFF</button>
         <h3 style="margin-bottom: 2rem;">Disociación Empática</h3>
         <div class="circle" id="breathe-circle">INSPIRA</div>
-        <button class="btn-save" style="width: auto; padding: 1rem 2rem; background: none; border: 1px solid white;" onclick="toggleSOS()">Finalizar Reset</button>
+        <button style="width: auto; padding: 0.8rem 2rem; margin-top: 3rem; background: transparent; border: 2px solid white; border-radius: 8px; color: white; cursor: pointer; font-weight: bold;" onclick="toggleSOS()">Finalizar Reset</button>
     </div>
 
     <script>
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSUedDnDol8S1FWPty33tl9Yr5Wc3O2bkbFkyHAyc9iQlcCKCal-3JykAuYgyQatEl/exec';
+
+        // --- SISTEMA DE AUTOGUARDADO GLOBAL ---
+        const autoSaveElements = [
+            { id: 'diag-taqui', type: 'checkbox' }, { id: 'diag-tension', type: 'checkbox' }, { id: 'diag-sudor', type: 'checkbox' },
+            { id: 'trig-info', type: 'checkbox' }, { id: 'trig-urgencia', type: 'checkbox' }, { id: 'trig-agresion', type: 'checkbox' },
+            { id: 'diag-umbral', type: 'value' }, { id: 'plan-comp', type: 'value' }, { id: 'plan-proto', type: 'value' }
+        ];
+
+        function triggerSaveStatus(element) {
+            const card = element.closest('.section-card');
+            const statusIndicator = card.querySelector('.autosave-status');
+            if (statusIndicator) {
+                statusIndicator.style.opacity = '1';
+                setTimeout(() => { statusIndicator.style.opacity = '0'; }, 2000);
+            }
+        }
+
+        // Cargar datos al abrir
+        window.onload = () => {
+            autoSaveElements.forEach(item => {
+                const el = document.getElementById(item.id);
+                if (!el) return;
+                const saved = localStorage.getItem(item.id);
+                if (saved !== null) {
+                    if (item.type === 'checkbox') el.checked = (saved === 'true');
+                    else el.value = saved;
+                }
+                
+                // Añadir event listeners para guardar en tiempo real
+                el.addEventListener('input', () => {
+                    localStorage.setItem(item.id, item.type === 'checkbox' ? el.checked : el.value);
+                    triggerSaveStatus(el);
+                });
+            });
+        };
 
         // --- AUDIO ENGINE ---
         let audioCtx = null;
@@ -168,17 +236,7 @@
             setTimeout(() => { c.innerText = 'EXHALA'; c.style.transition = 'all 8s linear'; c.style.transform = 'scale(1)'; playTone(880, 220, 8); }, 11000);
         }
 
-        // --- PERSISTENCIA Y MÉTRICAS ---
-        function saveRoadmap() {
-            localStorage.setItem('plan-comp', document.getElementById('plan-comp').value);
-            localStorage.setItem('plan-proto', document.getElementById('plan-proto').value);
-            alert("Plan guardado localmente en tu dispositivo.");
-        }
-        window.onload = () => {
-            document.getElementById('plan-comp').value = localStorage.getItem('plan-comp') || "";
-            document.getElementById('plan-proto').value = localStorage.getItem('plan-proto') || "respirar";
-        };
-
+        // --- MÉTRICAS HACIA GOOGLE SHEETS ---
         function enviarMetricas() {
             const btn = document.getElementById('btn-enviar'); btn.innerText = 'Enviando...'; btn.disabled = true;
             fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ 
