@@ -18,6 +18,7 @@
             --yellow-btn: #eab308;
             --blue-sos: #3b82f6;
             --green-success: #10b981;
+            --purple-mod: #8b5cf6;
             --card-bg: #ffffff;
             --border-color: #e5e7eb;
         }
@@ -27,17 +28,51 @@
         body { background-color: var(--bg-color); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
 
         header { background-color: var(--card-bg); padding: 1rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 10; position: sticky; top: 0; }
-        .logo { font-weight: 800; font-size: 1.1rem; color: var(--blue-sos); }
+        .logo { font-weight: 800; font-size: 1.1rem; color: var(--blue-sos); cursor: pointer; }
         
         .btn-sos { background-color: var(--blue-sos); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 999px; font-weight: bold; cursor: pointer; font-size: 0.8rem; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
 
         main { flex: 1; padding: 1rem; display: flex; flex-direction: column; gap: 1.5rem; max-width: 500px; margin: 0 auto; width: 100%; }
         h2 { font-size: 1rem; text-align: center; color: #4b5563; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;}
+        h3.module-title { font-size: 0.9rem; color: #6b7280; border-bottom: 2px solid var(--border-color); padding-bottom: 0.3rem; margin-top: 1rem; margin-bottom: 0.8rem; text-transform: uppercase;}
 
         .section-card { background: white; padding: 1.2rem; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); position: relative; }
-
         .autosave-status { font-size: 0.75rem; color: var(--green-success); font-weight: bold; position: absolute; top: 1.2rem; right: 1.2rem; opacity: 0; transition: opacity 0.3s; }
 
+        /* Vistas SPA */
+        .view-section { display: none; animation: fadeIn 0.3s ease-in-out; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Dashboard Grid */
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem; }
+        .btn-dash { padding: 1rem 0.5rem; border: none; border-radius: 12px; font-size: 0.85rem; font-weight: 700; color: white; cursor: pointer; transition: transform 0.1s; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0.3rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .btn-dash:active { transform: scale(0.97); }
+        .btn-dash i { font-size: 1.2rem; font-style: normal; }
+        .btn-dash.locked::after { content: '🔒'; position: absolute; top: 8px; right: 8px; font-size: 0.7rem; }
+        .btn-dash.unlocked::after { content: '🔓'; position: absolute; top: 8px; right: 8px; font-size: 0.7rem; opacity: 0.7;}
+        
+        .mod-1 { background-color: var(--blue-sos); }
+        .mod-2 { background-color: var(--green-success); }
+        .mod-3 { background-color: var(--orange-btn); }
+        .mod-4 { background-color: var(--purple-mod); }
+        .mod-free { background-color: #374151; }
+
+        .btn-back { display: inline-flex; align-items: center; gap: 0.5rem; background: #e5e7eb; color: #4b5563; border: none; padding: 0.6rem 1rem; border-radius: 8px; font-weight: bold; margin-bottom: 1rem; cursor: pointer; }
+
+        /* PIN Modal */
+        #pin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(17, 24, 39, 0.95); z-index: 200; flex-direction: column; justify-content: center; align-items: center; padding: 1rem; }
+        .pin-box { background: white; padding: 2rem; border-radius: 16px; text-align: center; width: 100%; max-width: 320px; }
+        .pin-box h3 { color: #1f2937; margin-bottom: 1rem; }
+        .pin-input { width: 100%; text-align: center; font-size: 2rem; letter-spacing: 0.5em; padding: 1rem; border: 2px solid var(--border-color); border-radius: 8px; outline: none; margin-bottom: 1rem; font-family: monospace; }
+        .pin-input:focus { border-color: var(--blue-sos); }
+        .pin-error { color: var(--red-btn); font-size: 0.85rem; font-weight: bold; margin-bottom: 1rem; display: none; }
+        .pin-actions { display: flex; gap: 0.5rem; }
+        .pin-actions button { flex: 1; padding: 0.8rem; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn-cancel { background: #e5e7eb; color: #4b5563; }
+        .btn-unlock { background: var(--blue-sos); color: white; }
+
+        /* Contenido Interno */
         .grid-conflicts { display: grid; gap: 0.8rem; margin-top: 1rem; }
         .btn-conflict { width: 100%; padding: 1.2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; color: white; cursor: pointer; transition: transform 0.1s; }
         .btn-conflict:active { transform: scale(0.97); }
@@ -59,7 +94,7 @@
         .checkbox-label { font-size: 0.85rem; font-weight: 500; display: flex; align-items: flex-start; gap: 0.5rem; color: #4b5563; }
         .checkbox-label input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--blue-sos); margin-top: 0.2rem; }
 
-        /* Estilos específicos para el Termómetro de Riesgos */
+        /* Termómetro de Riesgos */
         .ranking-container { margin-top: 1rem; }
         .ranking-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 0.85rem; font-weight: bold; color: var(--blue-sos); background: #eff6ff; padding: 0.8rem; border-radius: 8px; }
         .ranking-list { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -85,40 +120,115 @@
 <body>
 
     <header>
-        <div class="logo">PSYCOINTERA</div>
+        <div class="logo" onclick="goHome()">PSYCOINTERA</div>
         <button class="btn-sos" onclick="toggleSOS()">🔥 RESET 4-7-8</button>
     </header>
 
     <main>
-        <section class="section-card">
-            <h2>1. Mi Autodiagnóstico</h2>
-            <div class="autosave-status">Guardado ✓</div>
+        <section id="view-dashboard" class="view-section active">
             
-            <label class="title-label" style="margin-top: 1rem;">Mapa de Sensaciones:</label>
-            <div class="checkbox-group">
-                <label class="checkbox-label"><input type="checkbox" id="diag-taqui"> Taquicardia / Calor</label>
-                <label class="checkbox-label"><input type="checkbox" id="diag-tension"> Tensión / Mandíbula</label>
-                <label class="checkbox-label"><input type="checkbox" id="diag-sudor"> Sudoración / Agitación</label>
+            <h3 class="module-title">Módulo 1: Radiografía del Estrés</h3>
+            <div class="dashboard-grid">
+                <button class="btn-dash mod-1 locked" id="btn-d1" onclick="openGated('d1')"><i>🪢</i> D1: Cuerda en la Selva</button>
+                <button class="btn-dash mod-1 locked" id="btn-d2" onclick="openGated('d2')"><i>🌡️</i> D2: Termómetro</button>
+                <button class="btn-dash mod-1 locked" id="btn-a1" onclick="openGated('a1')"><i>🗺️</i> A1: Mapa de Alerta</button>
             </div>
 
-            <label class="title-label" style="margin-top: 1.5rem;">Termómetro de Riesgos:</label>
+            <h3 class="module-title">Módulo 2: Escudo y Reset</h3>
+            <div class="dashboard-grid">
+                <button class="btn-dash mod-2 locked" id="btn-d3" onclick="openGated('d3')"><i>🪞</i> D3: Espejo Profesional</button>
+                <button class="btn-dash mod-2 locked" id="btn-d4" onclick="openGated('d4')"><i>🫁</i> D4: Test Biofeedback</button>
+                <button class="btn-dash mod-2 locked" id="btn-a2" onclick="openGated('a2')"><i>🛡️</i> A2: Muro de Cristal</button>
+            </div>
+
+            <h3 class="module-title">Módulo 3: Comunicación</h3>
+            <div class="dashboard-grid">
+                <button class="btn-dash mod-3 locked" id="btn-d5" onclick="openGated('d5')"><i>🥋</i> D5: Frases Críticas</button>
+                <button class="btn-dash mod-3 locked" id="btn-d6" onclick="openGated('d6')"><i>🛂</i> D6: Aduana Palabras</button>
+                <button class="btn-dash mod-3 locked" id="btn-a3" onclick="openGated('a3')"><i>🌉</i> A3: Crear Puentes</button>
+            </div>
+
+            <h3 class="module-title">Módulo 4: Plan de Acción</h3>
+            <div class="dashboard-grid" style="grid-template-columns: 1fr;">
+                <button class="btn-dash mod-4 locked" id="btn-d7" onclick="openGated('d7')"><i>🤝</i> D7: Compromiso 24H (Protocolo PRP)</button>
+            </div>
+
+            <h3 class="module-title" style="color: var(--blue-sos); border-color: var(--blue-sos);">Herramientas Libres (Día a Día)</h3>
+            <div class="dashboard-grid">
+                <button class="btn-dash mod-free" onclick="openFree('judo')"><i>💬</i> Judo Verbal</button>
+                <button class="btn-dash mod-free" onclick="openFree('reporte')"><i>📊</i> Enviar Reporte</button>
+            </div>
+        </section>
+
+        <section id="view-d2" class="view-section section-card">
+            <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
+            <h2>Dinámica 2: Termómetro de Riesgos</h2>
+            <div class="autosave-status">Guardado ✓</div>
+            
+            <label class="title-label" style="margin-top: 1.5rem;">Selecciona tus 3 mayores disparadores psicosociales:</label>
             <div class="ranking-container">
                 <div class="ranking-header">
-                    <span>Selecciona tus 3 mayores disparadores:</span>
+                    <span>Estado actual:</span>
                     <span id="ranking-counter">0/3</span>
                 </div>
                 <div class="ranking-list" id="ranking-list">
                     </div>
             </div>
+            <p style="font-size: 0.8rem; color: #6b7280; margin-top: 1rem; text-align: center;">Tus respuestas se enviarán al ranking anónimo general desde la pestaña "Enviar Reporte".</p>
+        </section>
+
+        <section id="view-a1" class="view-section section-card">
+            <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
+            <h2>A1: Mi Autodiagnóstico (IRE)</h2>
+            <div class="autosave-status">Guardado ✓</div>
+            
+            <label class="title-label" style="margin-top: 1rem;">Mapa de Sensaciones Físicas:</label>
+            <div class="checkbox-group">
+                <label class="checkbox-label"><input type="checkbox" id="diag-taqui"> Taquicardia / Calor en el pecho</label>
+                <label class="checkbox-label"><input type="checkbox" id="diag-tension"> Tensión / Bloqueo en mandíbula u hombros</label>
+                <label class="checkbox-label"><input type="checkbox" id="diag-sudor"> Sudoración / Agitación respiratoria</label>
+            </div>
 
             <div class="input-group" style="margin-top: 1.5rem; margin-bottom: 0;">
-                <label class="title-label">Umbral de Secuestro:</label>
-                <input type="number" id="diag-umbral" placeholder="Llamadas hostiles/semana" min="0">
+                <label class="title-label">Umbral de Secuestro (Límite Seguro):</label>
+                <input type="number" id="diag-umbral" placeholder="Llamadas hostiles que aguantas antes del bloqueo" min="0">
             </div>
         </section>
 
-        <section class="section-card">
-            <h2>2. Gestión [Judo Verbal]</h2>
+        <section id="view-d7" class="view-section section-card">
+            <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
+            <h2>D7: Hoja de Ruta Personal (PRP)</h2>
+            <div class="autosave-status">Guardado ✓</div>
+            
+            <div class="input-group" style="margin-top: 1rem;">
+                <label class="title-label">Mi Señal (Detección):</label>
+                <input type="text" id="plan-senal" placeholder="Ej: Nudo en el estómago">
+            </div>
+            <div class="input-group">
+                <label class="title-label">Mi Escudo (Compromiso 24H):</label>
+                <input type="text" id="plan-comp" placeholder="Ej: Validar urgencia sin dar la razón">
+            </div>
+            <div class="input-group" style="margin-bottom: 0;">
+                <label class="title-label">Mi Reset (Protocolo Post-Llamada):</label>
+                <select id="plan-proto">
+                    <option value="respirar">3 Ciclos 4-7-8 antes de la siguiente</option>
+                    <option value="agua">Levantarme, beber agua y estirar</option>
+                    <option value="frase">Repetir mi frase de seguridad</option>
+                </select>
+            </div>
+        </section>
+
+        <section id="view-placeholder" class="view-section section-card">
+            <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
+            <h2>Área de Prácticas</h2>
+            <p style="text-align: center; color: #6b7280; padding: 2rem 0;">El facilitador guiará esta dinámica en vivo. Utiliza tu libreta física para las anotaciones pertinentes o espera instrucciones.</p>
+        </section>
+
+
+        <section id="view-judo" class="view-section section-card">
+            <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
+            <h2>Gestión Táctica [Judo Verbal]</h2>
+            
             <div class="grid-conflicts">
                 <button class="btn-conflict bg-red" onclick="showScript('red')">Agresión / Insulto</button>
                 <button class="btn-conflict bg-orange" onclick="showScript('orange')">Retraso / Urgencia</button>
@@ -126,53 +236,49 @@
             </div>
 
             <div id="script-container">
-                <div class="script-step"><span class="step-label">Validar Emoción</span><div id="text-amortiguador" class="step-text">...</div></div>
-                <div class="script-step"><span class="step-label">Pivotar a lo Técnico</span><div id="text-pivote" class="step-text">...</div></div>
-                <div class="script-step"><span class="step-label">Cierre de Control</span><div id="text-gancho" class="step-text">...</div></div>
+                <div class="script-step"><span class="step-label">Validar Emoción (Absorber)</span><div id="text-amortiguador" class="step-text">...</div></div>
+                <div class="script-step"><span class="step-label">Pivotar a lo Técnico (Redirigir)</span><div id="text-pivote" class="step-text">...</div></div>
+                <div class="script-step"><span class="step-label">Cierre de Control (Acción)</span><div id="text-gancho" class="step-text">...</div></div>
             </div>
         </section>
 
-        <section class="section-card">
-            <h2>3. Hoja de Ruta Personal</h2>
-            <div class="autosave-status">Guardado ✓</div>
+        <section id="view-reporte" class="view-section section-card">
+            <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
+            <h2>Envío de Métricas Grupales</h2>
             
-            <div class="input-group" style="margin-top: 1rem;">
-                <label class="title-label">Mi compromiso para mañana:</label>
-                <input type="text" id="plan-comp" placeholder="Ej: Respirar antes de descolgar">
-            </div>
-            <div class="input-group" style="margin-bottom: 0;">
-                <label class="title-label">Protocolo Post-Llamada:</label>
-                <select id="plan-proto">
-                    <option value="respirar">3 Ciclos 4-7-8</option>
-                    <option value="agua">Beber agua y estirar</option>
-                    <option value="frase">Mi frase de seguridad</option>
-                </select>
-            </div>
-        </section>
-
-        <section class="section-card" style="margin-bottom: 1rem;">
-            <h2>Termómetro de Estrés</h2>
+            <label class="title-label">Tu Termómetro de Estrés Actual:</label>
             <input type="range" id="estres-slider" min="1" max="10" value="5" style="width: 100%;" oninput="document.getElementById('estres-valor').innerText = this.value">
             <div style="text-align: center; font-size: 2.5rem; font-weight: 800; margin: 1rem 0;" id="estres-valor">5</div>
             
             <div class="legal-consent">
                 <label class="checkbox-label" style="align-items: center; cursor: pointer;">
                     <input type="checkbox" id="check-consentimiento" onchange="toggleSendBtn()">
-                    <span>Acepto el tratamiento estadístico de mis datos según la <a href="privacidad.html" target="_blank">Política de Privacidad</a>.</span>
+                    <span>Acepto el envío de mis datos estadísticos de forma anónima a la plataforma grupal (Ver <a href="privacidad.html" target="_blank">Privacidad</a>).</span>
                 </label>
             </div>
 
             <button style="width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--green-success); color: white; cursor: pointer;" id="btn-enviar" onclick="enviarMetricas()" disabled>Enviar Reporte Anónimo</button>
         </section>
 
-        <footer>
-            PsycoIntera - Escudo Mental v1.0
-        </footer>
+        <footer>PsycoIntera - Escudo Mental v1.1</footer>
     </main>
+
+    <div id="pin-modal">
+        <div class="pin-box">
+            <h3>Introduce el PIN</h3>
+            <p style="font-size: 0.8rem; color: #6b7280; margin-bottom: 1rem;">El facilitador proyectará el código en la pantalla.</p>
+            <input type="number" id="pin-input" class="pin-input" pattern="[0-9]*" inputmode="numeric" maxlength="4" placeholder="••••">
+            <div id="pin-error" class="pin-error">PIN Incorrecto</div>
+            <div class="pin-actions">
+                <button class="btn-cancel" onclick="closePinModal()">Cancelar</button>
+                <button class="btn-unlock" onclick="verifyPin()">Desbloquear</button>
+            </div>
+        </div>
+    </div>
 
     <div id="sos-modal">
         <button class="audio-toggle" id="audio-toggle" onclick="toggleAudio()">🔊 SONIDO: OFF</button>
-        <h3 style="margin-bottom: 2rem;">Disociación Empática</h3>
+        <h3 style="margin-bottom: 2rem;">Disociación Empática (4-7-8)</h3>
         <div class="circle" id="breathe-circle">INSPIRA</div>
         <button style="width: auto; padding: 0.8rem 2rem; margin-top: 3rem; background: transparent; border: 2px solid white; border-radius: 8px; color: white; cursor: pointer; font-weight: bold;" onclick="toggleSOS()">Finalizar Reset</button>
     </div>
@@ -180,7 +286,91 @@
     <script>
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSUedDnDol8S1FWPty33tl9Yr5Wc3O2bkbFkyHAyc9iQlcCKCal-3JykAuYgyQatEl/exec';
 
-        // --- LÓGICA DE LA DINÁMICA DE RIESGOS ---
+        // --- SISTEMA DE NAVEGACIÓN Y PINES ---
+        const PINS = {
+            'd1': '1001', 'd2': '2026', 'a1': '1117', 
+            'd3': '3003', 'd4': '4004', 'a2': '2222',
+            'd5': '5005', 'd6': '6006', 'a3': '3333',
+            'd7': '7007', 'a4': '4444'
+        };
+
+        // Mapeo de IDs a vistas reales (las que no tienen HTML propio van al placeholder)
+        const VIEW_MAP = {
+            'd2': 'view-d2', 'a1': 'view-a1', 'd7': 'view-d7'
+        };
+
+        let currentTargetId = null;
+
+        function goHome() {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById('view-dashboard').classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function openFree(viewId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById('view-' + viewId).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function openGated(id) {
+            const isUnlocked = localStorage.getItem('unlocked_' + id);
+            if (isUnlocked === 'true') {
+                showGatedView(id);
+            } else {
+                currentTargetId = id;
+                document.getElementById('pin-modal').style.display = 'flex';
+                const input = document.getElementById('pin-input');
+                input.value = '';
+                input.focus();
+                document.getElementById('pin-error').style.display = 'none';
+            }
+        }
+
+        function closePinModal() {
+            document.getElementById('pin-modal').style.display = 'none';
+            currentTargetId = null;
+        }
+
+        function verifyPin() {
+            const val = document.getElementById('pin-input').value;
+            if (val === PINS[currentTargetId]) {
+                // Éxito
+                localStorage.setItem('unlocked_' + currentTargetId, 'true');
+                document.getElementById('pin-modal').style.display = 'none';
+                updateDashboardLocks();
+                showGatedView(currentTargetId);
+            } else {
+                // Error
+                const err = document.getElementById('pin-error');
+                err.style.display = 'block';
+                const box = document.querySelector('.pin-box');
+                box.style.transform = 'translateX(-10px)';
+                setTimeout(() => box.style.transform = 'translateX(10px)', 50);
+                setTimeout(() => box.style.transform = 'translateX(0)', 100);
+            }
+        }
+
+        function showGatedView(id) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            const targetView = VIEW_MAP[id] || 'view-placeholder';
+            document.getElementById(targetView).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function updateDashboardLocks() {
+            Object.keys(PINS).forEach(id => {
+                const btn = document.getElementById('btn-' + id);
+                if (btn) {
+                    if (localStorage.getItem('unlocked_' + id) === 'true') {
+                        btn.classList.remove('locked');
+                        btn.classList.add('unlocked');
+                    }
+                }
+            });
+        }
+
+        // --- LÓGICA DE LA DINÁMICA 2 (RIESGOS) ---
         const disparadores = [
             { id: 't1', text: "El cliente insulta o falta al respeto" },
             { id: 't2', text: "Explicar que un daño no tiene cobertura" },
@@ -198,6 +388,7 @@
 
         function renderRankingList() {
             const listContainer = document.getElementById('ranking-list');
+            if (!listContainer) return;
             listContainer.innerHTML = '';
 
             disparadores.forEach(disp => {
@@ -205,7 +396,6 @@
                 const item = document.createElement('div');
                 item.className = `ranking-item ${isSelected ? 'selected' : ''}`;
                 
-                // Si ya hay 3 seleccionados y este NO lo está, deshabilitar visualmente
                 if (selectedTriggers.length >= 3 && !isSelected) {
                     item.style.opacity = '0.5';
                     item.style.cursor = 'not-allowed';
@@ -214,7 +404,6 @@
                 item.innerHTML = `
                     <div class="ranking-number">${isSelected ? '✓' : ''}</div>
                     <span>${disp.text}</span>
-                    <input type="checkbox" id="check-${disp.id}" value="${disp.id}" ${isSelected ? 'checked' : ''} style="display:none;">
                 `;
 
                 item.onclick = () => toggleTrigger(disp.id, item);
@@ -228,37 +417,30 @@
         function toggleTrigger(id, element) {
             const index = selectedTriggers.indexOf(id);
             if (index > -1) {
-                // Deseleccionar
                 selectedTriggers.splice(index, 1);
             } else {
-                // Intentar seleccionar
                 if (selectedTriggers.length >= 3) {
-                    // Si ya hay 3, vibrar el contador o mostrar feedback (opcional)
                     const counter = document.getElementById('ranking-counter');
                     counter.style.transform = 'scale(1.2)';
                     setTimeout(() => counter.style.transform = 'scale(1)', 200);
-                    return; // Bloqueado
+                    return; 
                 }
                 selectedTriggers.push(id);
             }
-            
-            // Guardar localmente
             localStorage.setItem('selectedTriggers', JSON.stringify(selectedTriggers));
             triggerSaveStatus(element);
-            
-            // Re-renderizar la lista
             renderRankingList();
         }
-
 
         // --- AUTOSAVE Y RESTAURACIÓN ---
         const autoSaveElements = [
             { id: 'diag-taqui', type: 'checkbox' }, { id: 'diag-tension', type: 'checkbox' }, { id: 'diag-sudor', type: 'checkbox' },
-            { id: 'diag-umbral', type: 'value' }, { id: 'plan-comp', type: 'value' }, { id: 'plan-proto', type: 'value' }
+            { id: 'diag-umbral', type: 'value' }, { id: 'plan-senal', type: 'value' }, { id: 'plan-comp', type: 'value' }, { id: 'plan-proto', type: 'value' }
         ];
 
         function triggerSaveStatus(element) {
             const card = element.closest('.section-card');
+            if(!card) return;
             const statusIndicator = card.querySelector('.autosave-status');
             if (statusIndicator) {
                 statusIndicator.style.opacity = '1';
@@ -273,18 +455,14 @@
         }
 
         window.onload = () => {
-            // Restaurar triggers guardados
+            updateDashboardLocks();
+
             const savedTriggers = localStorage.getItem('selectedTriggers');
             if (savedTriggers) {
-                try {
-                    selectedTriggers = JSON.parse(savedTriggers);
-                } catch (e) {
-                    selectedTriggers = [];
-                }
+                try { selectedTriggers = JSON.parse(savedTriggers); } catch (e) { selectedTriggers = []; }
             }
             renderRankingList();
 
-            // Restaurar datos guardados simples
             autoSaveElements.forEach(item => {
                 const el = document.getElementById(item.id);
                 if (!el) return;
@@ -299,7 +477,6 @@
                 });
             });
 
-            // Restaurar estado del consentimiento
             const savedConsent = localStorage.getItem('user-consent');
             if (savedConsent === 'true') {
                 document.getElementById('check-consentimiento').checked = true;
@@ -357,7 +534,7 @@
         // --- ENVÍO DE MÉTRICAS ---
         function enviarMetricas() {
             if (selectedTriggers.length < 3) {
-                alert("Por favor, selecciona tus 3 disparadores principales antes de enviar el reporte.");
+                alert("Por favor, asegúrate de haber seleccionado tus 3 disparadores en la Dinámica 2 antes de enviar el reporte.");
                 return;
             }
 
@@ -365,7 +542,6 @@
             btn.innerText = 'Enviando...'; 
             btn.disabled = true;
             
-            // Convertimos el array de IDs en un string separado por comas para enviarlo a Google Sheets
             const triggersPayload = selectedTriggers.join(',');
 
             const payload = { 
@@ -373,7 +549,7 @@
                 diagTaqui: document.getElementById('diag-taqui').checked ? "Sí" : "No",
                 diagTension: document.getElementById('diag-tension').checked ? "Sí" : "No",
                 diagSudor: document.getElementById('diag-sudor').checked ? "Sí" : "No",
-                triggersSeleccionados: triggersPayload, // Nuevo campo
+                triggersSeleccionados: triggersPayload,
                 diagUmbral: document.getElementById('diag-umbral').value || "No indicado",
                 planComp: "Privado (Local)", 
                 planProto: document.getElementById('plan-proto').value
