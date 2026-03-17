@@ -129,7 +129,7 @@
             
             <h3 class="module-title">Módulo 1: Radiografía del Estrés</h3>
             <div class="dashboard-grid">
-                <button class="btn-dash mod-1 locked" id="btn-d1" onclick="openGated('d1')"><i>🪢</i> D1: Cuerda en la Selva</button>
+                <button class="btn-dash mod-1 locked" id="btn-d1" onclick="openGated('d1')"><i>🪢</i> D1: La selva</button>
                 <button class="btn-dash mod-1 locked" id="btn-d2" onclick="openGated('d2')"><i>🌡️</i> D2: Termómetro</button>
                 <button class="btn-dash mod-1 locked" id="btn-a1" onclick="openGated('a1')"><i>🗺️</i> A1: Mapa de Alerta</button>
             </div>
@@ -157,6 +157,30 @@
             <div class="dashboard-grid">
                 <button class="btn-dash mod-free" onclick="openFree('judo')"><i>💬</i> Judo Verbal</button>
                 <button class="btn-dash mod-free" onclick="openFree('reporte')"><i>📊</i> Enviar Reporte</button>
+            </div>
+        </section>
+
+        <section id="view-d1" class="view-section section-card">
+            <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
+            <h2>Dinámica 1: ¿Qué hago?</h2>
+            
+            <div style="width: 100%; border-radius: 12px; overflow: hidden; background: #000; margin-bottom: 1.5rem; aspect-ratio: 16/9;">
+                <video id="video-ejercicio" width="100%" controls poster="poster_video.png">
+                    <source src="LA selva.mp4" type="video/mp4">
+                    Tu navegador no soporta video.
+                </video>
+            </div>
+
+            <label class="title-label" style="text-align: center; margin-bottom: 1rem;">Tras ver el vídeo, ¿cuál es tu reacción instintiva?</label>
+            
+            <div id="d1-buttons" class="grid-conflicts">
+                <button class="btn-conflict bg-orange" onclick="votarD1('avanzar')">Sigo avanzando</button>
+                <button class="btn-conflict bg-yellow" style="color:#451a03" onclick="votarD1('observar')">Me paro, me agacho y observo</button>
+                <button class="btn-conflict bg-red" onclick="votarD1('saltar')">Salto hacia atrás y observo</button>
+            </div>
+
+            <div id="d1-success" style="display:none; text-align: center; padding: 1rem; color: var(--green-success); font-weight: bold;">
+                ¡Voto registrado! Espera a la gráfica del facilitador.
             </div>
         </section>
 
@@ -294,9 +318,11 @@
             'd7': '7007', 'a4': '4444'
         };
 
-        // Mapeo de IDs a vistas reales (las que no tienen HTML propio van al placeholder)
         const VIEW_MAP = {
-            'd2': 'view-d2', 'a1': 'view-a1', 'd7': 'view-d7'
+            'd1': 'view-d1',
+            'd2': 'view-d2', 
+            'a1': 'view-a1', 
+            'd7': 'view-d7'
         };
 
         let currentTargetId = null;
@@ -335,13 +361,11 @@
         function verifyPin() {
             const val = document.getElementById('pin-input').value;
             if (val === PINS[currentTargetId]) {
-                // Éxito
                 localStorage.setItem('unlocked_' + currentTargetId, 'true');
                 document.getElementById('pin-modal').style.display = 'none';
                 updateDashboardLocks();
                 showGatedView(currentTargetId);
             } else {
-                // Error
                 const err = document.getElementById('pin-error');
                 err.style.display = 'block';
                 const box = document.querySelector('.pin-box');
@@ -368,6 +392,28 @@
                     }
                 }
             });
+        }
+
+        // --- LÓGICA DE LA DINÁMICA 1 (LA SELVA) ---
+        function votarD1(eleccion) {
+            document.getElementById('d1-buttons').style.display = 'none';
+            document.getElementById('d1-success').style.display = 'block';
+            
+            localStorage.setItem('voto_d1', eleccion);
+
+            const payload = { 
+                tipoEvento: "Voto_D1",
+                eleccionD1: eleccion,
+                timestamp: new Date().toISOString()
+            };
+
+            fetch(GOOGLE_SCRIPT_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                body: JSON.stringify(payload) 
+            })
+            .then(() => console.log("Voto D1 enviado con éxito"))
+            .catch(err => console.error("Error al enviar voto D1:", err));
         }
 
         // --- LÓGICA DE LA DINÁMICA 2 (RIESGOS) ---
@@ -456,6 +502,12 @@
 
         window.onload = () => {
             updateDashboardLocks();
+
+            // Restaurar estado de D1
+            if(localStorage.getItem('voto_d1')) {
+                document.getElementById('d1-buttons').style.display = 'none';
+                document.getElementById('d1-success').style.display = 'block';
+            }
 
             const savedTriggers = localStorage.getItem('selectedTriggers');
             if (savedTriggers) {
