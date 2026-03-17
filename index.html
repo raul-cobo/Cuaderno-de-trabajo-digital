@@ -19,6 +19,7 @@
             --blue-sos: #3b82f6;
             --green-success: #10b981;
             --card-bg: #ffffff;
+            --border-color: #e5e7eb;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -52,14 +53,25 @@
 
         .input-group { margin-bottom: 1rem; }
         label.title-label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; color: #374151; }
-        input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 0.8rem; border: 1.5px solid #e5e7eb; border-radius: 8px; font-size: 0.9rem; }
+        input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 0.8rem; border: 1.5px solid var(--border-color); border-radius: 8px; font-size: 0.9rem; }
         
         .checkbox-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
         .checkbox-label { font-size: 0.85rem; font-weight: 500; display: flex; align-items: flex-start; gap: 0.5rem; color: #4b5563; }
         .checkbox-label input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--blue-sos); margin-top: 0.2rem; }
 
+        /* Estilos específicos para el Termómetro de Riesgos */
+        .ranking-container { margin-top: 1rem; }
+        .ranking-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 0.85rem; font-weight: bold; color: var(--blue-sos); background: #eff6ff; padding: 0.8rem; border-radius: 8px; }
+        .ranking-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .ranking-item { display: flex; align-items: center; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 8px; cursor: pointer; transition: background-color 0.2s, border-color 0.2s; font-size: 0.85rem; }
+        .ranking-item:hover { background-color: #f9fafb; }
+        .ranking-item.selected { border-color: var(--blue-sos); background-color: #eff6ff; }
+        .ranking-item input[type="checkbox"] { display: none; }
+        .ranking-number { min-width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #9ca3af; display: flex; justify-content: center; align-items: center; font-size: 0.75rem; font-weight: bold; color: #9ca3af; margin-right: 0.8rem; }
+        .ranking-item.selected .ranking-number { background-color: var(--blue-sos); border-color: var(--blue-sos); color: white; }
+
         /* Legal / Consent */
-        .legal-consent { font-size: 0.75rem; color: #6b7280; margin-bottom: 1rem; padding: 0.8rem; background: #f9fafb; border-radius: 8px; border: 1px solid #e5e7eb; }
+        .legal-consent { font-size: 0.75rem; color: #6b7280; margin-bottom: 1rem; padding: 0.8rem; background: #f9fafb; border-radius: 8px; border: 1px solid var(--border-color); }
         .legal-consent a { color: var(--blue-sos); text-decoration: underline; font-weight: bold; }
         #btn-enviar:disabled { background-color: #9ca3af; cursor: not-allowed; opacity: 0.7; }
 
@@ -89,14 +101,17 @@
                 <label class="checkbox-label"><input type="checkbox" id="diag-sudor"> Sudoración / Agitación</label>
             </div>
 
-            <label class="title-label">Mis Triggers:</label>
-            <div class="checkbox-group">
-                <label class="checkbox-label"><input type="checkbox" id="trig-info"> Falta de información</label>
-                <label class="checkbox-label"><input type="checkbox" id="trig-urgencia"> Urgencia desmedida</label>
-                <label class="checkbox-label"><input type="checkbox" id="trig-agresion"> Tono hostil / Insulto</label>
+            <label class="title-label" style="margin-top: 1.5rem;">Termómetro de Riesgos:</label>
+            <div class="ranking-container">
+                <div class="ranking-header">
+                    <span>Selecciona tus 3 mayores disparadores:</span>
+                    <span id="ranking-counter">0/3</span>
+                </div>
+                <div class="ranking-list" id="ranking-list">
+                    </div>
             </div>
 
-            <div class="input-group" style="margin-bottom: 0;">
+            <div class="input-group" style="margin-top: 1.5rem; margin-bottom: 0;">
                 <label class="title-label">Umbral de Secuestro:</label>
                 <input type="number" id="diag-umbral" placeholder="Llamadas hostiles/semana" min="0">
             </div>
@@ -165,9 +180,80 @@
     <script>
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxSUedDnDol8S1FWPty33tl9Yr5Wc3O2bkbFkyHAyc9iQlcCKCal-3JykAuYgyQatEl/exec';
 
+        // --- LÓGICA DE LA DINÁMICA DE RIESGOS ---
+        const disparadores = [
+            { id: 't1', text: "El cliente insulta o falta al respeto" },
+            { id: 't2', text: "Explicar que un daño no tiene cobertura" },
+            { id: 't3', text: "Llamadas en espera continuas (Carga de trabajo)" },
+            { id: 't4', text: "El reparador falla y el cliente te grita a ti" },
+            { id: 't5', text: "Falta de información por parte del perito" },
+            { id: 't6', text: "Amenaza de reclamación o denuncia" },
+            { id: 't7', text: "Siniestros con alta carga emocional (inundación/incendio)" },
+            { id: 't8', text: "Pedir datos a un cliente que ya está enfadado" },
+            { id: 't9', text: "Presión por cumplir el TMO (Tiempo Medio de Operación)" },
+            { id: 't10', text: "Fallos del sistema mientras atiendes una urgencia" }
+        ];
+
+        let selectedTriggers = [];
+
+        function renderRankingList() {
+            const listContainer = document.getElementById('ranking-list');
+            listContainer.innerHTML = '';
+
+            disparadores.forEach(disp => {
+                const isSelected = selectedTriggers.includes(disp.id);
+                const item = document.createElement('div');
+                item.className = `ranking-item ${isSelected ? 'selected' : ''}`;
+                
+                // Si ya hay 3 seleccionados y este NO lo está, deshabilitar visualmente
+                if (selectedTriggers.length >= 3 && !isSelected) {
+                    item.style.opacity = '0.5';
+                    item.style.cursor = 'not-allowed';
+                }
+
+                item.innerHTML = `
+                    <div class="ranking-number">${isSelected ? '✓' : ''}</div>
+                    <span>${disp.text}</span>
+                    <input type="checkbox" id="check-${disp.id}" value="${disp.id}" ${isSelected ? 'checked' : ''} style="display:none;">
+                `;
+
+                item.onclick = () => toggleTrigger(disp.id, item);
+                listContainer.appendChild(item);
+            });
+
+            document.getElementById('ranking-counter').innerText = `${selectedTriggers.length}/3`;
+            document.getElementById('ranking-counter').style.color = selectedTriggers.length === 3 ? 'var(--green-success)' : 'var(--blue-sos)';
+        }
+
+        function toggleTrigger(id, element) {
+            const index = selectedTriggers.indexOf(id);
+            if (index > -1) {
+                // Deseleccionar
+                selectedTriggers.splice(index, 1);
+            } else {
+                // Intentar seleccionar
+                if (selectedTriggers.length >= 3) {
+                    // Si ya hay 3, vibrar el contador o mostrar feedback (opcional)
+                    const counter = document.getElementById('ranking-counter');
+                    counter.style.transform = 'scale(1.2)';
+                    setTimeout(() => counter.style.transform = 'scale(1)', 200);
+                    return; // Bloqueado
+                }
+                selectedTriggers.push(id);
+            }
+            
+            // Guardar localmente
+            localStorage.setItem('selectedTriggers', JSON.stringify(selectedTriggers));
+            triggerSaveStatus(element);
+            
+            // Re-renderizar la lista
+            renderRankingList();
+        }
+
+
+        // --- AUTOSAVE Y RESTAURACIÓN ---
         const autoSaveElements = [
             { id: 'diag-taqui', type: 'checkbox' }, { id: 'diag-tension', type: 'checkbox' }, { id: 'diag-sudor', type: 'checkbox' },
-            { id: 'trig-info', type: 'checkbox' }, { id: 'trig-urgencia', type: 'checkbox' }, { id: 'trig-agresion', type: 'checkbox' },
             { id: 'diag-umbral', type: 'value' }, { id: 'plan-comp', type: 'value' }, { id: 'plan-proto', type: 'value' }
         ];
 
@@ -180,15 +266,25 @@
             }
         }
 
-        // --- Gestión del Consentimiento Legal ---
         function toggleSendBtn() {
             const consentChecked = document.getElementById('check-consentimiento').checked;
             document.getElementById('btn-enviar').disabled = !consentChecked;
-            localStorage.setItem('user-consent', consentChecked); // Guarda la decisión del usuario
+            localStorage.setItem('user-consent', consentChecked);
         }
 
         window.onload = () => {
-            // Restaurar datos guardados
+            // Restaurar triggers guardados
+            const savedTriggers = localStorage.getItem('selectedTriggers');
+            if (savedTriggers) {
+                try {
+                    selectedTriggers = JSON.parse(savedTriggers);
+                } catch (e) {
+                    selectedTriggers = [];
+                }
+            }
+            renderRankingList();
+
+            // Restaurar datos guardados simples
             autoSaveElements.forEach(item => {
                 const el = document.getElementById(item.id);
                 if (!el) return;
@@ -211,6 +307,7 @@
             }
         };
 
+        // --- SISTEMA DE AUDIO Y RESPIRACIÓN ---
         let audioCtx = null;
         let isMuted = true;
         function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
@@ -227,6 +324,7 @@
             osc.start(); osc.stop(audioCtx.currentTime + duration);
         }
 
+        // --- JUDO VERBAL SCRIPTS ---
         const scripts = {
             red: { color: 'var(--red-btn)', amortiguador: '"Entiendo que esta situación le esté generando mucha frustración..."', pivote: '"...mi labor ahora es centrarme en los datos técnicos para ver cómo avanzar."', gancho: '"¿Podemos retomar el número de expediente para agilizar el parte?"' },
             orange: { color: 'var(--orange-btn)', amortiguador: '"Comprendo perfectamente la urgencia y el malestar por el retraso..."', pivote: '"...voy a verificar en este momento el estado de la asignación técnica."', gancho: '"¿Sigue siendo el mismo teléfono de contacto para que el técnico le llame?"' },
@@ -256,19 +354,26 @@
             setTimeout(() => { c.innerText = 'EXHALA'; c.style.transition = 'all 8s linear'; c.style.transform = 'scale(1)'; playTone(880, 220, 8); }, 11000);
         }
 
+        // --- ENVÍO DE MÉTRICAS ---
         function enviarMetricas() {
+            if (selectedTriggers.length < 3) {
+                alert("Por favor, selecciona tus 3 disparadores principales antes de enviar el reporte.");
+                return;
+            }
+
             const btn = document.getElementById('btn-enviar'); 
             btn.innerText = 'Enviando...'; 
             btn.disabled = true;
             
+            // Convertimos el array de IDs en un string separado por comas para enviarlo a Google Sheets
+            const triggersPayload = selectedTriggers.join(',');
+
             const payload = { 
                 nivelEstres: document.getElementById('estres-slider').value,
                 diagTaqui: document.getElementById('diag-taqui').checked ? "Sí" : "No",
                 diagTension: document.getElementById('diag-tension').checked ? "Sí" : "No",
                 diagSudor: document.getElementById('diag-sudor').checked ? "Sí" : "No",
-                trigInfo: document.getElementById('trig-info').checked ? "Sí" : "No",
-                trigUrgencia: document.getElementById('trig-urgencia').checked ? "Sí" : "No",
-                trigAgresion: document.getElementById('trig-agresion').checked ? "Sí" : "No",
+                triggersSeleccionados: triggersPayload, // Nuevo campo
                 diagUmbral: document.getElementById('diag-umbral').value || "No indicado",
                 planComp: "Privado (Local)", 
                 planProto: document.getElementById('plan-proto').value
