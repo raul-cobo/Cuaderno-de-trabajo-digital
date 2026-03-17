@@ -164,23 +164,28 @@
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>Dinámica 1: ¿Qué hago?</h2>
             
-            <div style="width: 100%; border-radius: 12px; overflow: hidden; background: #000; margin-bottom: 1.5rem; aspect-ratio: 16/9;">
-                <video id="video-ejercicio" width="100%" controls poster="poster_video.png">
-                    <source src="LA selva.mp4" type="video/mp4">
+            <div id="d1-video-container" style="position: relative; width: 100%; max-width: 480px; margin: 0 auto 1.5rem auto; border-radius: 12px; overflow: hidden; background: #000; aspect-ratio: 480/652; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <video id="video-ejercicio" width="100%" height="100%" style="object-fit: cover;" playsinline poster="poster_video.png">
+                    <source src="LA selvaa.mp4" type="video/mp4">
                     Tu navegador no soporta video.
                 </video>
+                
+                <div id="play-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.4); cursor: pointer;" onclick="playVideoD1()">
+                    <div style="background: var(--blue-sos); color: white; border-radius: 50%; width: 70px; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; padding-left: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">▶</div>
+                </div>
             </div>
 
-            <label class="title-label" style="text-align: center; margin-bottom: 1rem;">Tras ver el vídeo, ¿cuál es tu reacción instintiva?</label>
-            
-            <div id="d1-buttons" class="grid-conflicts">
-                <button class="btn-conflict bg-orange" onclick="votarD1('avanzar')">Sigo avanzando</button>
-                <button class="btn-conflict bg-yellow" style="color:#451a03" onclick="votarD1('observar')">Me paro, me agacho y observo</button>
-                <button class="btn-conflict bg-red" onclick="votarD1('saltar')">Salto hacia atrás y observo</button>
+            <div id="d1-interactive" style="display: none;">
+                <label class="title-label" style="text-align: center; margin-bottom: 1rem;">Tras ver el vídeo, ¿cuál es tu reacción instintiva?</label>
+                <div class="grid-conflicts">
+                    <button class="btn-conflict bg-orange" onclick="votarD1('avanzar')">Sigo avanzando</button>
+                    <button class="btn-conflict bg-yellow" style="color:#451a03" onclick="votarD1('observar')">Me paro, me agacho y observo</button>
+                    <button class="btn-conflict bg-red" onclick="votarD1('saltar')">Salto hacia atrás y observo</button>
+                </div>
             </div>
 
-            <div id="d1-success" style="display:none; text-align: center; padding: 1rem; color: var(--green-success); font-weight: bold;">
-                ¡Voto registrado! Espera a la gráfica del facilitador.
+            <div id="d1-success" style="display:none; text-align: center; padding: 1rem; color: var(--green-success); font-weight: bold; line-height: 1.5;">
+                Respuesta anónima registrada, se presentarán las respuestas en pantalla y seguimos con la formación.
             </div>
         </section>
 
@@ -395,8 +400,34 @@
         }
 
         // --- LÓGICA DE LA DINÁMICA 1 (LA SELVA) ---
+        function playVideoD1() {
+            const vid = document.getElementById('video-ejercicio');
+            const overlay = document.getElementById('play-overlay');
+            
+            // Solo reproducir si no ha votado aún
+            if(localStorage.getItem('voto_d1')) return;
+
+            vid.play().then(() => {
+                overlay.style.display = 'none';
+            }).catch(err => console.log("Error de reproducción:", err));
+        }
+
+        // Evento: cuando el video termina, mostrar las opciones
+        document.getElementById('video-ejercicio').addEventListener('ended', function() {
+            if(!localStorage.getItem('voto_d1')) {
+                document.getElementById('d1-interactive').style.display = 'block';
+            }
+        });
+
+        // Forzar bloqueo de pausa accidental si alguien usa clic derecho
+        document.getElementById('video-ejercicio').addEventListener('pause', function() {
+            if (!this.ended && !localStorage.getItem('voto_d1')) {
+                this.play();
+            }
+        });
+
         function votarD1(eleccion) {
-            document.getElementById('d1-buttons').style.display = 'none';
+            document.getElementById('d1-interactive').style.display = 'none';
             document.getElementById('d1-success').style.display = 'block';
             
             localStorage.setItem('voto_d1', eleccion);
@@ -505,7 +536,10 @@
 
             // Restaurar estado de D1
             if(localStorage.getItem('voto_d1')) {
-                document.getElementById('d1-buttons').style.display = 'none';
+                const interactive = document.getElementById('d1-interactive');
+                if (interactive) interactive.style.display = 'none';
+                const overlay = document.getElementById('play-overlay');
+                if (overlay) overlay.style.display = 'none';
                 document.getElementById('d1-success').style.display = 'block';
             }
 
