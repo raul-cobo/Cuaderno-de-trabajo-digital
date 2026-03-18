@@ -214,6 +214,7 @@
                     <div class="ranking-header"><span>Estado actual:</span><span id="ranking-counter">0/3</span></div>
                     <div class="ranking-list" id="ranking-list"></div>
                 </div>
+                <p style="font-size: 0.8rem; color: #6b7280; margin-top: 1rem; text-align: center;">Tus respuestas se enviarán al ranking anónimo general desde la pestaña "Enviar Reporte".</p>
             </div>
         </section>
 
@@ -255,7 +256,7 @@
                 <div id="d3-case-box" class="case-box">Cargando caso...</div>
                 <label class="title-label">Tu Respuesta Técnica:</label>
                 <textarea id="d3-respuesta" rows="4" placeholder="Escribe aquí tu reencuadre..."></textarea>
-                <button class="btn-submit" onclick="enviarD3()">Enviar Análisis</button>
+                <button class="btn-submit" id="btn-submit-d3" onclick="enviarD3()">Enviar Análisis</button>
                 <div id="d3-success" class="success-msg">Respuesta enviada. Atiende a la pantalla del facilitador.</div>
             </div>
         </section>
@@ -276,7 +277,7 @@
                 <textarea id="a2-rebotar" rows="2" placeholder="Ej: inútiles, estafadores..."></textarea>
                 <label class="title-label" style="margin-top:1rem;">Lo que debe ATRAVESAR (Hecho Técnico):</label>
                 <textarea id="a2-atravesar" rows="2" placeholder="Ej: Rotura de tubería..."></textarea>
-                <button class="btn-submit" onclick="enviarA2()">Enviar Análisis</button>
+                <button class="btn-submit" id="btn-submit-a2" onclick="enviarA2()">Enviar Análisis</button>
                 <div id="a2-success" class="success-msg">Análisis enviado al facilitador.</div>
             </div>
         </section>
@@ -299,7 +300,7 @@
                 <input type="text" id="a3-pivote" class="input-group" placeholder="Ej: ...por eso mismo mi labor ahora es...">
                 <label class="title-label">3. Gancho (Acción):</label>
                 <input type="text" id="a3-gancho" class="input-group" placeholder="Ej: ...necesito que me confirme su DNI.">
-                <button class="btn-submit" onclick="enviarA3()">Enviar Puente</button>
+                <button class="btn-submit" id="btn-submit-a3" onclick="enviarA3()">Enviar Puente</button>
                 <div id="a3-success" class="success-msg">Puente enviado. Revisaremos casos en público.</div>
             </div>
         </section>
