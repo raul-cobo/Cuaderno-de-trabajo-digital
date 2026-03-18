@@ -45,6 +45,11 @@
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* Contenedores de Actividad y Enunciados */
+        .intro-container { text-align: left; padding: 0.5rem 0; }
+        .intro-container p { color: #4b5563; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; }
+        .activity-container { display: none; animation: fadeIn 0.3s ease-in-out; }
+
         /* Dashboard Grid */
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem; }
         .btn-dash { padding: 1rem 0.5rem; border: none; border-radius: 12px; font-size: 0.85rem; font-weight: 700; color: white; cursor: pointer; transition: transform 0.1s; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0.3rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
@@ -96,6 +101,17 @@
         /* Componentes Específicos */
         .case-box { font-size: 0.9rem; color: #374151; margin-bottom: 1.5rem; padding: 1rem; background: #eff6ff; border-left: 4px solid var(--blue-sos); border-radius: 0 8px 8px 0; line-height: 1.5; font-style: italic;}
         .success-msg { display:none; text-align: center; padding: 1rem; color: var(--green-success); font-weight: bold; background: #ecfdf5; border-radius: 8px; margin-top: 1rem;}
+
+        /* Termómetro de Riesgos */
+        .ranking-container { margin-top: 1rem; }
+        .ranking-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 0.85rem; font-weight: bold; color: var(--blue-sos); background: #eff6ff; padding: 0.8rem; border-radius: 8px; }
+        .ranking-list { display: flex; flex-direction: column; gap: 0.5rem; }
+        .ranking-item { display: flex; align-items: center; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 8px; cursor: pointer; transition: background-color 0.2s, border-color 0.2s; font-size: 0.85rem; }
+        .ranking-item:hover { background-color: #f9fafb; }
+        .ranking-item.selected { border-color: var(--blue-sos); background-color: #eff6ff; }
+        .ranking-item input[type="checkbox"] { display: none; }
+        .ranking-number { min-width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #9ca3af; display: flex; justify-content: center; align-items: center; font-size: 0.75rem; font-weight: bold; color: #9ca3af; margin-right: 0.8rem; }
+        .ranking-item.selected .ranking-number { background-color: var(--blue-sos); border-color: var(--blue-sos); color: white; }
 
         /* Legal / Consent */
         .legal-consent { font-size: 0.75rem; color: #6b7280; margin-bottom: 1rem; padding: 0.8rem; background: #f9fafb; border-radius: 8px; border: 1px solid var(--border-color); }
@@ -154,109 +170,167 @@
         <section id="view-d1" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>Dinámica 1: ¿Qué hago?</h2>
-            <div id="d1-video-container" style="position: relative; width: 100%; max-width: 480px; margin: 0 auto 1.5rem auto; border-radius: 12px; overflow: hidden; background: #000; aspect-ratio: 480/652; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                <video id="video-ejercicio" width="100%" height="100%" style="object-fit: cover;" playsinline poster="poster_video.png">
-                    <source src="LA selvaa.mp4" type="video/mp4">
-                    Tu navegador no soporta video.
-                </video>
-                <div id="play-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.4); cursor: pointer;" onclick="playVideoD1()">
-                    <div style="background: var(--blue-sos); color: white; border-radius: 50%; width: 70px; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; padding-left: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">▶</div>
-                </div>
+            
+            <div id="intro-d1" class="intro-container">
+                <p><strong>Enunciado:</strong> Visualiza el siguiente vídeo ("La cuerda en la selva") prestando atención a la diferencia entre la respuesta de la Vía Rápida (Amígdala) y la Vía Lenta (Córtex Prefrontal). Tras ver el vídeo, deberás registrar cuál sería tu reacción instintiva ante el estímulo.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d1')">Entrar en la Dinámica</button>
             </div>
-            <div id="d1-interactive" style="display: none;">
-                <label class="title-label" style="text-align: center; margin-bottom: 1rem;">Tras ver el vídeo, ¿cuál es tu reacción instintiva?</label>
-                <div class="grid-conflicts">
-                    <button class="btn-conflict bg-orange" onclick="votarD1('avanzar')">Sigo avanzando</button>
-                    <button class="btn-conflict bg-yellow" style="color:#451a03" onclick="votarD1('observar')">Me paro, me agacho y observo</button>
-                    <button class="btn-conflict bg-red" onclick="votarD1('saltar')">Salto hacia atrás y observo</button>
+
+            <div id="content-d1" class="activity-container">
+                <div id="d1-video-container" style="position: relative; width: 100%; max-width: 480px; margin: 0 auto 1.5rem auto; border-radius: 12px; overflow: hidden; background: #000; aspect-ratio: 480/652; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <video id="video-ejercicio" width="100%" height="100%" style="object-fit: cover;" playsinline poster="poster_video.png">
+                        <source src="LA selvaa.mp4" type="video/mp4">
+                        Tu navegador no soporta video.
+                    </video>
+                    <div id="play-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.4); cursor: pointer;" onclick="playVideoD1()">
+                        <div style="background: var(--blue-sos); color: white; border-radius: 50%; width: 70px; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; padding-left: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">▶</div>
+                    </div>
                 </div>
+                <div id="d1-interactive" style="display: none;">
+                    <label class="title-label" style="text-align: center; margin-bottom: 1rem;">Tras ver el vídeo, ¿cuál es tu reacción instintiva?</label>
+                    <div class="grid-conflicts">
+                        <button class="btn-conflict bg-orange" onclick="votarD1('avanzar')">Sigo avanzando</button>
+                        <button class="btn-conflict bg-yellow" style="color:#451a03" onclick="votarD1('observar')">Me paro, me agacho y observo</button>
+                        <button class="btn-conflict bg-red" onclick="votarD1('saltar')">Salto hacia atrás y observo</button>
+                    </div>
+                </div>
+                <div id="d1-success" class="success-msg">Respuesta anónima registrada. Se presentarán los resultados en pantalla para continuar la formación.</div>
             </div>
-            <div id="d1-success" class="success-msg">Respuesta anónima registrada, se presentarán las respuestas en pantalla y seguimos con la formación.</div>
         </section>
 
         <section id="view-d2" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>Dinámica 2: Termómetro de Riesgos</h2>
-            <label class="title-label" style="margin-top: 1rem;">Selecciona tus 3 mayores disparadores psicosociales:</label>
-            <div class="ranking-container">
-                <div class="ranking-header"><span>Estado actual:</span><span id="ranking-counter">0/3</span></div>
-                <div class="ranking-list" id="ranking-list"></div>
+            
+            <div id="intro-d2" class="intro-container">
+                <p><strong>Enunciado:</strong> El estrés en la gestión de siniestros rara vez es un hecho aislado. Revisa la siguiente lista de 10 disparadores psicosociales habituales en el sector y selecciona las <strong>3 situaciones</strong> que te generan mayor nivel de tensión, ansiedad o bloqueo emocional durante tu turno de trabajo.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d2')">Entrar en la Dinámica</button>
+            </div>
+
+            <div id="content-d2" class="activity-container">
+                <div class="autosave-status">Guardado ✓</div>
+                <label class="title-label" style="margin-top: 1rem;">Selecciona tus 3 mayores disparadores psicosociales:</label>
+                <div class="ranking-container">
+                    <div class="ranking-header"><span>Estado actual:</span><span id="ranking-counter">0/3</span></div>
+                    <div class="ranking-list" id="ranking-list"></div>
+                </div>
             </div>
         </section>
 
         <section id="view-a1" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>A1: Mapa de Alerta (IRE)</h2>
-            <label class="title-label" style="margin-top: 1rem;">Marca las 3 sintomatologías más frecuentes e indica la frecuencia (%):</label>
-            <div id="a1-symptoms-list" class="checkbox-group"></div>
-
-            <label class="title-label" style="margin-top: 1.5rem;">Otras sintomatologías (No en la lista):</label>
-            <input type="text" id="a1-otro1" placeholder="Síntoma extra 1" class="input-group">
-            <input type="text" id="a1-otro2" placeholder="Síntoma extra 2" class="input-group">
-            <input type="text" id="a1-otro3" placeholder="Síntoma extra 3" class="input-group">
             
-            <button class="btn-submit" onclick="guardarA1()">Guardar Mapa</button>
-            <div id="a1-success" class="success-msg">¡Datos guardados localmente!</div>
+            <div id="intro-a1" class="intro-container">
+                <p><strong>Enunciado:</strong> El primer paso para evitar el secuestro emocional es detectarlo a tiempo. Basándote en el Inventario de Reactividad al Estrés (IRE), marca los <strong>3 síntomas físicos</strong> que notas primero cuando una llamada se complica, e indica con qué frecuencia (en %) te ocurren. Tienes espacio al final para añadir otros síntomas no listados.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('a1')">Entrar en la Actividad</button>
+            </div>
+
+            <div id="content-a1" class="activity-container">
+                <div class="autosave-status">Guardado ✓</div>
+                <label class="title-label" style="margin-top: 1rem;">Marca las 3 sintomatologías más frecuentes e indica la frecuencia (%):</label>
+                <div id="a1-symptoms-list" class="checkbox-group"></div>
+
+                <label class="title-label" style="margin-top: 1.5rem;">Otras sintomatologías (No en la lista):</label>
+                <input type="text" id="a1-otro1" placeholder="Síntoma extra 1" class="input-group">
+                <input type="text" id="a1-otro2" placeholder="Síntoma extra 2" class="input-group">
+                <input type="text" id="a1-otro3" placeholder="Síntoma extra 3" class="input-group">
+                
+                <button class="btn-submit" onclick="guardarA1()">Guardar Mapa</button>
+                <div id="a1-success" class="success-msg">¡Datos guardados localmente!</div>
+            </div>
         </section>
 
         <section id="view-d3" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>D3: Espejo Profesional</h2>
-            <p style="font-size:0.85rem; color:#6b7280; margin-bottom:1rem;">Reescribe esta frase despojándola de la emoción y dejando solo el problema técnico (Disociación Empática).</p>
-            <div id="d3-case-box" class="case-box">Cargando caso...</div>
-            <label class="title-label">Tu Respuesta Técnica:</label>
-            <textarea id="d3-respuesta" rows="4" placeholder="Escribe aquí tu reencuadre..."></textarea>
-            <button class="btn-submit" onclick="enviarD3()">Enviar Análisis</button>
-            <div id="d3-success" class="success-msg">Respuesta enviada. Atiende a la pantalla del facilitador.</div>
+            
+            <div id="intro-d3" class="intro-container">
+                <p><strong>Enunciado:</strong> Ejercicio de "Espejo Profesional". Se te asignará de forma aleatoria una frase real con alta carga emocional por parte de un asegurado. Tu objetivo es entrenar la <strong>Disociación Empática</strong>: reescribe la frase eliminando toda la parte emocional (ataques, quejas) para extraer únicamente el <em>problema técnico real</em> que debes resolver.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d3')">Entrar en la Dinámica</button>
+            </div>
+
+            <div id="content-d3" class="activity-container">
+                <p style="font-size:0.85rem; color:#6b7280; margin-bottom:1rem;">Reescribe esta frase despojándola de la emoción y dejando solo el problema técnico (Disociación Empática).</p>
+                <div id="d3-case-box" class="case-box">Cargando caso...</div>
+                <label class="title-label">Tu Respuesta Técnica:</label>
+                <textarea id="d3-respuesta" rows="4" placeholder="Escribe aquí tu reencuadre..."></textarea>
+                <button class="btn-submit" onclick="enviarD3()">Enviar Análisis</button>
+                <div id="d3-success" class="success-msg">Respuesta enviada. Atiende a la pantalla del facilitador.</div>
+            </div>
         </section>
 
         <section id="view-a2" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>A2: El Muro de Cristal</h2>
-            <p style="font-size:0.85rem; color:#6b7280; margin-bottom:1rem;">Analiza la transcripción. ¿Qué palabras deben rebotar (insultos) y qué datos deben atravesar tu muro?</p>
-            <div id="a2-case-box" class="case-box">Cargando conversación...</div>
-            <label class="title-label">Lo que debe REBOTAR (Emoción/Ataque):</label>
-            <textarea id="a2-rebotar" rows="2" placeholder="Ej: inútiles, estafadores..."></textarea>
-            <label class="title-label" style="margin-top:1rem;">Lo que debe ATRAVESAR (Hecho Técnico):</label>
-            <textarea id="a2-atravesar" rows="2" placeholder="Ej: Rotura de tubería..."></textarea>
-            <button class="btn-submit" onclick="enviarA2()">Enviar Análisis</button>
-            <div id="a2-success" class="success-msg">Análisis enviado al facilitador.</div>
+            
+            <div id="intro-a2" class="intro-container">
+                <p><strong>Enunciado:</strong> Análisis del "Muro de Cristal". Lee atentamente la transcripción del siniestro que se te ha asignado. Analiza la situación y divide la información en dos bloques: ¿qué palabras agresivas o emocionales deben <strong>rebotar</strong> en tu escudo y qué datos operativos deben <strong>atravesarlo</strong> para poder continuar con la gestión técnica?</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('a2')">Entrar en la Actividad</button>
+            </div>
+
+            <div id="content-a2" class="activity-container">
+                <p style="font-size:0.85rem; color:#6b7280; margin-bottom:1rem;">Analiza la transcripción. ¿Qué palabras deben rebotar (insultos) y qué datos deben atravesar tu muro?</p>
+                <div id="a2-case-box" class="case-box">Cargando conversación...</div>
+                <label class="title-label">Lo que debe REBOTAR (Emoción/Ataque):</label>
+                <textarea id="a2-rebotar" rows="2" placeholder="Ej: inútiles, estafadores..."></textarea>
+                <label class="title-label" style="margin-top:1rem;">Lo que debe ATRAVESAR (Hecho Técnico):</label>
+                <textarea id="a2-atravesar" rows="2" placeholder="Ej: Rotura de tubería..."></textarea>
+                <button class="btn-submit" onclick="enviarA2()">Enviar Análisis</button>
+                <div id="a2-success" class="success-msg">Análisis enviado al facilitador.</div>
+            </div>
         </section>
 
         <section id="view-a3" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>A3: Crear Puentes de Comunicación</h2>
-            <p style="font-size:0.85rem; color:#6b7280; margin-bottom:1rem;">Corrige la interacción del gestor utilizando la estructura de 3 pasos tácticos.</p>
-            <div id="a3-case-box" class="case-box">Cargando interacción...</div>
-            <label class="title-label">1. Amortiguador (Validar Emoción):</label>
-            <input type="text" id="a3-amortiguador" class="input-group" placeholder="Ej: Entiendo que esta demora le cause frustración...">
-            <label class="title-label">2. Pivote (Conectar a lo Técnico):</label>
-            <input type="text" id="a3-pivote" class="input-group" placeholder="Ej: ...por eso mismo mi labor ahora es...">
-            <label class="title-label">3. Gancho (Acción):</label>
-            <input type="text" id="a3-gancho" class="input-group" placeholder="Ej: ...necesito que me confirme su DNI.">
-            <button class="btn-submit" onclick="enviarA3()">Enviar Puente</button>
-            <div id="a3-success" class="success-msg">Puente enviado. Revisaremos casos en público.</div>
+            
+            <div id="intro-a3" class="intro-container">
+                <p><strong>Enunciado:</strong> Práctica de Judo Verbal. Se te mostrará una interacción ineficaz (reactiva) entre un cliente y un gestor. Deberás corregir la respuesta del gestor redactándola con la técnica táctica de 3 pasos: <strong>1) Amortiguador</strong> para absorber la emoción, <strong>2) Pivote</strong> para redirigir, y <strong>3) Gancho</strong> para tomar el control operativo.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('a3')">Entrar en la Actividad</button>
+            </div>
+
+            <div id="content-a3" class="activity-container">
+                <p style="font-size:0.85rem; color:#6b7280; margin-bottom:1rem;">Corrige la interacción del gestor utilizando la estructura de 3 pasos tácticos.</p>
+                <div id="a3-case-box" class="case-box">Cargando interacción...</div>
+                <label class="title-label">1. Amortiguador (Validar Emoción):</label>
+                <input type="text" id="a3-amortiguador" class="input-group" placeholder="Ej: Entiendo que esta demora le cause frustración...">
+                <label class="title-label">2. Pivote (Conectar a lo Técnico):</label>
+                <input type="text" id="a3-pivote" class="input-group" placeholder="Ej: ...por eso mismo mi labor ahora es...">
+                <label class="title-label">3. Gancho (Acción):</label>
+                <input type="text" id="a3-gancho" class="input-group" placeholder="Ej: ...necesito que me confirme su DNI.">
+                <button class="btn-submit" onclick="enviarA3()">Enviar Puente</button>
+                <div id="a3-success" class="success-msg">Puente enviado. Revisaremos casos en público.</div>
+            </div>
         </section>
 
         <section id="view-d7" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>D7: Hoja de Ruta Personal (PRP)</h2>
-            <div class="autosave-status">Guardado ✓</div>
-            <div class="input-group" style="margin-top: 1rem;">
-                <label class="title-label">Mi Señal (Detección):</label>
-                <input type="text" id="plan-senal" placeholder="Ej: Nudo en el estómago">
+            
+            <div id="intro-d7" class="intro-container">
+                <p><strong>Enunciado:</strong> Es el momento de diseñar tu Protocolo de Resiliencia Personal (PRP). Concreta tu "EPI Mental" para la jornada de mañana definiendo tres elementos clave: cuál será tu señal biológica de alerta, qué frase táctica automatizarás como escudo, y en qué momento harás el reset fisiológico para limpiar el cortisol.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d7')">Entrar en la Dinámica</button>
             </div>
-            <div class="input-group">
-                <label class="title-label">Mi Escudo (Compromiso 24H):</label>
-                <input type="text" id="plan-comp" placeholder="Ej: Validar urgencia sin dar la razón">
-            </div>
-            <div class="input-group" style="margin-bottom: 0;">
-                <label class="title-label">Mi Reset (Protocolo Post-Llamada):</label>
-                <select id="plan-proto">
-                    <option value="respirar">3 Ciclos 4-7-8 antes de la siguiente</option>
-                    <option value="agua">Levantarme, beber agua y estirar</option>
-                    <option value="frase">Repetir mi frase de seguridad</option>
-                </select>
+
+            <div id="content-d7" class="activity-container">
+                <div class="autosave-status">Guardado ✓</div>
+                <div class="input-group" style="margin-top: 1rem;">
+                    <label class="title-label">Mi Señal (Detección):</label>
+                    <input type="text" id="plan-senal" placeholder="Ej: Nudo en el estómago">
+                </div>
+                <div class="input-group">
+                    <label class="title-label">Mi Escudo (Compromiso 24H):</label>
+                    <input type="text" id="plan-comp" placeholder="Ej: Validar urgencia sin dar la razón">
+                </div>
+                <div class="input-group" style="margin-bottom: 0;">
+                    <label class="title-label">Mi Reset (Protocolo Post-Llamada):</label>
+                    <select id="plan-proto">
+                        <option value="respirar">3 Ciclos 4-7-8 antes de la siguiente</option>
+                        <option value="agua">Levantarme, beber agua y estirar</option>
+                        <option value="frase">Repetir mi frase de seguridad</option>
+                    </select>
+                </div>
             </div>
         </section>
 
@@ -297,7 +371,7 @@
             <button style="width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--green-success); color: white; cursor: pointer;" id="btn-enviar" onclick="enviarMetricas()" disabled>Enviar Reporte Anónimo</button>
         </section>
 
-        <footer>PsycoIntera - Escudo Mental v2.0</footer>
+        <footer>PsycoIntera - Escudo Mental v2.1</footer>
     </main>
 
     <div id="pin-modal">
@@ -388,12 +462,24 @@
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
             const targetView = VIEW_MAP[id] || 'view-placeholder';
             document.getElementById(targetView).classList.add('active');
+            
+            // Mostrar siempre el enunciado al entrar por primera vez
+            if (document.getElementById('intro-' + id) && document.getElementById('content-' + id)) {
+                document.getElementById('intro-' + id).style.display = 'block';
+                document.getElementById('content-' + id).style.display = 'none';
+            }
+
             window.scrollTo(0,0);
             
             // Asignadores Aleatorios al entrar en la vista
             if(id === 'd3') asignarCasoAleatorio('d3_idx', frasesD3, 'd3-case-box', "Frase a reencuadrar:");
             if(id === 'a2') asignarCasoAleatorio('a2_idx', casosA2, 'a2-case-box', "Transcripción del siniestro:");
             if(id === 'a3') asignarInteraccionA3();
+        }
+
+        function startActivity(id) {
+            document.getElementById('intro-' + id).style.display = 'none';
+            document.getElementById('content-' + id).style.display = 'block';
         }
 
         function updateDashboardLocks() {
@@ -682,11 +768,14 @@
         window.onload = () => {
             updateDashboardLocks();
             renderA1();
+            
+            // D1 Logic Restore
             if(localStorage.getItem('voto_d1')) {
                 const interactive = document.getElementById('d1-interactive'); if (interactive) interactive.style.display = 'none';
                 const overlay = document.getElementById('play-overlay'); if (overlay) overlay.style.display = 'none';
                 const successDiv = document.getElementById('d1-success'); if (successDiv) successDiv.style.display = 'block';
             }
+            
             const savedTriggers = localStorage.getItem('selectedTriggers');
             if (savedTriggers) { try { selectedTriggers = JSON.parse(savedTriggers); } catch (e) { selectedTriggers = []; } }
             renderRankingList();
