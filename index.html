@@ -260,6 +260,33 @@
                 <div id="d3-success" class="success-msg">Respuesta enviada. Atiende a la pantalla del facilitador.</div>
             </div>
         </section>
+        
+        <section id="view-d4" class="view-section section-card">
+            <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
+            <h2>D4: Test Biofeedback (Reset 4-7-8)</h2>
+            
+            <div id="intro-d4" class="intro-container">
+                <p><strong>Enunciado:</strong> El objetivo de esta prueba es validar empíricamente la efectividad de la maniobra de Reset Fisiológico (activación del nervio vago). Anota tu nivel de tensión actual, realiza el ciclo y comprueba el efecto.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d4')">Entrar en la Dinámica</button>
+            </div>
+
+            <div id="content-d4" class="activity-container">
+                <label class="title-label">1. ¿Qué nivel de tensión sientes ahora mismo?</label>
+                <input type="range" id="d4-slider" min="1" max="10" value="5" style="width: 100%;" oninput="document.getElementById('d4-valor').innerText = this.value">
+                <div style="text-align: center; font-size: 2.5rem; font-weight: 800; margin: 1rem 0; color: var(--blue-sos);" id="d4-valor">5</div>
+                
+                <p style="font-size:0.85rem; color:#6b7280; margin-bottom:1rem; text-align: center;">Pulsa el botón inferior para activar la herramienta de Reset. Realiza 3 ciclos completos guiados por el estímulo visual y auditivo.</p>
+                
+                <button class="btn-submit" style="background-color: var(--orange-btn); margin-bottom: 1.5rem;" onclick="toggleSOS()">🔥 INICIAR TEST (4-7-8)</button>
+                
+                <label class="title-label">2. Tras realizar la prueba, ¿te sientes más centrado/a?</label>
+                <div style="display: flex; gap: 10px; margin-top: 0.5rem;">
+                    <button class="btn-conflict" style="background: var(--green-success);" onclick="document.getElementById('d4-success').style.display='block'">Sí, lo noto</button>
+                    <button class="btn-conflict" style="background: #9ca3af;" onclick="document.getElementById('d4-success').style.display='block'">No mucho</button>
+                </div>
+                <div id="d4-success" class="success-msg">Evaluación completada. Gracias por participar.</div>
+            </div>
+        </section>
 
         <section id="view-a2" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
@@ -372,7 +399,7 @@
             <button style="width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--green-success); color: white; cursor: pointer;" id="btn-enviar" onclick="enviarMetricas()" disabled>Enviar Reporte Anónimo</button>
         </section>
 
-        <footer>PsycoIntera - Escudo Mental v2.1</footer>
+        <footer>PsycoIntera - Escudo Mental v2.2</footer>
     </main>
 
     <div id="pin-modal">
@@ -408,8 +435,8 @@
 
         const VIEW_MAP = {
             'd1': 'view-d1', 'd2': 'view-d2', 'a1': 'view-a1', 
-            'd3': 'view-d3', 'a2': 'view-a2', 'a3': 'view-a3',
-            'd7': 'view-d7'
+            'd3': 'view-d3', 'd4': 'view-d4', 'a2': 'view-a2', 
+            'a3': 'view-a3', 'd7': 'view-d7'
         };
 
         let currentTargetId = null;
