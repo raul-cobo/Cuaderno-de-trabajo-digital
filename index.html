@@ -14,7 +14,7 @@
             /* Colores Corporativos PsycoIntera (Azul y Blanco) */
             --bg-color: #f4f7f9;
             --text-main: #1f2937;
-            --blue-sos: #1976D2; /* Azul corporativo extraído de la web */
+            --blue-sos: #1976D2; 
             --blue-dark: #1565C0;
             --blue-light: #2196F3;
             
@@ -22,6 +22,7 @@
             --orange-btn: #f97316;
             --yellow-btn: #eab308;
             --green-success: #10b981;
+            --purple-mod: #8b5cf6;
             
             --card-bg: #ffffff;
             --border-color: #e2e8f0;
@@ -132,8 +133,8 @@
         .audio-toggle { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 0.5rem 1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.8rem; cursor: pointer; }
         
         /* Controles de Vídeo D1 Custom */
-        .video-controls { display: flex; gap: 10px; margin-bottom: 1rem; }
-        .btn-video-ctrl { flex: 1; padding: 0.8rem; border: none; border-radius: 8px; font-weight: bold; color: white; cursor: pointer; font-size: 0.9rem; transition: background 0.2s;}
+        .video-controls { display: flex; gap: 8px; margin-bottom: 1rem; }
+        .btn-video-ctrl { flex: 1; padding: 0.8rem 0.5rem; border: none; border-radius: 8px; font-weight: bold; color: white; cursor: pointer; font-size: 0.85rem; transition: background 0.2s;}
     </style>
 </head>
 <body>
@@ -183,33 +184,33 @@
             <h2>Dinámica 1: ¿Qué hago?</h2>
             
             <div id="intro-d1" class="intro-container">
-                <p><strong>Enunciado:</strong> Visualiza el siguiente vídeo ("La cuerda en la selva") prestando atención a la diferencia entre la respuesta de la Vía Rápida (Amígdala) y la Vía Lenta (Córtex Prefrontal). Tras ver el vídeo, deberás registrar cuál sería tu reacción instintiva ante el estímulo.</p>
+                <p><strong>Enunciado:</strong> Visualiza el vídeo prestando atención a la diferencia entre la respuesta de la Vía Rápida y la Vía Lenta. Se recomienda usar la <strong>pantalla completa</strong> para una mejor experiencia.</p>
                 <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d1')">Entrar en la Dinámica</button>
             </div>
 
             <div id="content-d1" class="activity-container">
-                
-                <div style="border-radius: 8px; overflow: hidden; background: #000; aspect-ratio: 16/9; margin-bottom: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                    <video id="video-ejercicio" width="100%" height="100%" playsinline muted poster="poster_video.png" style="display: block;">
+                <div id="d1-video-container" style="position: relative; width: 100%; max-width: 400px; margin: 0 auto 1rem auto; border-radius: 12px; overflow: hidden; background: #000; height: 60vh; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                    <video id="video-ejercicio" width="100%" height="100%" playsinline muted preload="metadata" style="display: block; object-fit: contain;">
                         <source src="laselva.mp4" type="video/mp4">
                         Tu navegador no soporta video.
                     </video>
                 </div>
                 
                 <div class="video-controls">
-                    <button onclick="togglePlayD1()" id="btn-play-d1" class="btn-video-ctrl" style="background-color: var(--blue-sos);">▶ Play / Pausa</button>
-                    <button onclick="toggleSoundD1()" id="btn-sound-d1" class="btn-video-ctrl" style="background-color: #64748b;">🔇 Activar Sonido</button>
+                    <button onclick="togglePlayD1()" id="btn-play-d1" class="btn-video-ctrl" style="background-color: var(--blue-sos);">▶ Play</button>
+                    <button onclick="toggleSoundD1()" id="btn-sound-d1" class="btn-video-ctrl" style="background-color: #64748b;">🔇 Audio</button>
+                    <button onclick="toggleFullscreenD1()" class="btn-video-ctrl" style="background-color: var(--blue-dark);">🔲 Completa</button>
                 </div>
 
                 <div id="d1-interactive" style="display: none; padding-top: 1rem; border-top: 1px solid var(--border-color);">
                     <label class="title-label" style="text-align: center; margin-bottom: 1rem;">Tras ver el vídeo, ¿cuál es tu reacción instintiva?</label>
                     <div class="grid-conflicts">
                         <button class="btn-conflict bg-orange" onclick="votarD1('avanzar')">Sigo avanzando</button>
-                        <button class="btn-conflict bg-yellow" style="color:#451a03" onclick="votarD1('observar')">Me paro, me agacho y observo</button>
-                        <button class="btn-conflict bg-red" onclick="votarD1('saltar')">Salto hacia atrás y observo</button>
+                        <button class="btn-conflict bg-yellow" style="color:#451a03" onclick="votarD1('observar')">Me paro y observo</button>
+                        <button class="btn-conflict bg-red" onclick="votarD1('saltar')">Salto hacia atrás</button>
                     </div>
                 </div>
-                <div id="d1-success" class="success-msg">Respuesta anónima registrada. El vídeo sigue disponible para volver a verlo.</div>
+                <div id="d1-success" class="success-msg">Respuesta anónima registrada. Puedes volver a ver el vídeo si lo deseas.</div>
             </div>
         </section>
 
@@ -303,6 +304,47 @@
             </div>
         </section>
 
+        <section id="view-d5" class="view-section section-card">
+            <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
+            <h2>D5: Frases Críticas</h2>
+            
+            <div id="intro-d5" class="intro-container">
+                <p><strong>Enunciado:</strong> Laboratorio de Frases Críticas. Escribe de forma anónima la frase más difícil, injusta o agresiva que hayas escuchado de un cliente recientemente. Las usaremos para aplicar ingeniería verbal en directo.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d5')">Entrar en la Dinámica</button>
+            </div>
+
+            <div id="content-d5" class="activity-container">
+                <label class="title-label">Frase a analizar:</label>
+                <textarea id="d5-frase" rows="4" placeholder="Ej: Llevo pagando 10 años para que ahora me digas que..."></textarea>
+                <button class="btn-submit" id="btn-submit-d5" onclick="enviarD5()">Enviar al Laboratorio</button>
+                <div id="d5-success" class="success-msg">Frase enviada de forma anónima.</div>
+            </div>
+        </section>
+
+        <section id="view-d6" class="view-section section-card">
+            <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
+            <h2>D6: Aduana de Palabras</h2>
+            
+            <div id="intro-d6" class="intro-container">
+                <p><strong>Enunciado:</strong> La Aduana de Palabras. Ciertas expresiones actúan como "gasolina" para la amígdala del cliente. Propón una alternativa técnica y profesional para cada una de estas frases prohibidas.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d6')">Entrar en la Dinámica</button>
+            </div>
+
+            <div id="content-d6" class="activity-container">
+                <label class="title-label">En lugar de decir "¡Cálmese!" diré:</label>
+                <input type="text" id="d6-alt1" class="input-group" placeholder="Tu alternativa...">
+                
+                <label class="title-label">En lugar de decir "Usted tiene la culpa" diré:</label>
+                <input type="text" id="d6-alt2" class="input-group" placeholder="Tu alternativa...">
+
+                <label class="title-label">En lugar de decir "No me grite" diré:</label>
+                <input type="text" id="d6-alt3" class="input-group" placeholder="Tu alternativa...">
+
+                <button class="btn-submit" id="btn-submit-d6" onclick="enviarD6()">Pasar la Aduana</button>
+                <div id="d6-success" class="success-msg">Alternativas enviadas con éxito.</div>
+            </div>
+        </section>
+
         <section id="view-a2" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>A2: El Muro de Cristal</h2>
@@ -377,12 +419,6 @@
             </div>
         </section>
 
-        <section id="view-placeholder" class="view-section section-card">
-            <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
-            <h2>Área de Prácticas</h2>
-            <p style="text-align: center; color: #64748b; padding: 2rem 0;">El facilitador guiará esta dinámica en vivo.</p>
-        </section>
-
         <section id="view-judo" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>Gestión Táctica [Judo Verbal]</h2>
@@ -414,7 +450,7 @@
             <button style="width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--green-success); color: white; cursor: pointer;" id="btn-enviar" onclick="enviarMetricas()" disabled>Enviar Reporte Anónimo</button>
         </section>
 
-        <footer>PsycoIntera - Escudo Mental v2.3</footer>
+        <footer>PsycoIntera - Escudo Mental v2.4</footer>
     </main>
 
     <div id="pin-modal">
@@ -451,6 +487,7 @@
         const VIEW_MAP = {
             'd1': 'view-d1', 'd2': 'view-d2', 'a1': 'view-a1', 
             'd3': 'view-d3', 'd4': 'view-d4', 'a2': 'view-a2', 
+            'd5': 'view-d5', 'd6': 'view-d6',
             'a3': 'view-a3', 'd7': 'view-d7'
         };
 
@@ -604,26 +641,40 @@
         // --- DINÁMICA 1 ---
         function togglePlayD1() {
             const vid = document.getElementById('video-ejercicio');
+            const btn = document.getElementById('btn-play-d1');
             if (vid.paused) {
                 vid.play();
-                document.getElementById('btn-play-d1').innerText = "⏸ Pausa";
+                btn.innerText = "⏸ Pausa";
             } else {
                 vid.pause();
-                document.getElementById('btn-play-d1').innerText = "▶ Play";
+                btn.innerText = "▶ Play";
             }
         }
         
         function toggleSoundD1() {
             const vid = document.getElementById('video-ejercicio');
+            const btn = document.getElementById('btn-sound-d1');
             vid.muted = !vid.muted;
-            document.getElementById('btn-sound-d1').innerText = vid.muted ? "🔇 Activar Sonido" : "🔊 Desactivar Sonido";
-            if(!vid.muted && vid.volume === 0) vid.volume = 1; // Asegurar volumen al desmutear
+            btn.innerText = vid.muted ? "🔇 Audio" : "🔊 Audio";
+            btn.style.backgroundColor = vid.muted ? "#64748b" : "var(--green-success)";
+        }
+
+        function toggleFullscreenD1() {
+            const vid = document.getElementById('video-ejercicio');
+            if (vid.requestFullscreen) {
+                vid.requestFullscreen();
+            } else if (vid.webkitRequestFullscreen) { /* Safari */
+                vid.webkitRequestFullscreen();
+            } else if (vid.msRequestFullscreen) { /* IE11 */
+                vid.msRequestFullscreen();
+            }
         }
 
         document.getElementById('video-ejercicio').addEventListener('ended', function() {
             document.getElementById('btn-play-d1').innerText = "▶ Replay";
             if(!localStorage.getItem('voto_d1')) {
                 document.getElementById('d1-interactive').style.display = 'block';
+                document.getElementById('d1-interactive').scrollIntoView({ behavior: 'smooth' });
             }
         });
 
@@ -734,6 +785,16 @@
         function enviarD3() {
             const resp = document.getElementById('d3-respuesta').value;
             enviarEjercicio('D3_VOTO', { casoId: localStorage.getItem('d3_idx'), respuesta: resp }, 'd3-success', 'btn-submit-d3');
+        }
+        function enviarD5() {
+            const frase = document.getElementById('d5-frase').value;
+            enviarEjercicio('D5_VOTO', { frase: frase }, 'd5-success', 'btn-submit-d5');
+        }
+        function enviarD6() {
+            const alt1 = document.getElementById('d6-alt1').value;
+            const alt2 = document.getElementById('d6-alt2').value;
+            const alt3 = document.getElementById('d6-alt3').value;
+            enviarEjercicio('D6_VOTO', { alt1: alt1, alt2: alt2, alt3: alt3 }, 'd6-success', 'btn-submit-d6');
         }
         function enviarA2() {
             const reb = document.getElementById('a2-rebotar').value;
