@@ -11,25 +11,30 @@
 
     <style>
         :root {
-            var(--bg-color): #f4f7f9;
+            /* Colores Corporativos PsycoIntera (Azul y Blanco) */
+            --bg-color: #f4f7f9;
             --text-main: #1f2937;
             --blue-sos: #1976D2; 
             --blue-dark: #1565C0;
             --blue-light: #2196F3;
+            
             --red-btn: #dc2626;
             --orange-btn: #f97316;
             --yellow-btn: #eab308;
             --green-success: #10b981;
             --purple-mod: #8b5cf6;
+            
             --card-bg: #ffffff;
             --border-color: #e2e8f0;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
 
-        body { background-color: #f4f7f9; color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+        body { background-color: var(--bg-color); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
 
         header { background-color: var(--card-bg); padding: 0.8rem 1rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); z-index: 10; position: sticky; top: 0; border-bottom: 3px solid var(--blue-sos); }
+        
+        /* Logo interactivo hacia la web */
         .logo-img { height: 45px; object-fit: contain; cursor: pointer; transition: transform 0.2s, opacity 0.2s; }
         .logo-img:active { transform: scale(0.95); }
         .logo-img:hover { opacity: 0.8; }
@@ -42,19 +47,19 @@
         h3.module-title { font-size: 0.9rem; color: var(--blue-sos); border-bottom: 2px solid var(--border-color); padding-bottom: 0.3rem; margin-top: 1rem; margin-bottom: 0.8rem; text-transform: uppercase; font-weight: 800;}
 
         .section-card { background: white; padding: 1.2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: relative; border: 1px solid var(--border-color); }
-        
-        /* Indicador de Guardado Local persistente */
-        .local-save-info { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 0.8rem; border-radius: 8px; font-size: 0.8rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
         .autosave-status { font-size: 0.75rem; color: var(--green-success); font-weight: bold; position: absolute; top: 1.2rem; right: 1.2rem; opacity: 0; transition: opacity 0.3s; }
 
+        /* Vistas SPA */
         .view-section { display: none; animation: fadeIn 0.3s ease-in-out; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* Contenedores de Actividad y Enunciados */
         .intro-container { text-align: left; padding: 0.5rem 0; }
         .intro-container p { color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; }
         .activity-container { display: none; animation: fadeIn 0.3s ease-in-out; }
 
+        /* Dashboard Grid */
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem; }
         .btn-dash { padding: 1.2rem 0.5rem; border: none; border-radius: 12px; font-size: 0.85rem; font-weight: 700; color: white; cursor: pointer; transition: transform 0.1s, box-shadow 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0.5rem; box-shadow: 0 4px 6px rgba(25, 118, 210, 0.2); }
         .btn-dash:active { transform: scale(0.97); }
@@ -62,15 +67,17 @@
         .btn-dash.locked::after { content: '🔒'; position: absolute; top: 8px; right: 8px; font-size: 0.7rem; }
         .btn-dash.unlocked::after { content: '🔓'; position: absolute; top: 8px; right: 8px; font-size: 0.7rem; opacity: 0.7;}
         
+        /* Paleta Corporativa para el Menú */
         .mod-1 { background-color: var(--blue-dark); }
         .mod-2 { background-color: var(--blue-sos); }
         .mod-3 { background-color: var(--blue-light); }
         .mod-4 { background-color: #0288D1; }
         .mod-free { background-color: #455A64; }
 
-        .btn-back { display: inline-flex; align-items: center; gap: 0.5rem; background: #f1f5f9; color: var(--blue-dark); border: 1px solid var(--border-color); padding: 0.6rem 1rem; border-radius: 8px; font-weight: bold; margin-bottom: 1.5rem; cursor: pointer; transition: background 0.2s; width: 100%; justify-content: center;}
+        .btn-back { display: inline-flex; align-items: center; gap: 0.5rem; background: #f1f5f9; color: var(--blue-dark); border: 1px solid var(--border-color); padding: 0.6rem 1rem; border-radius: 8px; font-weight: bold; margin-bottom: 1.5rem; cursor: pointer; transition: background 0.2s; }
         .btn-back:hover { background: #e2e8f0; }
 
+        /* PIN Modal */
         #pin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.95); z-index: 200; flex-direction: column; justify-content: center; align-items: center; padding: 1rem; }
         .pin-box { background: white; padding: 2.5rem 2rem; border-radius: 16px; text-align: center; width: 100%; max-width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .pin-box h3 { color: var(--blue-dark); margin-bottom: 1rem; }
@@ -82,13 +89,14 @@
         .btn-cancel { background: #e2e8f0; color: #475569; }
         .btn-unlock { background: var(--blue-sos); color: white; }
 
+        /* Controles Formularios */
         .grid-conflicts { display: grid; gap: 0.8rem; margin-top: 1rem; }
         .btn-conflict { width: 100%; padding: 1.2rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; color: white; cursor: pointer; transition: transform 0.1s; }
         .btn-conflict:active { transform: scale(0.97); }
         .bg-red { background-color: var(--red-btn); }
         .bg-orange { background-color: var(--orange-btn); }
         .bg-yellow { background-color: var(--yellow-btn); color: #451a03; }
-        .btn-submit { width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--blue-dark); color: white; cursor: pointer; margin-top: 1.5rem; box-shadow: 0 4px 6px rgba(25, 118, 210, 0.2); font-size: 1rem;}
+        .btn-submit { width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--blue-sos); color: white; cursor: pointer; margin-top: 1rem; box-shadow: 0 4px 6px rgba(25, 118, 210, 0.2);}
 
         .input-group { margin-bottom: 1rem; }
         label.title-label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; color: #334155; }
@@ -102,9 +110,11 @@
         .pct-input { display: none; margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem;}
         .pct-input input { padding: 0.4rem; width: 80px; }
 
+        /* Componentes Específicos */
         .case-box { font-size: 0.95rem; color: #334155; margin-bottom: 1.5rem; padding: 1rem; background: #f0f7ff; border-left: 4px solid var(--blue-sos); border-radius: 0 8px 8px 0; line-height: 1.6; font-style: italic;}
-        .success-msg { display:none; text-align: center; padding: 1rem; color: var(--green-success); font-weight: bold; background: #ecfdf5; border-radius: 8px; margin-top: 1rem; border: 1px solid #a7f3d0;}
+        .success-msg { display:none; text-align: center; padding: 1rem; color: var(--blue-dark); font-weight: bold; background: #e0f2fe; border-radius: 8px; margin-top: 1rem; border: 1px solid #bae6fd;}
 
+        /* Termómetro de Riesgos */
         .ranking-container { margin-top: 1rem; }
         .ranking-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 0.85rem; font-weight: bold; color: var(--blue-dark); background: #f0f7ff; padding: 0.8rem; border-radius: 8px; border: 1px solid #bae6fd; }
         .ranking-list { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -114,15 +124,7 @@
         .ranking-number { min-width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #94a3b8; display: flex; justify-content: center; align-items: center; font-size: 0.75rem; font-weight: bold; color: #94a3b8; margin-right: 0.8rem; }
         .ranking-item.selected .ranking-number { background-color: var(--blue-sos); border-color: var(--blue-sos); color: white; }
 
-        /* Acordeón Glosario Optimizado */
-        .accordion { background-color: #f8fafc; color: var(--blue-dark); cursor: pointer; padding: 1rem; width: 100%; text-align: left; border: 1px solid var(--border-color); outline: none; transition: 0.4s; font-weight: bold; border-radius: 8px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem;}
-        .accordion.active, .accordion:hover { background-color: #e2e8f0; }
-        .accordion:after { content: '\\002B'; color: var(--blue-sos); font-weight: bold; font-size: 1.2rem; }
-        .accordion.active:after { content: "\\2212"; }
-        .panel { padding: 0 1rem; background-color: white; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; border-left: 4px solid var(--blue-sos); border-radius: 0 0 8px 8px; margin-top: -8px; margin-bottom: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05);}
-        .panel-content { padding: 1rem 0; font-size: 0.9rem; color: #334155; line-height: 1.6;}
-        .panel-func { background: #f0fdf4; padding: 0.8rem; border-radius: 8px; margin-top: 0.8rem; color: #166534; font-weight: 500; border: 1px solid #bbf7d0;}
-
+        /* Legal / Consent */
         .legal-consent { font-size: 0.75rem; color: #64748b; margin-bottom: 1rem; padding: 0.8rem; background: #f8fafc; border-radius: 8px; border: 1px solid var(--border-color); }
         .legal-consent a { color: var(--blue-sos); text-decoration: underline; font-weight: bold; }
         #btn-enviar:disabled { background-color: #94a3b8; cursor: not-allowed; opacity: 0.7; box-shadow: none; }
@@ -133,8 +135,21 @@
         .circle { width: 180px; height: 180px; border-radius: 50%; background-color: var(--blue-sos); display: flex; justify-content: center; align-items: center; font-size: 1.6rem; font-weight: 800; transition: all 4s linear; box-shadow: 0 0 40px rgba(25, 118, 210, 0.5); }
         .audio-toggle { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 0.5rem 1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.8rem; cursor: pointer; }
         
+        /* Controles de Vídeo D1 Custom */
         .video-controls { display: flex; gap: 8px; margin-bottom: 1rem; }
         .btn-video-ctrl { flex: 1; padding: 0.8rem 0.5rem; border: none; border-radius: 8px; font-weight: bold; color: white; cursor: pointer; font-size: 0.85rem; transition: background 0.2s;}
+
+        /* Indicador de Guardado Local persistente */
+        .local-save-info { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 0.8rem; border-radius: 8px; font-size: 0.8rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+
+        /* Acordeón Glosario Optimizado */
+        .accordion { background-color: #f8fafc; color: var(--blue-dark); cursor: pointer; padding: 1rem; width: 100%; text-align: left; border: 1px solid var(--border-color); outline: none; transition: 0.4s; font-weight: bold; border-radius: 8px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem;}
+        .accordion.active, .accordion:hover { background-color: #e2e8f0; }
+        .accordion:after { content: '\002B'; color: var(--blue-sos); font-weight: bold; font-size: 1.2rem; }
+        .accordion.active:after { content: "\2212"; }
+        .panel { padding: 0 1rem; background-color: white; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; border-left: 4px solid var(--blue-sos); border-radius: 0 0 8px 8px; margin-top: -8px; margin-bottom: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.05);}
+        .panel-content { padding: 1rem 0; font-size: 0.9rem; color: #334155; line-height: 1.6;}
+        .panel-func { background: #f0fdf4; padding: 0.8rem; border-radius: 8px; margin-top: 0.8rem; color: #166534; font-weight: 500; border: 1px solid #bbf7d0;}
     </style>
 </head>
 <body>
@@ -187,22 +202,39 @@
             <div class="dashboard-grid">
                 <button class="btn-dash mod-free" onclick="openFree('glosario')"><i>🧠</i> Biblioteca Mental</button>
                 <button class="btn-dash mod-free" onclick="openFree('judo')"><i>💬</i> Judo Verbal</button>
-                <button class="btn-dash mod-free" onclick="openFree('anotaciones')"><i>📝</i> Mi Cuaderno</button>
+                <button class="btn-dash mod-free" onclick="openFree('anotaciones')"><i>📝</i> Anotaciones</button>
                 <button class="btn-dash mod-free" onclick="openFree('reporte')"><i>📊</i> Reporte Final</button>
             </div>
         </section>
 
         <section id="view-psycointera" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
+            
             <div style="text-align: center; margin-bottom: 1.5rem;">
                 <img src="1728575056445~4-A1a52p0oeGhX86oy.jpg" alt="Raúl Cobo Palomino" style="width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--blue-sos); object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                 <h2 style="margin-top: 0.8rem; margin-bottom: 0.2rem;">Raúl Cobo Palomino</h2>
                 <p style="color: var(--blue-sos); font-weight: bold; font-size: 0.9rem;">Psicólogo Organizacional</p>
             </div>
+            
             <p style="font-size:0.9rem; color:#475569; margin-bottom:1.5rem; text-align: center; line-height: 1.6;">
                 ¿El estrés y el conflicto están afectando la productividad y el clima de tu departamento? Descubre cómo podemos intervenir con soluciones basadas en la ciencia del comportamiento.
             </p>
+
+            <div style="background: #f8fafc; border-left: 4px solid var(--blue-sos); padding: 1rem; margin-bottom: 1rem; border-radius: 0 8px 8px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <strong style="color: var(--text-main);">📊 Diagnóstico Fino</strong><br>
+                <span style="font-size: 0.85rem; color: #475569; display: block; margin-top: 0.3rem;">Análisis de clima y cultura para detectar focos de desgaste y oportunidades de mejora.</span>
+            </div>
+            <div style="background: #f8fafc; border-left: 4px solid var(--blue-light); padding: 1rem; margin-bottom: 1rem; border-radius: 0 8px 8px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <strong style="color: var(--text-main);">🎯 Gestión de Talento</strong><br>
+                <span style="font-size: 0.85rem; color: #475569; display: block; margin-top: 0.3rem;">Auditoría de perfiles (Audeo) para asegurar el encaje ideal y potenciar el rendimiento.</span>
+            </div>
+            <div style="background: #f8fafc; border-left: 4px solid var(--blue-dark); padding: 1rem; margin-bottom: 1.5rem; border-radius: 0 8px 8px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <strong style="color: var(--text-main);">🛠️ Intervención Directa</strong><br>
+                <span style="font-size: 0.85rem; color: #475569; display: block; margin-top: 0.3rem;">Formación especializada en liderazgo, comunicación táctica y programas de resiliencia corporativa.</span>
+            </div>
+
             <button class="btn-submit" onclick="window.open('https://www.psycointera.com/', '_blank')">🌐 Visitar PsycoIntera.com</button>
+            <button class="btn-submit" style="background-color: white; color: var(--blue-sos); border: 2px solid var(--blue-sos); margin-top: 0.8rem;" onclick="window.open('mailto:raulcobo@psycointera.com', '_blank')">✉️ Contactar con Raúl</button>
         </section>
 
         <section id="view-glosario" class="view-section section-card">
@@ -243,7 +275,7 @@
             <button class="accordion">Sistema Nervioso Autónomo</button>
             <div class="panel">
                 <div class="panel-content">
-                    <strong>¿Qué es?</strong> Parte del sistema nervioso que controla las acciones involuntarias. Se divide en Simpático (el "acelerador") y Parasimpático (el "freno").
+                    <strong>¿Qué es?</strong> Parte del sistema nervioso que controla las acciones involuntarias. Se divide en Simpático (el "acelerador") y Parasimpático (el "freno"). 
                     <div class="panel-func">
                         <strong>🎯 Función / Impacto:</strong> Ante un cliente agresivo, el Simpático dispara tu ritmo cardíaco (taquicardia, visión de túnel). Aplicar un "Reset" fuerza mecánicamente la activación del Parasimpático, devolviendo tu cuerpo a la calma en 20 segundos.
                     </div>
@@ -253,7 +285,7 @@
             <button class="accordion">Secuestro Emocional</button>
             <div class="panel">
                 <div class="panel-content">
-                    <strong>¿Qué es?</strong> Reacción emocional inmediata y desproporcionada que ocurre cuando la amígdala puentea al neocórtex ante un estímulo que considera vitalmente amenazante.
+                    <strong>¿Qué es?</strong> Fenómeno neurobiológico donde la amígdala inhibe las funciones del córtex prefrontal ante un estímulo que considera muy amenazante.
                     <div class="panel-func">
                         <strong>🎯 Función / Impacto:</strong> Es el instante exacto en el que "pierdes los papeles". Tu cerebro interpreta la queja de un asegurado como un ataque a tu vida. Conocer tus síntomas físicos (IRE) te permite abortar el secuestro a tiempo.
                     </div>
@@ -274,21 +306,25 @@
         <section id="view-d1" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>Dinámica 1: ¿Qué hago?</h2>
+            
             <div id="intro-d1" class="intro-container">
-                <p>Visualiza el vídeo prestando atención a la diferencia entre la respuesta de la Vía Rápida y la Vía Lenta.</p>
-                <button class="btn-submit" onclick="startActivity('d1')">Entrar en la Dinámica</button>
+                <p><strong>Enunciado:</strong> Visualiza el vídeo prestando atención a la diferencia entre la respuesta de la Vía Rápida y la Vía Lenta. Se recomienda usar la <strong>pantalla completa</strong> para una mejor experiencia.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d1')">Entrar en la Dinámica</button>
             </div>
+
             <div id="content-d1" class="activity-container">
                 <div id="d1-video-container" style="position: relative; width: 100%; max-width: 400px; margin: 0 auto 1rem auto; border-radius: 12px; overflow: hidden; background: #000; height: 60vh; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
                     <video id="video-ejercicio" width="100%" height="100%" playsinline muted preload="metadata" style="display: block; object-fit: contain;">
                         <source src="laselva.mp4" type="video/mp4">
                     </video>
                 </div>
+                
                 <div class="video-controls">
                     <button onclick="togglePlayD1()" id="btn-play-d1" class="btn-video-ctrl" style="background-color: var(--blue-sos);">▶ Play</button>
                     <button onclick="toggleSoundD1()" id="btn-sound-d1" class="btn-video-ctrl" style="background-color: #64748b;">🔇 Audio</button>
                     <button onclick="toggleFullscreenD1()" class="btn-video-ctrl" style="background-color: var(--blue-dark);">🔲 Completa</button>
                 </div>
+
                 <div id="d1-interactive" style="display: none; padding-top: 1rem; border-top: 1px solid var(--border-color);">
                     <label class="title-label" style="text-align: center; margin-bottom: 1rem;">Tras ver el vídeo, ¿cuál es tu reacción instintiva?</label>
                     <div class="grid-conflicts">
@@ -304,102 +340,122 @@
         <section id="view-d2" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>Dinámica 2: Termómetro de Riesgos</h2>
+            
             <div id="intro-d2" class="intro-container">
-                <p>Selecciona las <strong>3 situaciones</strong> que te generan mayor nivel de tensión, ansiedad o bloqueo durante tu turno.</p>
-                <button class="btn-submit" onclick="startActivity('d2')">Entrar en la Dinámica</button>
+                <p><strong>Enunciado:</strong> Selecciona las <strong>3 situaciones</strong> que te generan mayor nivel de tensión, ansiedad o bloqueo emocional durante tu turno de trabajo.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d2')">Entrar en la Dinámica</button>
             </div>
+
             <div id="content-d2" class="activity-container">
-                <div class="local-save-info">📝 Los cambios se guardan en tu móvil. Envía cuando estés listo.</div>
-                <label class="title-label">Tus 3 mayores disparadores:</label>
+                <div class="local-save-info">📝 Tus selecciones se guardan automáticamente en el móvil.</div>
+                <div class="autosave-status">Guardado ✓</div>
+                <label class="title-label" style="margin-top: 1rem;">Selecciona tus 3 mayores disparadores:</label>
                 <div class="ranking-container">
                     <div class="ranking-header"><span>Estado actual:</span><span id="ranking-counter">0/3</span></div>
                     <div class="ranking-list" id="ranking-list"></div>
                 </div>
-                <button class="btn-submit" id="btn-submit-d2" onclick="enviarD2()">Enviar Respuesta Anónima</button>
-                <div id="d2-success" class="success-msg">¡Datos enviados al facilitador!</div>
+                
+                <button class="btn-submit" id="btn-submit-d2" onclick="enviarD2()" style="margin-top: 1.5rem;">Enviar Ranking Anónimo</button>
+                <div id="d2-success" class="success-msg">¡Ranking enviado al facilitador! Puedes modificarlo y volver a enviarlo si lo deseas.</div>
             </div>
         </section>
 
         <section id="view-a1" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>A1: Mapa de Alerta (IRE)</h2>
+            
             <div id="intro-a1" class="intro-container">
-                <p>Basándote en el Inventario de Reactividad al Estrés, marca los <strong>3 síntomas físicos</strong> que notas primero cuando una llamada se complica.</p>
-                <button class="btn-submit" onclick="startActivity('a1')">Entrar en la Actividad</button>
+                <p><strong>Enunciado:</strong> Basándote en el Inventario de Reactividad al Estrés, marca los <strong>3 síntomas físicos</strong> que notas primero cuando una llamada se complica, e indica con qué frecuencia te ocurren.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('a1')">Entrar en la Actividad</button>
             </div>
+
             <div id="content-a1" class="activity-container">
-                <div class="local-save-info">📝 Los cambios se guardan en tu móvil. Envía cuando estés listo.</div>
+                <div class="local-save-info">📝 Los cambios se guardan automáticamente en tu móvil.</div>
                 <div class="autosave-status" id="a1-autosave">Guardado ✓</div>
-                <label class="title-label">Marca las 3 sintomatologías más frecuentes:</label>
+                <label class="title-label" style="margin-top: 1rem;">Marca las 3 sintomatologías más frecuentes:</label>
                 <div id="a1-symptoms-list" class="checkbox-group"></div>
-                <label class="title-label" style="margin-top: 1.5rem;">Otras sintomatologías:</label>
+
+                <label class="title-label" style="margin-top: 1.5rem;">Otras sintomatologías (No en la lista):</label>
                 <input type="text" id="a1-otro1" class="input-group">
                 <input type="text" id="a1-otro2" class="input-group">
                 <input type="text" id="a1-otro3" class="input-group">
-                <button class="btn-submit" id="btn-submit-a1" onclick="enviarA1()">Enviar Respuesta Anónima</button>
-                <div id="a1-success" class="success-msg">¡Datos enviados al facilitador!</div>
+                
+                <button class="btn-submit" id="btn-submit-a1" onclick="enviarA1()">Enviar Mapa Anónimo</button>
+                <div id="a1-success" class="success-msg">¡Datos enviados al facilitador! Puedes actualizar y reenviar el mapa si lo deseas.</div>
             </div>
         </section>
 
         <section id="view-d3" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>D3: Espejo Profesional</h2>
+            
             <div id="intro-d3" class="intro-container">
-                <p>Entrena la <strong>Disociación Empática</strong>: reescribe la frase eliminando la parte emocional para extraer el problema técnico.</p>
-                <button class="btn-submit" onclick="startActivity('d3')">Entrar en la Dinámica</button>
+                <p><strong>Enunciado:</strong> Entrena la <strong>Disociación Empática</strong>: reescribe la frase asignada eliminando la parte emocional para extraer el problema técnico.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d3')">Entrar en la Dinámica</button>
             </div>
+
             <div id="content-d3" class="activity-container">
-                <div class="local-save-info">📝 Los cambios se guardan en tu móvil. Envía cuando estés listo.</div>
+                <div class="local-save-info">📝 Tu respuesta se guarda automáticamente mientras escribes.</div>
                 <div class="autosave-status" id="d3-autosave">Guardado ✓</div>
                 <div id="d3-case-box" class="case-box">Cargando caso...</div>
                 <label class="title-label">Tu Respuesta Técnica:</label>
                 <textarea id="d3-respuesta" rows="4" placeholder="Escribe aquí tu reencuadre..."></textarea>
-                <button class="btn-submit" id="btn-submit-d3" onclick="enviarD3()">Enviar Respuesta Anónima</button>
-                <div id="d3-success" class="success-msg">¡Análisis enviado!</div>
+                <button class="btn-submit" id="btn-submit-d3" onclick="enviarD3()">Enviar Análisis Anónimo</button>
+                <div id="d3-success" class="success-msg">Respuesta enviada. Puedes modificarla y volver a enviar.</div>
             </div>
         </section>
-
+        
         <section id="view-d4" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>D4: Test Biofeedback (4-7-8)</h2>
+            
             <div id="intro-d4" class="intro-container">
-                <p>Valida empíricamente el Reset Fisiológico. Realiza el ciclo y comprueba el efecto.</p>
-                <button class="btn-submit" onclick="startActivity('d4')">Entrar en la Dinámica</button>
+                <p><strong>Enunciado:</strong> Valida empíricamente la efectividad del Reset Fisiológico. Realiza el ciclo y comprueba el efecto.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d4')">Entrar en la Dinámica</button>
             </div>
+
             <div id="content-d4" class="activity-container">
-                <label class="title-label">1. ¿Nivel de tensión inicial?</label>
+                <label class="title-label">1. ¿Qué nivel de tensión sientes ahora mismo?</label>
                 <input type="range" id="d4-slider" min="1" max="10" value="5" style="width: 100%;" oninput="document.getElementById('d4-valor').innerText = this.value">
                 <div style="text-align: center; font-size: 2.5rem; font-weight: 800; margin: 1rem 0; color: var(--blue-sos);" id="d4-valor">5</div>
+                
+                <p style="font-size:0.85rem; color:#64748b; margin-bottom:1rem; text-align: center;">Pulsa el botón inferior para activar el Reset. Realiza 3 ciclos completos guiados por el estímulo visual y auditivo.</p>
+                
                 <button class="btn-submit" style="background-color: var(--orange-btn); margin-bottom: 1.5rem;" onclick="toggleSOS()">🔥 INICIAR TEST (4-7-8)</button>
-                <label class="title-label">2. Tras la prueba, ¿te sientes más centrado/a?</label>
+                
+                <label class="title-label">2. Tras realizar la prueba, ¿te sientes más centrado/a?</label>
                 <div style="display: flex; gap: 10px; margin-top: 0.5rem;" id="d4-botones-respuesta">
                     <button class="btn-conflict" style="background: var(--green-success);" onclick="enviarD4('Sí')">Sí, lo noto</button>
                     <button class="btn-conflict" style="background: #94a3b8;" onclick="enviarD4('No')">No mucho</button>
                 </div>
-                <div id="d4-success" class="success-msg">Evaluación enviada.</div>
+                <div id="d4-success" class="success-msg">Evaluación enviada. Gracias por participar.</div>
             </div>
         </section>
 
         <section id="view-d5" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>D5: Laboratorio de Frases</h2>
+            
             <div id="intro-d5" class="intro-container">
-                <p>Escribe la frase más difícil que hayas escuchado. Se barajarán para ser neutralizadas por compañeros.</p>
-                <button class="btn-submit" onclick="startActivity('d5')">Entrar en la Dinámica</button>
+                <p><strong>Enunciado:</strong> Escribe la frase más difícil que hayas escuchado de un cliente. Se barajarán para ser neutralizadas por compañeros mediante Judo Verbal.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d5')">Entrar en la Dinámica</button>
             </div>
+
             <div id="content-d5" class="activity-container">
                 <div id="d5-fase-envio">
                     <label class="title-label">Tu frase crítica (la que recibiste):</label>
-                    <textarea id="d5-frase-propia" rows="3" placeholder="Ej: Llevo pagando 10 años..."></textarea>
+                    <textarea id="d5-frase-propia" rows="3" placeholder="Ej: Llevo pagando 10 años para que ahora me digas que..."></textarea>
                     <button class="btn-submit" id="btn-envio-d5" onclick="faseEnvioD5()">Subir frase de forma anónima</button>
                 </div>
+
                 <div id="d5-fase-judo" style="display:none;">
                     <div id="d5-loading" style="text-align:center; padding: 1rem; color: var(--blue-sos); font-weight: bold;">⏳ Barajando frases del grupo...</div>
                     <div id="d5-judo-interactivo" style="display:none;">
+                        <div class="local-save-info">📝 Tu respuesta de Judo Verbal se guarda automáticamente mientras escribes.</div>
                         <div class="autosave-status" id="d5-autosave">Guardado ✓</div>
-                        <p style="font-size:0.85rem; color:var(--blue-dark); font-weight:bold; margin-bottom:1rem;">Neutraliza esta frase:</p>
+                        <p style="font-size:0.85rem; color:var(--blue-dark); font-weight:bold; margin-bottom:1rem;">Te ha tocado neutralizar esta frase:</p>
                         <div id="d5-frase-asignada" class="case-box" style="border-left-color: var(--red-btn);">...</div>
-                        <label class="title-label">Aplica Judo Verbal:</label>
+                        <label class="title-label">Aplica Judo Verbal (Respuesta Técnica):</label>
                         <textarea id="d5-respuesta-judo" rows="4" placeholder="Amortiguador + Pivote + Gancho..."></textarea>
                         <button class="btn-submit" id="btn-submit-d5-final" onclick="enviarRespuestaD5()">Enviar Respuesta Anónima</button>
                     </div>
@@ -411,12 +467,14 @@
         <section id="view-d6" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>D6: Aduana de Palabras</h2>
+            
             <div id="intro-d6" class="intro-container">
-                <p>Propón una alternativa técnica y profesional para cada una de estas frases prohibidas.</p>
-                <button class="btn-submit" onclick="startActivity('d6')">Entrar en la Dinámica</button>
+                <p><strong>Enunciado:</strong> Propón una alternativa técnica y profesional para cada una de estas frases prohibidas.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d6')">Entrar en la Dinámica</button>
             </div>
+
             <div id="content-d6" class="activity-container">
-                <div class="local-save-info">📝 Los cambios se guardan en tu móvil. Envía cuando estés listo.</div>
+                <div class="local-save-info">📝 Tus propuestas se guardan automáticamente en tu móvil.</div>
                 <div class="autosave-status" id="d6-autosave">Guardado ✓</div>
                 <label class="title-label">En lugar de decir "¡Cálmese!" diré:</label>
                 <input type="text" id="d6-alt1" class="input-group">
@@ -424,27 +482,29 @@
                 <input type="text" id="d6-alt2" class="input-group">
                 <label class="title-label">En lugar de decir "No me grite" diré:</label>
                 <input type="text" id="d6-alt3" class="input-group">
-                <button class="btn-submit" id="btn-submit-d6" onclick="enviarD6()">Enviar Respuesta Anónima</button>
-                <div id="d6-success" class="success-msg">Alternativas enviadas.</div>
+                <button class="btn-submit" id="btn-submit-d6" onclick="enviarD6()">Pasar la Aduana de forma anónima</button>
+                <div id="d6-success" class="success-msg">Alternativas enviadas. Puedes modificar y reenviar.</div>
             </div>
         </section>
 
         <section id="view-a2" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>A2: El Muro de Cristal</h2>
+            
             <div id="intro-a2" class="intro-container">
-                <p>Divide la información de la llamada en dos bloques: qué rebota y qué atraviesa.</p>
-                <button class="btn-submit" onclick="startActivity('a2')">Entrar en la Actividad</button>
+                <p><strong>Enunciado:</strong> Divide la información de la llamada asignada en dos bloques: qué rebota y qué atraviesa tu muro.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('a2')">Entrar en la Actividad</button>
             </div>
+
             <div id="content-a2" class="activity-container">
-                <div class="local-save-info">📝 Los cambios se guardan en tu móvil. Envía cuando estés listo.</div>
+                <div class="local-save-info">📝 Tu análisis se guarda automáticamente.</div>
                 <div class="autosave-status" id="a2-autosave">Guardado ✓</div>
                 <div id="a2-case-box" class="case-box">Cargando conversación...</div>
-                <label class="title-label">Rebota en tu muro (Ataque):</label>
+                <label class="title-label">Rebota en tu muro (Ataque/Emoción):</label>
                 <textarea id="a2-rebotar" rows="2"></textarea>
                 <label class="title-label" style="margin-top:1rem;">ATRAVESAR (Hecho Técnico):</label>
                 <textarea id="a2-atravesar" rows="2"></textarea>
-                <button class="btn-submit" id="btn-submit-a2" onclick="enviarA2()">Enviar Respuesta Anónima</button>
+                <button class="btn-submit" id="btn-submit-a2" onclick="enviarA2()">Enviar Análisis anónimo</button>
                 <div id="a2-success" class="success-msg">Análisis enviado al facilitador.</div>
             </div>
         </section>
@@ -452,12 +512,14 @@
         <section id="view-a3" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>A3: Crear Puentes</h2>
+            
             <div id="intro-a3" class="intro-container">
-                <p>Corrige la respuesta del gestor redactándola con la técnica táctica de 3 pasos.</p>
-                <button class="btn-submit" onclick="startActivity('a3')">Entrar en la Actividad</button>
+                <p><strong>Enunciado:</strong> Corrige la respuesta del gestor redactándola con la técnica táctica de 3 pasos.</p>
+                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('a3')">Entrar en la Actividad</button>
             </div>
+
             <div id="content-a3" class="activity-container">
-                <div class="local-save-info">📝 Los cambios se guardan en tu móvil. Envía cuando estés listo.</div>
+                <div class="local-save-info">📝 Tu puente se guarda automáticamente.</div>
                 <div class="autosave-status" id="a3-autosave">Guardado ✓</div>
                 <div id="a3-case-box" class="case-box">Cargando interacción...</div>
                 <label class="title-label">1. Amortiguador:</label>
@@ -466,28 +528,28 @@
                 <input type="text" id="a3-pivote" class="input-group">
                 <label class="title-label">3. Gancho:</label>
                 <input type="text" id="a3-gancho" class="input-group">
-                <button class="btn-submit" id="btn-submit-a3" onclick="enviarA3()">Enviar Respuesta Anónima</button>
+                <button class="btn-submit" id="btn-submit-a3" onclick="enviarA3()">Enviar Puente anónimo</button>
                 <div id="a3-success" class="success-msg">Puente enviado al facilitador.</div>
             </div>
         </section>
 
         <section id="view-d7" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
-            <h2>D7: Hoja de Ruta (PRP)</h2>
+            <h2>D7: Hoja de Ruta Personal (PRP)</h2>
             <div id="intro-d7" class="intro-container">
-                <p>Concreta tu "EPI Mental" para la jornada de mañana definiendo tres elementos clave.</p>
+                <p><strong>Enunciado:</strong> Concreta tu "EPI Mental" para la jornada de mañana definiendo tres elementos clave.</p>
                 <button class="btn-submit" onclick="startActivity('d7')">Entrar en la Dinámica</button>
             </div>
             <div id="content-d7" class="activity-container">
-                <div class="local-save-info">📝 Tu protocolo personal es privado y editable.</div>
+                <div class="local-save-info">📝 Tu protocolo personal se guarda de forma privada en tu móvil y es editable.</div>
                 <div class="autosave-status" id="d7-autosave">Guardado ✓</div>
                 <div class="input-group" style="margin-top: 1rem;">
                     <label class="title-label">Mi Señal (Detección):</label>
-                    <input type="text" id="plan-senal">
+                    <input type="text" id="plan-senal" placeholder="Ej: Nudo en el estómago">
                 </div>
                 <div class="input-group">
                     <label class="title-label">Mi Escudo (Compromiso 24H):</label>
-                    <input type="text" id="plan-comp">
+                    <input type="text" id="plan-comp" placeholder="Ej: Validar urgencia sin dar la razón">
                 </div>
                 <div class="input-group" style="margin-bottom: 0;">
                     <label class="title-label">Mi Reset (Protocolo Post-Llamada):</label>
@@ -497,8 +559,8 @@
                         <option value="frase">Repetir mi frase de seguridad</option>
                     </select>
                 </div>
-                <button class="btn-submit" id="btn-submit-d7" onclick="enviarD7()" style="margin-top: 1.5rem;">Enviar Protocolo Anónimo</button>
-                <div id="d7-success" class="success-msg">¡Protocolo enviado al facilitador!</div>
+                <button class="btn-submit" id="btn-submit-d7" onclick="enviarD7()" style="margin-top: 1.5rem;">Enviar Protocolo de forma anónima</button>
+                <div id="d7-success" class="success-msg">¡Protocolo enviado! Queda guardado localmente.</div>
             </div>
         </section>
 
@@ -519,7 +581,7 @@
 
         <section id="view-anotaciones" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
-            <h2>Mi Cuaderno</h2>
+            <h2>Mis Anotaciones</h2>
             <p style="font-size:0.85rem; color:#64748b; margin-bottom:1rem;">Usa este espacio para tomar notas de la formación.</p>
             <div class="local-save-info">📝 Tus notas son privadas y se guardan automáticamente en tu móvil.</div>
             <div class="autosave-status" id="autosave-anotaciones">Guardado ✓</div>
