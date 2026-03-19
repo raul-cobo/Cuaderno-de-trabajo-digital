@@ -189,7 +189,8 @@
             <h3 class="module-title" style="color: var(--blue-sos); border-color: var(--blue-sos); margin-top: 1.5rem;">Herramientas Libres (Día a Día)</h3>
             <div class="dashboard-grid">
                 <button class="btn-dash mod-free" onclick="openFree('judo')"><i>💬</i> Judo Verbal</button>
-                <button class="btn-dash mod-free" onclick="openFree('reporte')"><i>📊</i> Enviar Reporte</button>
+                <button class="btn-dash mod-free" onclick="openFree('anotaciones')"><i>📝</i> Anotaciones</button>
+                <button class="btn-dash mod-free" onclick="openFree('reporte')" style="grid-column: span 2;"><i>📊</i> Enviar Reporte Final</button>
             </div>
         </section>
 
@@ -274,7 +275,9 @@
                     <div class="ranking-header"><span>Estado actual:</span><span id="ranking-counter">0/3</span></div>
                     <div class="ranking-list" id="ranking-list"></div>
                 </div>
-                <p style="font-size: 0.8rem; color: #64748b; margin-top: 1rem; text-align: center;">Tus respuestas se enviarán al ranking anónimo general desde la pestaña "Enviar Reporte".</p>
+                
+                <button class="btn-submit" id="btn-submit-d2" onclick="enviarD2()" style="margin-top: 1.5rem;">Enviar Ranking de forma anónima</button>
+                <div id="d2-success" class="success-msg">¡Ranking enviado al facilitador! Puedes modificarlo más tarde.</div>
             </div>
         </section>
 
@@ -283,7 +286,7 @@
             <h2>A1: Mapa de Alerta (IRE)</h2>
             
             <div id="intro-a1" class="intro-container">
-                <p><strong>Enunciado:</strong> El primer paso para evitar el secuestro emocional es detectarlo a tiempo. Basándote en el Inventario de Reactividad al Estrés (IRE), marca los <strong>3 síntomas físicos</strong> que notas primero cuando una llamada se complica, e indica con qué frecuencia (en %) te ocurren. Tienes espacio al final para añadir otros síntomas no listados.</p>
+                <p><strong>Enunciado:</strong> El primer paso para evitar el secuestro emocional es detectarlo a tiempo. Basándote en el Inventario de Reactividad al Estrés (IRE), marca los <strong>3 síntomas físicos</strong> que notas primero cuando una llamada se complica, e indica con qué frecuencia (en %) te ocurren.</p>
                 <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('a1')">Entrar en la Actividad</button>
             </div>
 
@@ -316,7 +319,7 @@
                 <div id="d3-case-box" class="case-box">Cargando caso...</div>
                 <label class="title-label">Tu Respuesta Técnica:</label>
                 <textarea id="d3-respuesta" rows="4" placeholder="Escribe aquí tu reencuadre..."></textarea>
-                <button class="btn-submit" id="btn-submit-d3" onclick="enviarD3()">Enviar Análisis</button>
+                <button class="btn-submit" id="btn-submit-d3" onclick="enviarD3()">Enviar Análisis anónimo</button>
                 <div id="d3-success" class="success-msg">Respuesta enviada. Atiende a la pantalla del facilitador.</div>
             </div>
         </section>
@@ -340,11 +343,11 @@
                 <button class="btn-submit" style="background-color: var(--orange-btn); margin-bottom: 1.5rem;" onclick="toggleSOS()">🔥 INICIAR TEST (4-7-8)</button>
                 
                 <label class="title-label">2. Tras realizar la prueba, ¿te sientes más centrado/a?</label>
-                <div style="display: flex; gap: 10px; margin-top: 0.5rem;">
-                    <button class="btn-conflict" style="background: var(--green-success);" onclick="document.getElementById('d4-success').style.display='block'">Sí, lo noto</button>
-                    <button class="btn-conflict" style="background: #94a3b8;" onclick="document.getElementById('d4-success').style.display='block'">No mucho</button>
+                <div style="display: flex; gap: 10px; margin-top: 0.5rem;" id="d4-botones-respuesta">
+                    <button class="btn-conflict" style="background: var(--green-success);" onclick="enviarD4('Sí')">Sí, lo noto</button>
+                    <button class="btn-conflict" style="background: #94a3b8;" onclick="enviarD4('No')">No mucho</button>
                 </div>
-                <div id="d4-success" class="success-msg">Evaluación completada. Gracias por participar.</div>
+                <div id="d4-success" class="success-msg">Evaluación enviada. Gracias por participar.</div>
             </div>
         </section>
 
@@ -361,7 +364,7 @@
                 <div id="d5-fase-envio">
                     <label class="title-label">Tu frase crítica (la que recibiste):</label>
                     <textarea id="d5-frase-propia" rows="3" placeholder="Ej: Llevo pagando 10 años para que ahora me digas que..."></textarea>
-                    <button class="btn-submit" id="btn-envio-d5" onclick="faseEnvioD5()">Subir frase al servidor</button>
+                    <button class="btn-submit" id="btn-envio-d5" onclick="faseEnvioD5()">Subir frase de forma anónima</button>
                 </div>
 
                 <div id="d5-fase-judo" style="display:none;">
@@ -373,7 +376,7 @@
                         
                         <label class="title-label">Aplica Judo Verbal (Respuesta Técnica):</label>
                         <textarea id="d5-respuesta-judo" rows="4" placeholder="Amortiguador + Pivote + Gancho..."></textarea>
-                        <button class="btn-submit" id="btn-submit-d5-final" onclick="enviarRespuestaD5()">Enviar Respuesta Final</button>
+                        <button class="btn-submit" id="btn-submit-d5-final" onclick="enviarRespuestaD5()">Enviar Respuesta anónima</button>
                     </div>
                 </div>
 
@@ -400,7 +403,7 @@
                 <label class="title-label">En lugar de decir "No me grite" diré:</label>
                 <input type="text" id="d6-alt3" class="input-group" placeholder="Tu alternativa...">
 
-                <button class="btn-submit" id="btn-submit-d6" onclick="enviarD6()">Pasar la Aduana</button>
+                <button class="btn-submit" id="btn-submit-d6" onclick="enviarD6()">Pasar la Aduana de forma anónima</button>
                 <div id="d6-success" class="success-msg">Alternativas enviadas con éxito.</div>
             </div>
         </section>
@@ -421,7 +424,7 @@
                 <textarea id="a2-rebotar" rows="2" placeholder="Ej: inútiles, estafadores..."></textarea>
                 <label class="title-label" style="margin-top:1rem;">Lo que debe ATRAVESAR (Hecho Técnico):</label>
                 <textarea id="a2-atravesar" rows="2" placeholder="Ej: Rotura de tubería..."></textarea>
-                <button class="btn-submit" id="btn-submit-a2" onclick="enviarA2()">Enviar Análisis</button>
+                <button class="btn-submit" id="btn-submit-a2" onclick="enviarA2()">Enviar Análisis anónimo</button>
                 <div id="a2-success" class="success-msg">Análisis enviado al facilitador.</div>
             </div>
         </section>
@@ -444,7 +447,7 @@
                 <input type="text" id="a3-pivote" class="input-group" placeholder="Ej: ...por eso mismo mi labor ahora es...">
                 <label class="title-label">3. Gancho (Acción):</label>
                 <input type="text" id="a3-gancho" class="input-group" placeholder="Ej: ...necesito que me confirme su DNI.">
-                <button class="btn-submit" id="btn-submit-a3" onclick="enviarA3()">Enviar Puente</button>
+                <button class="btn-submit" id="btn-submit-a3" onclick="enviarA3()">Enviar Puente anónimo</button>
                 <div id="a3-success" class="success-msg">Puente enviado. Revisaremos casos en público.</div>
             </div>
         </section>
@@ -476,6 +479,9 @@
                         <option value="frase">Repetir mi frase de seguridad</option>
                     </select>
                 </div>
+                
+                <button class="btn-submit" id="btn-submit-d7" onclick="enviarD7()" style="margin-top: 1.5rem;">Enviar Protocolo de forma anónima</button>
+                <div id="d7-success" class="success-msg">¡Protocolo enviado! Queda guardado localmente en tu dispositivo.</div>
             </div>
         </section>
 
@@ -494,6 +500,18 @@
             </div>
         </section>
 
+        <section id="view-anotaciones" class="view-section section-card">
+            <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
+            <h2>Mis Anotaciones</h2>
+            <p style="font-size:0.85rem; color:#64748b; margin-bottom:1rem;">Usa este espacio para tomar notas de la formación. Se guardarán automáticamente en tu dispositivo. Si tienes dudas o quieres compartir algo con el facilitador, envíalas de forma anónima.</p>
+            
+            <div class="autosave-status" id="autosave-anotaciones">Guardado ✓</div>
+            <textarea id="texto-anotaciones" rows="8" placeholder="Escribe aquí tus reflexiones, dudas o ideas clave..."></textarea>
+            
+            <button class="btn-submit" id="btn-submit-anotaciones" onclick="enviarAnotaciones()" style="background-color: var(--blue-dark); margin-top: 1.5rem;">Enviar al Facilitador (Anónimo)</button>
+            <div id="anotaciones-success" class="success-msg">Anotaciones enviadas al panel del facilitador.</div>
+        </section>
+
         <section id="view-reporte" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>Envío de Métricas Grupales</h2>
@@ -507,7 +525,7 @@
                     <span>Acepto el envío de mis datos estadísticos de forma anónima (Ver <a href="privacidad.html" target="_blank">Privacidad</a>).</span>
                 </label>
             </div>
-            <button style="width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--green-success); color: white; cursor: pointer;" id="btn-enviar" onclick="enviarMetricas()" disabled>Enviar Reporte Anónimo</button>
+            <button style="width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--green-success); color: white; cursor: pointer;" id="btn-enviar" onclick="enviarMetricas()" disabled>Enviar Reporte Final Anónimo</button>
         </section>
 
         <footer>PsycoIntera - Equipos que Impulsan © 2026</footer>
@@ -548,7 +566,8 @@
             'd1': 'view-d1', 'd2': 'view-d2', 'a1': 'view-a1', 
             'd3': 'view-d3', 'd4': 'view-d4', 'a2': 'view-a2', 
             'd5': 'view-d5', 'd6': 'view-d6',
-            'a3': 'view-a3', 'd7': 'view-d7', 'psycointera': 'view-psycointera'
+            'a3': 'view-a3', 'd7': 'view-d7', 'psycointera': 'view-psycointera',
+            'anotaciones': 'view-anotaciones'
         };
 
         let currentTargetId = null;
@@ -745,6 +764,19 @@
             fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ tipoEvento: "Voto_D1", eleccionD1: eleccion }) });
         }
 
+        // --- D2: RANKING ENVÍO INDIVIDUAL ---
+        function enviarD2() {
+            if (selectedTriggers.length === 0) return alert("Selecciona al menos 1 disparador.");
+            enviarEjercicio('D2_VOTO', { triggersSeleccionados: selectedTriggers.join(',') }, 'd2-success', 'btn-submit-d2');
+        }
+
+        // --- D4: TEST BIOFEEDBACK ENVÍO ---
+        function enviarD4(respuesta) {
+            document.getElementById('d4-botones-respuesta').style.display = 'none';
+            document.getElementById('d4-success').style.display = 'block';
+            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ tipoEvento: "D4_VOTO", respuesta: respuesta }) });
+        }
+
         // --- A1: MAPA DE ALERTA (IRE) ENVÍO ---
         function enviarA1() {
             if (selectedA1.length === 0) {
@@ -793,6 +825,24 @@
                 btn.innerText = 'Error al enviar. Reintentar';
             });
         }
+
+        // --- D7: PRP ENVÍO ---
+        function enviarD7() {
+            const senal = document.getElementById('plan-senal').value;
+            const escudo = document.getElementById('plan-comp').value;
+            const proto = document.getElementById('plan-proto').value;
+            if(!senal || !escudo) return alert("Por favor, completa tu señal y escudo antes de enviar.");
+            
+            enviarEjercicio('D7_VOTO', { senal: senal, escudo: escudo, reset: proto }, 'd7-success', 'btn-submit-d7');
+        }
+
+        // --- ANOTACIONES ENVÍO ---
+        function enviarAnotaciones() {
+            const notas = document.getElementById('texto-anotaciones').value;
+            if(notas.trim().length < 5) return alert("Escribe algo antes de enviar.");
+            enviarEjercicio('ANOTACIONES_VOTO', { notas: notas }, 'anotaciones-success', 'btn-submit-anotaciones');
+        }
+
 
         // --- LÓGICA DINÁMICA 5 (REDISTRIBUCIÓN REAL) ---
         async function faseEnvioD5() {
@@ -1037,7 +1087,7 @@
         }
 
         function enviarMetricas() {
-            if (selectedTriggers.length < 3) { alert("Completa la Dinámica 2 (selecciona 3) antes de enviar."); return; }
+            // Ya no es obligatorio enviar D2 aquí si ya se envió antes, pero podemos mandar un backup
             const btn = document.getElementById('btn-enviar'); 
             btn.innerText = 'Enviando...'; btn.disabled = true;
 
@@ -1045,7 +1095,7 @@
                 tipoEvento: "REPORTE_GRAL",
                 nivelEstres: document.getElementById('estres-slider').value,
                 triggersSeleccionados: selectedTriggers.join(','),
-                diagUmbral: document.getElementById('diag-umbral').value || "0",
+                diagUmbral: document.getElementById('diag-umbral') ? document.getElementById('diag-umbral').value : "0",
                 planProto: document.getElementById('plan-proto').value
             };
 
@@ -1054,11 +1104,17 @@
         }
 
         // --- INICIALIZACIÓN ---
-        const autoSaveElements = [ { id: 'diag-umbral', type: 'value' }, { id: 'plan-senal', type: 'value' }, { id: 'plan-comp', type: 'value' }, { id: 'plan-proto', type: 'value' } ];
+        const autoSaveElements = [ { id: 'plan-senal', type: 'value' }, { id: 'plan-comp', type: 'value' }, { id: 'plan-proto', type: 'value' }, { id: 'texto-anotaciones', type: 'value', statusId: 'autosave-anotaciones' } ];
 
-        function triggerSaveStatus(element) {
-            const card = element.closest('.section-card'); if(!card) return;
-            const statusIndicator = card.querySelector('.autosave-status');
+        function triggerSaveStatus(element, customStatusId) {
+            let statusIndicator = null;
+            if(customStatusId) {
+                statusIndicator = document.getElementById(customStatusId);
+            } else {
+                const card = element.closest('.section-card'); if(!card) return;
+                statusIndicator = card.querySelector('.autosave-status');
+            }
+            
             if (statusIndicator) { statusIndicator.style.opacity = '1'; setTimeout(() => statusIndicator.style.opacity = '0', 2000); }
         }
 
@@ -1091,12 +1147,14 @@
                 const el = document.getElementById(item.id); if (!el) return;
                 const saved = localStorage.getItem(item.id);
                 if (saved !== null) el.value = saved;
-                el.addEventListener('input', () => { localStorage.setItem(item.id, el.value); triggerSaveStatus(el); });
+                el.addEventListener('input', () => { localStorage.setItem(item.id, el.value); triggerSaveStatus(el, item.statusId); });
             });
 
             if (localStorage.getItem('user-consent') === 'true') {
-                document.getElementById('check-consentimiento').checked = true;
-                document.getElementById('btn-enviar').disabled = false;
+                const chk = document.getElementById('check-consentimiento');
+                if(chk) chk.checked = true;
+                const btnEnv = document.getElementById('btn-enviar');
+                if(btnEnv) btnEnv.disabled = false;
             }
         };
 
