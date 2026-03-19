@@ -2,140 +2,231 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>CONSOLA PRO - Facilitador PsycoIntera</title>
+    <title>CONSOLA - Facilitador PsycoIntera</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0f172a; color: white; padding: 20px; margin: 0; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1200px; margin: 0 auto; }
-        .card { background: #1e293b; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); border: 1px solid #334155; }
-        h1 { text-align: center; color: #3b82f6; margin-bottom: 5px;}
-        h3 { text-align: center; color: #94a3b8; margin-top: 0; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em;}
-        .btn-refresh { display: block; width: 250px; margin: 20px auto 40px auto; padding: 12px; background: #10b981; border: none; color: white; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: background 0.2s; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); }
-        .btn-refresh:hover { background: #059669; }
-        .btn-refresh:active { transform: scale(0.98); }
+        :root {
+            --bg-dark: #0f172a;
+            --panel-bg: #1e293b;
+            --blue-corp: #1976D2;
+            --text-light: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --border-color: #334155;
+        }
+
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-dark); color: var(--text-light); margin: 0; display: flex; height: 100vh; overflow: hidden; }
         
-        #login-gate { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f172a; display: flex; justify-content: center; align-items: center; z-index: 1000; }
-        .pin-box { background: white; padding: 40px; border-radius: 16px; text-align: center; color: #1f2937; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .pin-box h2 { margin-top: 0; color: #3b82f6; }
-        input { font-size: 2.5rem; width: 180px; text-align: center; margin-bottom: 20px; display: block; margin-left: auto; margin-right: auto; padding: 10px; border: 2px solid #cbd5e1; border-radius: 8px; letter-spacing: 0.2em; outline: none;}
-        input:focus { border-color: #3b82f6; }
+        /* Sidebar de Navegación */
+        nav { width: 250px; background: var(--panel-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 20px 0; }
+        .nav-brand { text-align: center; color: var(--blue-corp); font-weight: 900; font-size: 1.2rem; margin-bottom: 20px; letter-spacing: 1px;}
+        .nav-btn { background: transparent; border: none; color: var(--text-muted); padding: 15px 20px; text-align: left; font-size: 1rem; font-weight: bold; cursor: pointer; transition: 0.2s; border-left: 4px solid transparent; }
+        .nav-btn:hover { background: rgba(25, 118, 210, 0.1); color: var(--text-light); }
+        .nav-btn.active { background: rgba(25, 118, 210, 0.2); color: var(--blue-corp); border-left-color: var(--blue-corp); }
+        
+        .sync-btn { margin: auto 20px 20px 20px; padding: 12px; background: var(--accent-green); border: none; color: white; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); }
+        .sync-btn:active { transform: scale(0.98); }
+
+        /* Área Principal */
+        main { flex: 1; padding: 30px; overflow-y: auto; }
+        .view-section { display: none; animation: fadeIn 0.3s ease; }
+        .view-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Componentes de Gráficas */
+        .grid-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .card { background: var(--panel-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); }
+        .card h3 { text-align: center; color: var(--text-muted); margin-top: 0; font-size: 1rem; text-transform: uppercase; }
+
+        /* Componentes de Tarjetas de Texto (Para proyectar) */
+        .grid-cards { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        .text-card { background: var(--panel-bg); padding: 20px; border-radius: 8px; border-left: 5px solid var(--blue-corp); }
+        .text-card.red-border { border-left-color: var(--accent-red); }
+        .text-card-header { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; text-transform: uppercase; font-weight: bold; }
+        .text-card-body { font-size: 1.2rem; line-height: 1.5; color: var(--text-light); }
+        .text-card-sub { font-size: 1rem; color: var(--accent-green); margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border-color); }
+
+        /* Login Gate */
+        #login-gate { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .pin-box { background: white; padding: 40px; border-radius: 16px; text-align: center; color: #1f2937; }
+        .pin-box input { font-size: 2.5rem; width: 180px; text-align: center; margin-bottom: 20px; padding: 10px; border: 2px solid #cbd5e1; border-radius: 8px; letter-spacing: 0.2em; outline: none; }
+        .btn-unlock { width: 100%; padding: 12px; background: var(--blue-corp); border: none; color: white; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; }
     </style>
 </head>
 <body>
 
     <div id="login-gate">
         <div class="pin-box">
-            <h2>Consola Facilitador</h2>
-            <p style="color: #6b7280; margin-bottom: 20px; font-size: 0.9rem;">Acceso restringido. Introduce el PIN Maestro.</p>
+            <h2 style="margin-top: 0; color: var(--blue-corp);">Consola Facilitador</h2>
             <input type="password" id="master-pin" placeholder="••••">
-            <button class="btn-refresh" style="margin-bottom: 0; width: 100%;" onclick="login()">Desbloquear Panel</button>
+            <button class="btn-unlock" onclick="login()">Desbloquear Panel</button>
         </div>
     </div>
 
-    <h1>📊 PANEL DE CONTROL EN TIEMPO REAL</h1>
-    <button class="btn-refresh" onclick="fetchData()">🔄 ACTUALIZAR GRÁFICAS</button>
+    <nav>
+        <div class="nav-brand">PSYCOINTERA PRO</div>
+        <button class="nav-btn active" onclick="switchView('graficas', this)">📊 Gráficas Generales</button>
+        <button class="nav-btn" onclick="switchView('d3', this)">🪞 D3: Espejo</button>
+        <button class="nav-btn" onclick="switchView('d5', this)">🥋 D5: Laboratorio</button>
+        <button class="nav-btn" onclick="switchView('d6', this)">🛂 D6: Aduana</button>
+        <button class="nav-btn" onclick="switchView('a2', this)">🛡️ A2: Muro Cristal</button>
+        <button class="nav-btn" onclick="switchView('a3', this)">🌉 A3: Puentes</button>
+        
+        <button class="sync-btn" onclick="fetchData()">🔄 SINCRONIZAR DATOS</button>
+    </nav>
 
-    <div class="grid">
-        <div class="card">
-            <h3>D1: La Selva (Vía Rápida vs Lenta)</h3>
-            <canvas id="chartD1"></canvas>
+    <main>
+        <div id="view-graficas" class="view-section active">
+            <div class="grid-charts">
+                <div class="card">
+                    <h3>D1: La Selva (Vía Rápida vs Lenta)</h3>
+                    <canvas id="chartD1"></canvas>
+                </div>
+                <div class="card">
+                    <h3>D2: Top Disparadores</h3>
+                    <canvas id="chartD2"></canvas>
+                </div>
+                <div class="card" style="grid-column: span 2;">
+                    <h3>IRE: Sensaciones Físicas</h3>
+                    <canvas id="chartIRE" style="max-height: 250px;"></canvas>
+                </div>
+            </div>
         </div>
-        <div class="card">
-            <h3>D2: Top Disparadores (Ranking)</h3>
-            <canvas id="chartD2"></canvas>
+
+        <div id="view-d3" class="view-section">
+            <h2 style="color: var(--blue-corp); margin-top:0;">D3: Espejo Profesional</h2>
+            <div class="grid-cards" id="container-d3">
+                <div style="color: var(--text-muted);">Sincroniza para ver respuestas...</div>
+            </div>
         </div>
-        <div class="card" style="grid-column: span 2;">
-            <h3>IRE: Mapa de Sensaciones Físicas</h3>
-            <canvas id="chartIRE" style="max-height: 250px;"></canvas>
+
+        <div id="view-d5" class="view-section">
+            <h2 style="color: var(--blue-corp); margin-top:0;">D5: Laboratorio de Frases (Judo Verbal)</h2>
+            <div class="grid-cards" id="container-d5"></div>
         </div>
-    </div>
+
+        <div id="view-d6" class="view-section">
+            <h2 style="color: var(--blue-corp); margin-top:0;">D6: Aduana de Palabras</h2>
+            <div class="grid-cards" id="container-d6"></div>
+        </div>
+
+        <div id="view-a2" class="view-section">
+            <h2 style="color: var(--blue-corp); margin-top:0;">A2: El Muro de Cristal</h2>
+            <div class="grid-cards" id="container-a2"></div>
+        </div>
+
+        <div id="view-a3" class="view-section">
+            <h2 style="color: var(--blue-corp); margin-top:0;">A3: Puentes de Comunicación</h2>
+            <div class="grid-cards" id="container-a3"></div>
+        </div>
+    </main>
 
     <script>
-        // CONFIGURACIÓN
-        const GOOGLE_URL = 'https://script.google.com/macros/s/AKfycbzBnz289ldXCZQLYvqqJ5k2EcIjUERpTQyBccycsO7dVxNVI1XNbU9pXRwdbrWH8U4b/exec';
+        const GOOGLE_URL = 'https://script.google.com/macros/s/AKfycbxjIImbQM24bu0wfEt1jvFSSfOJ39HYl0vn1KRvd2WHIv0WkAJuApA2vYA2gJKvQf-h/exec';
         const MASTER_PIN = '5629';
         
-        // Variables para las gráficas
         let chart1, chart2, chart3;
-
-        // Configuración global de Chart.js para Modo Oscuro
-        Chart.defaults.color = '#94a3b8'; // Color del texto de leyendas y ejes
-        Chart.defaults.borderColor = '#334155'; // Color de las líneas de la cuadrícula
+        Chart.defaults.color = '#94a3b8'; 
+        Chart.defaults.borderColor = '#334155';
 
         function login() {
             if (document.getElementById('master-pin').value === MASTER_PIN) {
                 document.getElementById('login-gate').style.display = 'none';
                 fetchData();
             } else { 
-                alert('PIN Incorrecto. Acceso denegado.'); 
-                document.getElementById('master-pin').value = '';
+                alert('PIN Incorrecto'); document.getElementById('master-pin').value = '';
             }
         }
 
-        // Permite usar "Enter" en el teclado para acceder
-        document.getElementById('master-pin').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') login();
-        });
+        document.getElementById('master-pin').addEventListener('keypress', function (e) { if (e.key === 'Enter') login(); });
+
+        function switchView(viewId, btn) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById('view-' + viewId).classList.add('active');
+            btn.classList.add('active');
+        }
 
         async function fetchData() {
-            const btn = document.querySelector('h1 + .btn-refresh');
-            const originalText = btn.innerText;
-            btn.innerText = '⏳ DESCARGANDO DATOS...';
-            
+            const btn = document.querySelector('.sync-btn');
+            btn.innerText = '⏳ DESCARGANDO...';
             try {
                 const response = await fetch(GOOGLE_URL);
                 const data = await response.json();
                 processData(data);
-                btn.innerText = originalText;
+                btn.innerText = '✅ DATOS ACTUALIZADOS';
+                setTimeout(() => btn.innerText = '🔄 SINCRONIZAR DATOS', 3000);
             } catch (e) { 
-                console.error("Error leyendo datos:", e); 
-                btn.innerText = '❌ ERROR DE CONEXIÓN';
-                setTimeout(() => btn.innerText = originalText, 3000);
+                btn.innerText = '❌ ERROR';
+                setTimeout(() => btn.innerText = '🔄 SINCRONIZAR DATOS', 3000);
             }
         }
 
-        function processData(rows) {
-            // Contadores D1
-            let d1Counts = { saltar: 0, observar: 0, avanzar: 0 };
+        function createCard(containerId, header, body, sub = null, isRed = false) {
+            const container = document.getElementById(containerId);
+            const card = document.createElement('div');
+            card.className = 'text-card' + (isRed ? ' red-border' : '');
             
-            // Contadores D2
-            let d2Counts = {}; 
-            const nombresD2 = {
-                t1: "Falta de respeto", t2: "No cobertura", t3: "Carga de trabajo", t4: "Fallo reparador",
-                t5: "Falta info perito", t6: "Amenaza reclamación", t7: "Carga emocional", t8: "Pedir datos enfadado",
-                t9: "Presión TMO", t10: "Fallo de sistema"
-            };
+            let html = `<div class="text-card-header">${header}</div><div class="text-card-body">${body}</div>`;
+            if(sub) html += `<div class="text-card-sub">${sub}</div>`;
+            
+            card.innerHTML = html;
+            container.appendChild(card);
+        }
 
-            // Contadores IRE
+        function processData(rows) {
+            // Resetear contenedores de texto
+            ['container-d3', 'container-d5', 'container-d6', 'container-a2', 'container-a3'].forEach(id => {
+                document.getElementById(id).innerHTML = '';
+            });
+
+            let d1Counts = { saltar: 0, observar: 0, avanzar: 0 };
+            let d2Counts = {}; 
+            const nombresD2 = { t1: "Falta de respeto", t2: "No cobertura", t3: "Carga de trabajo", t4: "Fallo reparador", t5: "Falta info perito", t6: "Amenaza reclamación", t7: "Carga emocional", t8: "Pedir datos", t9: "Presión TMO", t10: "Fallo de sistema" };
             let ireCounts = { taqui: 0, tension: 0, sudor: 0 };
 
+            // La estructura del JSON ahora usa col0, col1, col2, etc. (basado en el nuevo doGet)
             rows.forEach(row => {
-                // Extraemos los valores ignorando cómo se llamen las cabeceras en Google Sheets (basado en índices)
-                const cols = Object.values(row); 
-                const tipoEvento = cols[1]; // Columna B: Tipo de Evento
+                const tipo = row.col1;
 
-                if (tipoEvento === "D1_VOTO") {
-                    const voto = cols[2]; // Columna C: Elección D1
-                    if (d1Counts[voto] !== undefined) d1Counts[voto]++;
+                if (tipo === "Voto_D1") {
+                    if (d1Counts[row.col2] !== undefined) d1Counts[row.col2]++;
                 } 
-                else if (tipoEvento === "REPORTE_GRAL") {
-                    // D2: Triggers están en la columna F (Índice 5)
-                    const triggersStr = cols[5];
-                    if (typeof triggersStr === 'string' && triggersStr.trim() !== "") {
-                        let triggers = triggersStr.split(',');
-                        triggers.forEach(t => {
-                            if (t) d2Counts[t] = (d2Counts[t] || 0) + 1;
-                        });
+                else if (tipo === "REPORTE_GRAL") {
+                    if (row.col4 && typeof row.col4 === 'string') {
+                        let triggers = row.col4.split(',');
+                        triggers.forEach(t => { if (t) d2Counts[t] = (d2Counts[t] || 0) + 1; });
                     }
-
-                    // IRE: Síntomas están concatenados en la columna E (Índice 4) ej: "Sí,No,Sí"
-                    const ireStr = cols[4];
-                    if (typeof ireStr === 'string' && ireStr.includes(',')) {
-                        let parts = ireStr.split(',');
+                    if (row.col3 && typeof row.col3 === 'string') {
+                        let parts = row.col3.split(',');
                         if (parts[0] === "Sí") ireCounts.taqui++;
                         if (parts[1] === "Sí") ireCounts.tension++;
                         if (parts[2] === "Sí") ireCounts.sudor++;
                     }
+                }
+                else if (tipo === "D3_VOTO") {
+                    createCard('container-d3', `Caso Aleatorio asignado`, row.col3);
+                }
+                else if (tipo === "D5_RESPUESTA_FINAL") {
+                    createCard('container-d5', `Frase Recibida:`, `"${row.col2}"`, `<strong>Respuesta Judo:</strong> ${row.col3}`, true);
+                }
+                else if (tipo === "D6_VOTO") {
+                    createCard('container-d6', `Alternativas propuestas`, `
+                        1. En vez de "Cálmese": <span style="color:#10b981">${row.col2}</span><br>
+                        2. En vez de "Culpa": <span style="color:#10b981">${row.col3}</span><br>
+                        3. En vez de "No grite": <span style="color:#10b981">${row.col4}</span>
+                    `);
+                }
+                else if (tipo === "A2_VOTO") {
+                    createCard('container-a2', `Análisis del Muro`, `<span style="color:#ef4444">Rebota:</span> ${row.col3}`, `<span style="color:#10b981">Atraviesa:</span> ${row.col4}`);
+                }
+                else if (tipo === "A3_VOTO") {
+                    createCard('container-a3', `Puente Construido`, `
+                        <strong>Amortiguador:</strong> ${row.col3}<br>
+                        <strong>Pivote:</strong> ${row.col4}<br>
+                        <strong>Gancho:</strong> ${row.col5}
+                    `);
                 }
             });
 
@@ -143,64 +234,28 @@
         }
 
         function updateCharts(d1, d2, labelsD2, ire) {
-            // GRÁFICA 1: La Selva (Pastel)
             if (chart1) chart1.destroy();
             chart1 = new Chart(document.getElementById('chartD1'), {
                 type: 'pie',
-                data: {
-                    labels: ['Saltar (Vía Rápida)', 'Observar (Vía Lenta)', 'Avanzar (Riesgo)'],
-                    datasets: [{ 
-                        data: [d1.saltar, d1.observar, d1.avanzar], 
-                        backgroundColor: ['#ef4444', '#3b82f6', '#f97316'],
-                        borderWidth: 0
-                    }]
-                },
+                data: { labels: ['Saltar', 'Observar', 'Avanzar'], datasets: [{ data: [d1.saltar, d1.observar, d1.avanzar], backgroundColor: ['#ef4444', '#3b82f6', '#f97316'], borderWidth: 0 }] },
                 options: { plugins: { legend: { position: 'bottom' } } }
             });
 
-            // GRÁFICA 2: Top 10 Riesgos (Barras Horizontales)
-            // Preparamos los datos ordenados
-            const d2Data = Object.keys(labelsD2).map(key => ({ 
-                label: labelsD2[key], 
-                value: d2[key] || 0 
-            }));
-            // Ordenamos de mayor a menor
+            const d2Data = Object.keys(labelsD2).map(key => ({ label: labelsD2[key], value: d2[key] || 0 }));
             d2Data.sort((a, b) => b.value - a.value);
 
             if (chart2) chart2.destroy();
             chart2 = new Chart(document.getElementById('chartD2'), {
                 type: 'bar',
-                options: { 
-                    indexAxis: 'y',
-                    plugins: { legend: { display: false } },
-                    scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } }
-                },
-                data: {
-                    labels: d2Data.map(d => d.label),
-                    datasets: [{ 
-                        data: d2Data.map(d => d.value), 
-                        backgroundColor: '#10b981',
-                        borderRadius: 4
-                    }]
-                }
+                options: { indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { stepSize: 1 } } } },
+                data: { labels: d2Data.map(d => d.label), datasets: [{ data: d2Data.map(d => d.value), backgroundColor: '#10b981', borderRadius: 4 }] }
             });
 
-            // GRÁFICA 3: IRE (Barras Verticales)
             if (chart3) chart3.destroy();
             chart3 = new Chart(document.getElementById('chartIRE'), {
                 type: 'bar',
-                options: {
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
-                },
-                data: {
-                    labels: ['Taquicardia / Pecho', 'Tensión Mandíbula / Hombros', 'Sudoración / Agitación'],
-                    datasets: [{
-                        data: [ire.taqui, ire.tension, ire.sudor],
-                        backgroundColor: ['#ef4444', '#eab308', '#3b82f6'],
-                        borderRadius: 6
-                    }]
-                }
+                options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } } },
+                data: { labels: ['Taquicardia', 'Tensión', 'Sudoración'], datasets: [{ data: [ire.taqui, ire.tension, ire.sudor], backgroundColor: ['#ef4444', '#eab308', '#3b82f6'], borderRadius: 6 }] }
             });
         }
     </script>
