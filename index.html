@@ -6,38 +6,43 @@
     <title>PsycoIntera - Escudo Mental</title>
     
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#1976D2">
     <link rel="apple-touch-icon" href="icon-192.png">
 
     <style>
         :root {
-            --bg-color: #f3f4f6;
+            /* Colores Corporativos PsycoIntera (Azul y Blanco) */
+            --bg-color: #f4f7f9;
             --text-main: #1f2937;
-            --red-btn: #ef4444;
+            --blue-sos: #1976D2; /* Azul corporativo extraído de la web */
+            --blue-dark: #1565C0;
+            --blue-light: #2196F3;
+            
+            --red-btn: #dc2626;
             --orange-btn: #f97316;
             --yellow-btn: #eab308;
-            --blue-sos: #3b82f6;
             --green-success: #10b981;
-            --purple-mod: #8b5cf6;
+            
             --card-bg: #ffffff;
-            --border-color: #e5e7eb;
+            --border-color: #e2e8f0;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
 
         body { background-color: var(--bg-color); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
 
-        header { background-color: var(--card-bg); padding: 0.8rem 1rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 10; position: sticky; top: 0; }
+        header { background-color: var(--card-bg); padding: 0.8rem 1rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); z-index: 10; position: sticky; top: 0; border-bottom: 3px solid var(--blue-sos); }
         .logo-img { height: 45px; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
         .logo-img:active { transform: scale(0.95); }
         
-        .btn-sos { background-color: var(--blue-sos); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 999px; font-weight: bold; cursor: pointer; font-size: 0.8rem; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); }
+        .btn-sos { background-color: var(--blue-sos); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 999px; font-weight: bold; cursor: pointer; font-size: 0.8rem; box-shadow: 0 4px 10px rgba(25, 118, 210, 0.3); transition: background 0.2s; }
+        .btn-sos:hover { background-color: var(--blue-dark); }
 
         main { flex: 1; padding: 1rem; display: flex; flex-direction: column; gap: 1.5rem; max-width: 500px; margin: 0 auto; width: 100%; }
-        h2 { font-size: 1rem; text-align: center; color: #4b5563; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;}
-        h3.module-title { font-size: 0.9rem; color: #6b7280; border-bottom: 2px solid var(--border-color); padding-bottom: 0.3rem; margin-top: 1rem; margin-bottom: 0.8rem; text-transform: uppercase;}
+        h2 { font-size: 1.1rem; text-align: center; color: var(--blue-dark); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;}
+        h3.module-title { font-size: 0.9rem; color: var(--blue-sos); border-bottom: 2px solid var(--border-color); padding-bottom: 0.3rem; margin-top: 1rem; margin-bottom: 0.8rem; text-transform: uppercase; font-weight: 800;}
 
-        .section-card { background: white; padding: 1.2rem; border-radius: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); position: relative; }
+        .section-card { background: white; padding: 1.2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: relative; border: 1px solid var(--border-color); }
         .autosave-status { font-size: 0.75rem; color: var(--green-success); font-weight: bold; position: absolute; top: 1.2rem; right: 1.2rem; opacity: 0; transition: opacity 0.3s; }
 
         /* Vistas SPA */
@@ -47,82 +52,88 @@
 
         /* Contenedores de Actividad y Enunciados */
         .intro-container { text-align: left; padding: 0.5rem 0; }
-        .intro-container p { color: #4b5563; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; }
+        .intro-container p { color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; }
         .activity-container { display: none; animation: fadeIn 0.3s ease-in-out; }
 
         /* Dashboard Grid */
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem; }
-        .btn-dash { padding: 1rem 0.5rem; border: none; border-radius: 12px; font-size: 0.85rem; font-weight: 700; color: white; cursor: pointer; transition: transform 0.1s; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0.3rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .btn-dash { padding: 1.2rem 0.5rem; border: none; border-radius: 12px; font-size: 0.85rem; font-weight: 700; color: white; cursor: pointer; transition: transform 0.1s, box-shadow 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0.5rem; box-shadow: 0 4px 6px rgba(25, 118, 210, 0.2); }
         .btn-dash:active { transform: scale(0.97); }
-        .btn-dash i { font-size: 1.2rem; font-style: normal; }
+        .btn-dash i { font-size: 1.4rem; font-style: normal; }
         .btn-dash.locked::after { content: '🔒'; position: absolute; top: 8px; right: 8px; font-size: 0.7rem; }
         .btn-dash.unlocked::after { content: '🔓'; position: absolute; top: 8px; right: 8px; font-size: 0.7rem; opacity: 0.7;}
         
-        .mod-1 { background-color: var(--blue-sos); }
-        .mod-2 { background-color: var(--green-success); }
-        .mod-3 { background-color: var(--orange-btn); }
-        .mod-4 { background-color: var(--purple-mod); }
-        .mod-free { background-color: #374151; }
+        /* Paleta Corporativa para el Menú */
+        .mod-1 { background-color: var(--blue-dark); }
+        .mod-2 { background-color: var(--blue-sos); }
+        .mod-3 { background-color: var(--blue-light); }
+        .mod-4 { background-color: #0288D1; }
+        .mod-free { background-color: #455A64; }
 
-        .btn-back { display: inline-flex; align-items: center; gap: 0.5rem; background: #e5e7eb; color: #4b5563; border: none; padding: 0.6rem 1rem; border-radius: 8px; font-weight: bold; margin-bottom: 1rem; cursor: pointer; }
+        .btn-back { display: inline-flex; align-items: center; gap: 0.5rem; background: #f1f5f9; color: var(--blue-dark); border: 1px solid var(--border-color); padding: 0.6rem 1rem; border-radius: 8px; font-weight: bold; margin-bottom: 1.5rem; cursor: pointer; transition: background 0.2s; }
+        .btn-back:hover { background: #e2e8f0; }
 
         /* PIN Modal */
-        #pin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(17, 24, 39, 0.95); z-index: 200; flex-direction: column; justify-content: center; align-items: center; padding: 1rem; }
-        .pin-box { background: white; padding: 2rem; border-radius: 16px; text-align: center; width: 100%; max-width: 320px; }
-        .pin-box h3 { color: #1f2937; margin-bottom: 1rem; }
-        .pin-input { width: 100%; text-align: center; font-size: 2rem; letter-spacing: 0.5em; padding: 1rem; border: 2px solid var(--border-color); border-radius: 8px; outline: none; margin-bottom: 1rem; font-family: monospace; }
+        #pin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.95); z-index: 200; flex-direction: column; justify-content: center; align-items: center; padding: 1rem; }
+        .pin-box { background: white; padding: 2.5rem 2rem; border-radius: 16px; text-align: center; width: 100%; max-width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .pin-box h3 { color: var(--blue-dark); margin-bottom: 1rem; }
+        .pin-input { width: 100%; text-align: center; font-size: 2rem; letter-spacing: 0.5em; padding: 1rem; border: 2px solid var(--border-color); border-radius: 8px; outline: none; margin-bottom: 1rem; font-family: monospace; color: var(--blue-dark); }
         .pin-input:focus { border-color: var(--blue-sos); }
         .pin-error { color: var(--red-btn); font-size: 0.85rem; font-weight: bold; margin-bottom: 1rem; display: none; }
         .pin-actions { display: flex; gap: 0.5rem; }
         .pin-actions button { flex: 1; padding: 0.8rem; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .btn-cancel { background: #e5e7eb; color: #4b5563; }
+        .btn-cancel { background: #e2e8f0; color: #475569; }
         .btn-unlock { background: var(--blue-sos); color: white; }
 
         /* Controles Formularios */
         .grid-conflicts { display: grid; gap: 0.8rem; margin-top: 1rem; }
-        .btn-conflict { width: 100%; padding: 1.2rem; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; color: white; cursor: pointer; transition: transform 0.1s; }
+        .btn-conflict { width: 100%; padding: 1.2rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; color: white; cursor: pointer; transition: transform 0.1s; }
         .btn-conflict:active { transform: scale(0.97); }
         .bg-red { background-color: var(--red-btn); }
         .bg-orange { background-color: var(--orange-btn); }
         .bg-yellow { background-color: var(--yellow-btn); color: #451a03; }
-        .btn-submit { width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--blue-sos); color: white; cursor: pointer; margin-top: 1rem;}
+        .btn-submit { width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--blue-sos); color: white; cursor: pointer; margin-top: 1rem; box-shadow: 0 4px 6px rgba(25, 118, 210, 0.2);}
 
         .input-group { margin-bottom: 1rem; }
-        label.title-label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; color: #374151; }
-        input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 0.8rem; border: 1.5px solid var(--border-color); border-radius: 8px; font-size: 0.9rem; resize: vertical; }
+        label.title-label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; color: #334155; }
+        input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 0.8rem; border: 1.5px solid var(--border-color); border-radius: 8px; font-size: 0.9rem; resize: vertical; color: #1e293b; background: #f8fafc; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--blue-sos); background: white; }
         
         .checkbox-group { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1rem; }
-        .checkbox-item { display: flex; flex-direction: column; background: #f9fafb; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border-color);}
-        .checkbox-label { font-size: 0.85rem; font-weight: 500; display: flex; align-items: flex-start; gap: 0.5rem; color: #4b5563; }
+        .checkbox-item { display: flex; flex-direction: column; background: #f8fafc; padding: 0.8rem; border-radius: 8px; border: 1px solid var(--border-color);}
+        .checkbox-label { font-size: 0.85rem; font-weight: 500; display: flex; align-items: flex-start; gap: 0.5rem; color: #334155; }
         .checkbox-label input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--blue-sos); margin-top: 0.1rem; }
         .pct-input { display: none; margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem;}
         .pct-input input { padding: 0.4rem; width: 80px; }
 
         /* Componentes Específicos */
-        .case-box { font-size: 0.9rem; color: #374151; margin-bottom: 1.5rem; padding: 1rem; background: #eff6ff; border-left: 4px solid var(--blue-sos); border-radius: 0 8px 8px 0; line-height: 1.5; font-style: italic;}
-        .success-msg { display:none; text-align: center; padding: 1rem; color: var(--green-success); font-weight: bold; background: #ecfdf5; border-radius: 8px; margin-top: 1rem;}
+        .case-box { font-size: 0.95rem; color: #334155; margin-bottom: 1.5rem; padding: 1rem; background: #f0f7ff; border-left: 4px solid var(--blue-sos); border-radius: 0 8px 8px 0; line-height: 1.6; font-style: italic;}
+        .success-msg { display:none; text-align: center; padding: 1rem; color: var(--blue-dark); font-weight: bold; background: #e0f2fe; border-radius: 8px; margin-top: 1rem; border: 1px solid #bae6fd;}
 
         /* Termómetro de Riesgos */
         .ranking-container { margin-top: 1rem; }
-        .ranking-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 0.85rem; font-weight: bold; color: var(--blue-sos); background: #eff6ff; padding: 0.8rem; border-radius: 8px; }
+        .ranking-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 0.85rem; font-weight: bold; color: var(--blue-dark); background: #f0f7ff; padding: 0.8rem; border-radius: 8px; border: 1px solid #bae6fd; }
         .ranking-list { display: flex; flex-direction: column; gap: 0.5rem; }
-        .ranking-item { display: flex; align-items: center; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 8px; cursor: pointer; transition: background-color 0.2s, border-color 0.2s; font-size: 0.85rem; }
-        .ranking-item:hover { background-color: #f9fafb; }
-        .ranking-item.selected { border-color: var(--blue-sos); background-color: #eff6ff; }
-        .ranking-item input[type="checkbox"] { display: none; }
-        .ranking-number { min-width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #9ca3af; display: flex; justify-content: center; align-items: center; font-size: 0.75rem; font-weight: bold; color: #9ca3af; margin-right: 0.8rem; }
+        .ranking-item { display: flex; align-items: center; padding: 0.8rem; border: 1px solid var(--border-color); background: #f8fafc; border-radius: 8px; cursor: pointer; transition: background-color 0.2s, border-color 0.2s; font-size: 0.85rem; }
+        .ranking-item:hover { background-color: white; }
+        .ranking-item.selected { border-color: var(--blue-sos); background-color: #f0f7ff; }
+        .ranking-number { min-width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #94a3b8; display: flex; justify-content: center; align-items: center; font-size: 0.75rem; font-weight: bold; color: #94a3b8; margin-right: 0.8rem; }
         .ranking-item.selected .ranking-number { background-color: var(--blue-sos); border-color: var(--blue-sos); color: white; }
 
         /* Legal / Consent */
-        .legal-consent { font-size: 0.75rem; color: #6b7280; margin-bottom: 1rem; padding: 0.8rem; background: #f9fafb; border-radius: 8px; border: 1px solid var(--border-color); }
+        .legal-consent { font-size: 0.75rem; color: #64748b; margin-bottom: 1rem; padding: 0.8rem; background: #f8fafc; border-radius: 8px; border: 1px solid var(--border-color); }
         .legal-consent a { color: var(--blue-sos); text-decoration: underline; font-weight: bold; }
-        #btn-enviar:disabled { background-color: #9ca3af; cursor: not-allowed; opacity: 0.7; }
+        #btn-enviar:disabled { background-color: #94a3b8; cursor: not-allowed; opacity: 0.7; box-shadow: none; }
 
-        footer { padding: 1.5rem 1rem; text-align: center; font-size: 0.75rem; color: #9ca3af; }
+        footer { padding: 1.5rem 1rem; text-align: center; font-size: 0.75rem; color: #94a3b8; font-weight: 500; }
 
-        #sos-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(17, 24, 39, 0.98); color: white; z-index: 100; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .circle { width: 180px; height: 180px; border-radius: 50%; background-color: var(--blue-sos); display: flex; justify-content: center; align-items: center; font-size: 1.6rem; font-weight: 800; transition: all 4s linear; box-shadow: 0 0 40px rgba(59, 130, 246, 0.4); }
+        #sos-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.98); color: white; z-index: 100; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        .circle { width: 180px; height: 180px; border-radius: 50%; background-color: var(--blue-sos); display: flex; justify-content: center; align-items: center; font-size: 1.6rem; font-weight: 800; transition: all 4s linear; box-shadow: 0 0 40px rgba(25, 118, 210, 0.5); }
         .audio-toggle { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 0.5rem 1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.8rem; cursor: pointer; }
+        
+        /* Controles de Vídeo D1 Custom */
+        .video-controls { display: flex; gap: 10px; margin-bottom: 1rem; }
+        .btn-video-ctrl { flex: 1; padding: 0.8rem; border: none; border-radius: 8px; font-weight: bold; color: white; cursor: pointer; font-size: 0.9rem; transition: background 0.2s;}
     </style>
 </head>
 <body>
@@ -177,16 +188,20 @@
             </div>
 
             <div id="content-d1" class="activity-container">
-                <div id="d1-video-container" style="position: relative; width: 100%; max-width: 480px; margin: 0 auto 1.5rem auto; border-radius: 12px; overflow: hidden; background: #000; aspect-ratio: 480/652; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                    <video id="video-ejercicio" width="100%" height="100%" style="object-fit: cover;" playsinline poster="poster_video.png">
-                        <source src="LA selvaa.mp4" type="video/mp4">
+                
+                <div style="border-radius: 8px; overflow: hidden; background: #000; aspect-ratio: 16/9; margin-bottom: 0.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <video id="video-ejercicio" width="100%" height="100%" playsinline muted poster="poster_video.png" style="display: block;">
+                        <source src="laselva.mp4" type="video/mp4">
                         Tu navegador no soporta video.
                     </video>
-                    <div id="play-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.4); cursor: pointer;" onclick="playVideoD1()">
-                        <div style="background: var(--blue-sos); color: white; border-radius: 50%; width: 70px; height: 70px; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; padding-left: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">▶</div>
-                    </div>
                 </div>
-                <div id="d1-interactive" style="display: none;">
+                
+                <div class="video-controls">
+                    <button onclick="togglePlayD1()" id="btn-play-d1" class="btn-video-ctrl" style="background-color: var(--blue-sos);">▶ Play / Pausa</button>
+                    <button onclick="toggleSoundD1()" id="btn-sound-d1" class="btn-video-ctrl" style="background-color: #64748b;">🔇 Activar Sonido</button>
+                </div>
+
+                <div id="d1-interactive" style="display: none; padding-top: 1rem; border-top: 1px solid var(--border-color);">
                     <label class="title-label" style="text-align: center; margin-bottom: 1rem;">Tras ver el vídeo, ¿cuál es tu reacción instintiva?</label>
                     <div class="grid-conflicts">
                         <button class="btn-conflict bg-orange" onclick="votarD1('avanzar')">Sigo avanzando</button>
@@ -194,7 +209,7 @@
                         <button class="btn-conflict bg-red" onclick="votarD1('saltar')">Salto hacia atrás y observo</button>
                     </div>
                 </div>
-                <div id="d1-success" class="success-msg">Respuesta anónima registrada. Se presentarán los resultados en pantalla para continuar la formación.</div>
+                <div id="d1-success" class="success-msg">Respuesta anónima registrada. El vídeo sigue disponible para volver a verlo.</div>
             </div>
         </section>
 
@@ -214,7 +229,7 @@
                     <div class="ranking-header"><span>Estado actual:</span><span id="ranking-counter">0/3</span></div>
                     <div class="ranking-list" id="ranking-list"></div>
                 </div>
-                <p style="font-size: 0.8rem; color: #6b7280; margin-top: 1rem; text-align: center;">Tus respuestas se enviarán al ranking anónimo general desde la pestaña "Enviar Reporte".</p>
+                <p style="font-size: 0.8rem; color: #64748b; margin-top: 1rem; text-align: center;">Tus respuestas se enviarán al ranking anónimo general desde la pestaña "Enviar Reporte".</p>
             </div>
         </section>
 
@@ -252,7 +267,7 @@
             </div>
 
             <div id="content-d3" class="activity-container">
-                <p style="font-size:0.85rem; color:#6b7280; margin-bottom:1rem;">Reescribe esta frase despojándola de la emoción y dejando solo el problema técnico (Disociación Empática).</p>
+                <p style="font-size:0.85rem; color:#64748b; margin-bottom:1rem;">Reescribe esta frase despojándola de la emoción y dejando solo el problema técnico (Disociación Empática).</p>
                 <div id="d3-case-box" class="case-box">Cargando caso...</div>
                 <label class="title-label">Tu Respuesta Técnica:</label>
                 <textarea id="d3-respuesta" rows="4" placeholder="Escribe aquí tu reencuadre..."></textarea>
@@ -275,14 +290,14 @@
                 <input type="range" id="d4-slider" min="1" max="10" value="5" style="width: 100%;" oninput="document.getElementById('d4-valor').innerText = this.value">
                 <div style="text-align: center; font-size: 2.5rem; font-weight: 800; margin: 1rem 0; color: var(--blue-sos);" id="d4-valor">5</div>
                 
-                <p style="font-size:0.85rem; color:#6b7280; margin-bottom:1rem; text-align: center;">Pulsa el botón inferior para activar la herramienta de Reset. Realiza 3 ciclos completos guiados por el estímulo visual y auditivo.</p>
+                <p style="font-size:0.85rem; color:#64748b; margin-bottom:1rem; text-align: center;">Pulsa el botón inferior para activar la herramienta de Reset. Realiza 3 ciclos completos guiados por el estímulo visual y auditivo.</p>
                 
                 <button class="btn-submit" style="background-color: var(--orange-btn); margin-bottom: 1.5rem;" onclick="toggleSOS()">🔥 INICIAR TEST (4-7-8)</button>
                 
                 <label class="title-label">2. Tras realizar la prueba, ¿te sientes más centrado/a?</label>
                 <div style="display: flex; gap: 10px; margin-top: 0.5rem;">
                     <button class="btn-conflict" style="background: var(--green-success);" onclick="document.getElementById('d4-success').style.display='block'">Sí, lo noto</button>
-                    <button class="btn-conflict" style="background: #9ca3af;" onclick="document.getElementById('d4-success').style.display='block'">No mucho</button>
+                    <button class="btn-conflict" style="background: #94a3b8;" onclick="document.getElementById('d4-success').style.display='block'">No mucho</button>
                 </div>
                 <div id="d4-success" class="success-msg">Evaluación completada. Gracias por participar.</div>
             </div>
@@ -298,9 +313,9 @@
             </div>
 
             <div id="content-a2" class="activity-container">
-                <p style="font-size:0.85rem; color:#6b7280; margin-bottom:1rem;">Analiza la transcripción. ¿Qué palabras deben rebotar (insultos) y qué datos deben atravesar tu muro?</p>
+                <p style="font-size:0.85rem; color:#64748b; margin-bottom:1rem;">Analiza la transcripción. ¿Qué palabras deben frenar y qué datos deben atravesar tu muro?</p>
                 <div id="a2-case-box" class="case-box">Cargando conversación...</div>
-                <label class="title-label">Lo que debe REBOTAR (Emoción/Ataque):</label>
+                <label class="title-label">Lo que debe pasar a tu pensamiento (Emoción/Ataque):</label>
                 <textarea id="a2-rebotar" rows="2" placeholder="Ej: inútiles, estafadores..."></textarea>
                 <label class="title-label" style="margin-top:1rem;">Lo que debe ATRAVESAR (Hecho Técnico):</label>
                 <textarea id="a2-atravesar" rows="2" placeholder="Ej: Rotura de tubería..."></textarea>
@@ -319,7 +334,7 @@
             </div>
 
             <div id="content-a3" class="activity-container">
-                <p style="font-size:0.85rem; color:#6b7280; margin-bottom:1rem;">Corrige la interacción del gestor utilizando la estructura de 3 pasos tácticos.</p>
+                <p style="font-size:0.85rem; color:#64748b; margin-bottom:1rem;">Corrige la interacción del gestor utilizando la estructura de 3 pasos tácticos.</p>
                 <div id="a3-case-box" class="case-box">Cargando interacción...</div>
                 <label class="title-label">1. Amortiguador (Validar Emoción):</label>
                 <input type="text" id="a3-amortiguador" class="input-group" placeholder="Ej: Entiendo que esta demora le cause frustración...">
@@ -365,7 +380,7 @@
         <section id="view-placeholder" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>Área de Prácticas</h2>
-            <p style="text-align: center; color: #6b7280; padding: 2rem 0;">El facilitador guiará esta dinámica en vivo.</p>
+            <p style="text-align: center; color: #64748b; padding: 2rem 0;">El facilitador guiará esta dinámica en vivo.</p>
         </section>
 
         <section id="view-judo" class="view-section section-card">
@@ -388,7 +403,7 @@
             <h2>Envío de Métricas Grupales</h2>
             <label class="title-label">Tu Termómetro de Estrés Actual:</label>
             <input type="range" id="estres-slider" min="1" max="10" value="5" style="width: 100%;" oninput="document.getElementById('estres-valor').innerText = this.value">
-            <div style="text-align: center; font-size: 2.5rem; font-weight: 800; margin: 1rem 0;" id="estres-valor">5</div>
+            <div style="text-align: center; font-size: 2.5rem; font-weight: 800; margin: 1rem 0; color: var(--blue-sos);" id="estres-valor">5</div>
             
             <div class="legal-consent">
                 <label class="checkbox-label" style="align-items: center; cursor: pointer;">
@@ -399,13 +414,13 @@
             <button style="width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--green-success); color: white; cursor: pointer;" id="btn-enviar" onclick="enviarMetricas()" disabled>Enviar Reporte Anónimo</button>
         </section>
 
-        <footer>PsycoIntera - Escudo Mental v2.2</footer>
+        <footer>PsycoIntera - Escudo Mental v2.3</footer>
     </main>
 
     <div id="pin-modal">
         <div class="pin-box">
             <h3>Introduce el PIN</h3>
-            <p style="font-size: 0.8rem; color: #6b7280; margin-bottom: 1rem;">El facilitador proyectará el código en la pantalla.</p>
+            <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 1rem;">El facilitador proyectará el código en la pantalla.</p>
             <input type="number" id="pin-input" class="pin-input" pattern="[0-9]*" inputmode="numeric" maxlength="4" placeholder="••••">
             <div id="pin-error" class="pin-error">PIN Incorrecto</div>
             <div class="pin-actions">
@@ -587,17 +602,31 @@
         }
 
         // --- DINÁMICA 1 ---
-        function playVideoD1() {
+        function togglePlayD1() {
             const vid = document.getElementById('video-ejercicio');
-            if(localStorage.getItem('voto_d1')) return;
-            vid.play().then(() => document.getElementById('play-overlay').style.display = 'none').catch(e=>{});
+            if (vid.paused) {
+                vid.play();
+                document.getElementById('btn-play-d1').innerText = "⏸ Pausa";
+            } else {
+                vid.pause();
+                document.getElementById('btn-play-d1').innerText = "▶ Play";
+            }
         }
+        
+        function toggleSoundD1() {
+            const vid = document.getElementById('video-ejercicio');
+            vid.muted = !vid.muted;
+            document.getElementById('btn-sound-d1').innerText = vid.muted ? "🔇 Activar Sonido" : "🔊 Desactivar Sonido";
+            if(!vid.muted && vid.volume === 0) vid.volume = 1; // Asegurar volumen al desmutear
+        }
+
         document.getElementById('video-ejercicio').addEventListener('ended', function() {
-            if(!localStorage.getItem('voto_d1')) document.getElementById('d1-interactive').style.display = 'block';
+            document.getElementById('btn-play-d1').innerText = "▶ Replay";
+            if(!localStorage.getItem('voto_d1')) {
+                document.getElementById('d1-interactive').style.display = 'block';
+            }
         });
-        document.getElementById('video-ejercicio').addEventListener('pause', function() {
-            if (!this.ended && !localStorage.getItem('voto_d1')) this.play();
-        });
+
         function votarD1(eleccion) {
             document.getElementById('d1-interactive').style.display = 'none';
             document.getElementById('d1-success').style.display = 'block';
@@ -781,7 +810,7 @@
             };
 
             fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) })
-            .then(() => { btn.innerText = '¡Reporte Enviado!'; btn.style.backgroundColor = '#3b82f6'; });
+            .then(() => { btn.innerText = '¡Reporte Enviado!'; btn.style.backgroundColor = 'var(--green-success)'; });
         }
 
         // --- INICIALIZACIÓN ---
@@ -800,7 +829,6 @@
             // D1 Logic Restore
             if(localStorage.getItem('voto_d1')) {
                 const interactive = document.getElementById('d1-interactive'); if (interactive) interactive.style.display = 'none';
-                const overlay = document.getElementById('play-overlay'); if (overlay) overlay.style.display = 'none';
                 const successDiv = document.getElementById('d1-success'); if (successDiv) successDiv.style.display = 'block';
             }
             
