@@ -288,7 +288,7 @@
             </div>
 
             <div id="content-a1" class="activity-container">
-                <div class="autosave-status">Guardado ✓</div>
+                <div class="autosave-status" id="a1-autosave">Guardado ✓</div>
                 <label class="title-label" style="margin-top: 1rem;">Marca las 3 sintomatologías más frecuentes e indica la frecuencia (%):</label>
                 <div id="a1-symptoms-list" class="checkbox-group"></div>
 
@@ -297,8 +297,8 @@
                 <input type="text" id="a1-otro2" placeholder="Síntoma extra 2" class="input-group">
                 <input type="text" id="a1-otro3" placeholder="Síntoma extra 3" class="input-group">
                 
-                <button class="btn-submit" onclick="guardarA1()">Guardar Mapa</button>
-                <div id="a1-success" class="success-msg">¡Datos guardados localmente!</div>
+                <button class="btn-submit" id="btn-submit-a1" onclick="enviarA1()">Enviar Mapa de forma anónima</button>
+                <div id="a1-success" class="success-msg">¡Datos enviados al facilitador!</div>
             </div>
         </section>
 
@@ -745,6 +745,55 @@
             fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ tipoEvento: "Voto_D1", eleccionD1: eleccion }) });
         }
 
+        // --- A1: MAPA DE ALERTA (IRE) ENVÍO ---
+        function enviarA1() {
+            if (selectedA1.length === 0) {
+                alert("Por favor, selecciona al menos un síntoma.");
+                return;
+            }
+
+            const btn = document.getElementById('btn-submit-a1');
+            btn.innerText = 'Enviando...';
+            btn.disabled = true;
+
+            const sintomasIds = selectedA1.join(',');
+            const detallesCualitativos = selectedA1.map(id => {
+                const nombre = ireSintomas.find(s => s.id === id).text;
+                const porcentaje = document.getElementById('val-' + id).value || "0";
+                return `${nombre} (${porcentaje}%)`;
+            }).join(' | ');
+
+            const otros = [
+                document.getElementById('a1-otro1').value,
+                document.getElementById('a1-otro2').value,
+                document.getElementById('a1-otro3').value
+            ].filter(v => v.trim() !== "").join(', ');
+
+            const payload = {
+                tipoEvento: "A1_VOTO",
+                sintomasIds: sintomasIds, 
+                detalles: detallesCualitativos, 
+                otros: otros
+            };
+
+            fetch(GOOGLE_SCRIPT_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                body: JSON.stringify(payload) 
+            })
+            .then(() => {
+                document.getElementById('a1-success').style.display = 'block';
+                btn.innerText = '¡Mapa Enviado!';
+                btn.style.backgroundColor = 'var(--green-success)';
+                localStorage.setItem('a1_completado', 'true');
+            })
+            .catch(err => {
+                console.error(err);
+                btn.disabled = false;
+                btn.innerText = 'Error al enviar. Reintentar';
+            });
+        }
+
         // --- LÓGICA DINÁMICA 5 (REDISTRIBUCIÓN REAL) ---
         async function faseEnvioD5() {
             const frase = document.getElementById('d5-frase-propia').value;
@@ -829,8 +878,7 @@
             document.getElementById('d5-judo-interactivo').style.display = 'none';
         }
 
-
-        // --- A1: MAPA DE ALERTA (IRE) ---
+        // --- A1: MAPA DE ALERTA (IRE) LISTA ---
         const ireSintomas = [
             { id: 'ire1', text: "Taquicardia / Calor en el pecho" }, { id: 'ire2', text: "Tensión en mandíbula / hombros" },
             { id: 'ire3', text: "Sudoración / Agitación respiratoria" }, { id: 'ire4', text: "Nudo en el estómago / Náuseas" },
@@ -871,12 +919,6 @@
             } else {
                 selectedA1 = selectedA1.filter(i => i !== id); inputDiv.style.display = 'none';
             }
-        }
-
-        function guardarA1() {
-            triggerSaveStatus(document.getElementById('a1-symptoms-list'));
-            document.getElementById('a1-success').style.display = 'block';
-            setTimeout(()=> document.getElementById('a1-success').style.display='none', 3000);
         }
 
         // --- BASES DE DATOS CASOS ALEATORIOS (D3, A2, A3) ---
@@ -999,17 +1041,12 @@
             const btn = document.getElementById('btn-enviar'); 
             btn.innerText = 'Enviando...'; btn.disabled = true;
 
-            // Recopilar A1
-            let a1Data = selectedA1.map(id => id + ":" + (document.getElementById('val-'+id).value || "0") + "%").join(" | ");
-            let otrosA1 = [document.getElementById('a1-otro1').value, document.getElementById('a1-otro2').value, document.getElementById('a1-otro3').value].filter(v=>v).join(", ");
-            
             const payload = { 
                 tipoEvento: "REPORTE_GRAL",
                 nivelEstres: document.getElementById('estres-slider').value,
                 triggersSeleccionados: selectedTriggers.join(','),
                 diagUmbral: document.getElementById('diag-umbral').value || "0",
-                planProto: document.getElementById('plan-proto').value,
-                ireDetalle: a1Data + (otrosA1 ? " || Otros: " + otrosA1 : "")
+                planProto: document.getElementById('plan-proto').value
             };
 
             fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) })
@@ -1033,6 +1070,17 @@
             if(localStorage.getItem('voto_d1')) {
                 const interactive = document.getElementById('d1-interactive'); if (interactive) interactive.style.display = 'none';
                 const successDiv = document.getElementById('d1-success'); if (successDiv) successDiv.style.display = 'block';
+            }
+
+            // A1 Logic Restore
+            if(localStorage.getItem('a1_completado') === 'true') {
+                const btnA1 = document.getElementById('btn-submit-a1');
+                if(btnA1) {
+                    btnA1.innerText = '¡Mapa Enviado!';
+                    btnA1.disabled = true;
+                    btnA1.style.backgroundColor = 'var(--green-success)';
+                    document.getElementById('a1-success').style.display = 'block';
+                }
             }
             
             const savedTriggers = localStorage.getItem('selectedTriggers');
