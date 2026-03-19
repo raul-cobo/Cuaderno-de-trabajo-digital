@@ -306,18 +306,34 @@
 
         <section id="view-d5" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
-            <h2>D5: Frases Críticas</h2>
+            <h2>D5: Laboratorio de Frases</h2>
             
             <div id="intro-d5" class="intro-container">
-                <p><strong>Enunciado:</strong> Laboratorio de Frases Críticas. Escribe de forma anónima la frase más difícil, injusta o agresiva que hayas escuchado de un cliente recientemente. Las usaremos para aplicar ingeniería verbal en directo.</p>
+                <p><strong>Enunciado:</strong> Laboratorio de Frases Críticas. Fase 1: Escribe de forma anónima la frase más difícil, injusta o agresiva que hayas escuchado de un cliente. Estas frases se "barajarán" y se repartirán entre tus compañeros para ser neutralizadas mediante Judo Verbal.</p>
                 <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d5')">Entrar en la Dinámica</button>
             </div>
 
             <div id="content-d5" class="activity-container">
-                <label class="title-label">Frase a analizar:</label>
-                <textarea id="d5-frase" rows="4" placeholder="Ej: Llevo pagando 10 años para que ahora me digas que..."></textarea>
-                <button class="btn-submit" id="btn-submit-d5" onclick="enviarD5()">Enviar al Laboratorio</button>
-                <div id="d5-success" class="success-msg">Frase enviada de forma anónima.</div>
+                <div id="d5-fase-envio">
+                    <label class="title-label">Tu frase crítica (la que recibiste):</label>
+                    <textarea id="d5-frase-propia" rows="3" placeholder="Ej: Llevo pagando 10 años para que ahora me digas que..."></textarea>
+                    <button class="btn-submit" id="btn-envio-d5" onclick="faseEnvioD5()">Subir frase al servidor</button>
+                </div>
+
+                <div id="d5-fase-judo" style="display:none;">
+                    <div id="d5-loading" style="text-align:center; padding: 1rem; color: var(--blue-sos); font-weight: bold;">⏳ Barajando frases del grupo...</div>
+                    
+                    <div id="d5-judo-interactivo" style="display:none;">
+                        <p style="font-size:0.85rem; color:var(--blue-dark); font-weight:bold; margin-bottom:1rem;">Te ha tocado neutralizar esta frase:</p>
+                        <div id="d5-frase-asignada" class="case-box" style="border-left-color: var(--red-btn);">...</div>
+                        
+                        <label class="title-label">Aplica Judo Verbal (Respuesta Técnica):</label>
+                        <textarea id="d5-respuesta-judo" rows="4" placeholder="Amortiguador + Pivote + Gancho..."></textarea>
+                        <button class="btn-submit" id="btn-submit-d5-final" onclick="enviarRespuestaD5()">Enviar Respuesta Final</button>
+                    </div>
+                </div>
+
+                <div id="d5-success" class="success-msg">Análisis enviado. El facilitador mostrará las mejores neutralizaciones en pantalla.</div>
             </div>
         </section>
 
@@ -450,7 +466,7 @@
             <button style="width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--green-success); color: white; cursor: pointer;" id="btn-enviar" onclick="enviarMetricas()" disabled>Enviar Reporte Anónimo</button>
         </section>
 
-        <footer>PsycoIntera - Escudo Mental v2.4</footer>
+        <footer>PsycoIntera - Escudo Mental v2.5</footer>
     </main>
 
     <div id="pin-modal">
@@ -685,6 +701,91 @@
             fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ tipoEvento: "Voto_D1", eleccionD1: eleccion }) });
         }
 
+        // --- LÓGICA DINÁMICA 5 (REDISTRIBUCIÓN REAL) ---
+        async function faseEnvioD5() {
+            const frase = document.getElementById('d5-frase-propia').value;
+            if(frase.trim().length < 5) return alert("Escribe una frase válida.");
+
+            const btn = document.getElementById('btn-envio-d5');
+            btn.innerText = 'Subiendo...';
+            btn.disabled = true;
+
+            localStorage.setItem('mi_frase_d5', frase);
+
+            const payload = { tipoEvento: "D5_FRASE_ORIGINAL", frase: frase };
+
+            try {
+                // Mandamos la frase sin esperar respuesta bloqueante
+                fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+                
+                document.getElementById('d5-fase-envio').style.display = 'none';
+                document.getElementById('d5-fase-judo').style.display = 'block';
+                
+                // Pausa para dar tiempo a que los compañeros envíen
+                setTimeout(obtenerFraseAjenaD5, 3000); 
+            } catch(e) {
+                console.error("Error en D5:", e);
+                alert("Error de conexión. Inténtalo de nuevo.");
+                btn.disabled = false;
+                btn.innerText = 'Subir frase al servidor';
+            }
+        }
+
+        async function obtenerFraseAjenaD5() {
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL);
+                const data = await response.json();
+                
+                const frasesGrupo = [];
+                data.forEach(row => {
+                    const cols = Object.values(row);
+                    if (cols[1] === "D5_FRASE_ORIGINAL") {
+                        frasesGrupo.push(cols[2]);
+                    } else if (row.tipoEvento === "D5_FRASE_ORIGINAL") {
+                        frasesGrupo.push(row.frase || row.eleccionD1 || cols[2]);
+                    }
+                });
+
+                const miFrase = localStorage.getItem('mi_frase_d5');
+                const frasesFiltradas = frasesGrupo.filter(f => f && f !== miFrase);
+
+                if (frasesFiltradas.length === 0) {
+                    document.getElementById('d5-loading').innerText = "Esperando frases de compañeros...";
+                    setTimeout(obtenerFraseAjenaD5, 4000);
+                    return;
+                }
+
+                const fraseAzar = frasesFiltradas[Math.floor(Math.random() * frasesFiltradas.length)];
+                
+                document.getElementById('d5-frase-asignada').innerText = `"${fraseAzar}"`;
+                document.getElementById('d5-loading').style.display = 'none';
+                document.getElementById('d5-judo-interactivo').style.display = 'block';
+                
+                localStorage.setItem('frase_que_estoy_respondiendo_d5', fraseAzar);
+
+            } catch(e) {
+                console.error("Error al obtener frases:", e);
+                document.getElementById('d5-loading').innerText = "Reintentando conectar...";
+                setTimeout(obtenerFraseAjenaD5, 4000);
+            }
+        }
+
+        function enviarRespuestaD5() {
+            const respuesta = document.getElementById('d5-respuesta-judo').value;
+            const fraseOriginal = localStorage.getItem('frase_que_estoy_respondiendo_d5');
+            
+            if(respuesta.trim().length < 5) return alert("Escribe tu neutralización.");
+
+            const payload = {
+                fraseOriginal: fraseOriginal,
+                respuestaJudo: respuesta
+            };
+
+            enviarEjercicio('D5_RESPUESTA_FINAL', payload, 'd5-success', 'btn-submit-d5-final');
+            document.getElementById('d5-judo-interactivo').style.display = 'none';
+        }
+
+
         // --- A1: MAPA DE ALERTA (IRE) ---
         const ireSintomas = [
             { id: 'ire1', text: "Taquicardia / Calor en el pecho" }, { id: 'ire2', text: "Tensión en mandíbula / hombros" },
@@ -786,10 +887,7 @@
             const resp = document.getElementById('d3-respuesta').value;
             enviarEjercicio('D3_VOTO', { casoId: localStorage.getItem('d3_idx'), respuesta: resp }, 'd3-success', 'btn-submit-d3');
         }
-        function enviarD5() {
-            const frase = document.getElementById('d5-frase').value;
-            enviarEjercicio('D5_VOTO', { frase: frase }, 'd5-success', 'btn-submit-d5');
-        }
+
         function enviarD6() {
             const alt1 = document.getElementById('d6-alt1').value;
             const alt2 = document.getElementById('d6-alt2').value;
