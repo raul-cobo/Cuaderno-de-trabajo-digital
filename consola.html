@@ -83,6 +83,9 @@
         <div class="nav-group">Módulo 4</div>
         <button class="nav-btn" onclick="switchView('d7', this)">🤝 D7: Compromiso PRP</button>
         
+        <div class="nav-group">Herramientas</div>
+        <button class="nav-btn" onclick="switchView('anotaciones', this)">📝 Anotaciones Clientes</button>
+        
         <button class="sync-btn" onclick="fetchData()">🔄 SINCRONIZAR DATOS</button>
     </nav>
 
@@ -145,10 +148,15 @@
             <h2 class="view-title">D7: Compromiso Personal (PRP)</h2>
             <div class="grid-cards" id="container-d7"></div>
         </div>
+        
+        <div id="view-anotaciones" class="view-section">
+            <h2 class="view-title">📝 Anotaciones de los Participantes</h2>
+            <div class="grid-cards" id="container-anotaciones"></div>
+        </div>
     </main>
 
     <script>
-        const GOOGLE_URL = 'https://script.google.com/macros/s/AKfycbzBnz289ldXCZQLYvqqJ5k2EcIjUERpTQyBccycsO7dVxNVI1XNbU9pXRwdbrWH8U4b/exec';
+        const GOOGLE_URL = 'https://script.google.com/macros/s/AKfycbz96LM1bpJ7d8o5Iwqs8HQGCqMoBa4ne-jj5_hkeNz9FSH7BtbyQjGFk3_gu8Iwqyts/exec';
         const MASTER_PIN = '5629';
         
         let charts = {};
@@ -197,7 +205,7 @@
 
         function processData(rows) {
             // Limpiar contenedores
-            ['container-d3', 'container-d5', 'container-d6', 'container-a2', 'container-a3', 'container-d7'].forEach(id => document.getElementById(id).innerHTML = '');
+            ['container-d3', 'container-d5', 'container-d6', 'container-a2', 'container-a3', 'container-d7', 'container-anotaciones'].forEach(id => document.getElementById(id).innerHTML = '');
 
             let d1Counts = { saltar: 0, observar: 0, avanzar: 0 };
             let d2Counts = {};
@@ -223,6 +231,7 @@
                 else if (tipo === "A2_VOTO") createCard('container-a2', 'Análisis de Muro', `Rebota: ${row.col3}`, `Atraviesa: ${row.col4}`);
                 else if (tipo === "A3_VOTO") createCard('container-a3', 'Puente Construido', `Amortiguador: ${row.col3}<br>Pivote: ${row.col4}<br>Gancho: ${row.col5}`);
                 else if (tipo === "D7_VOTO") createCard('container-d7', 'Plan de Resiliencia', `Señal: ${row.col2}<br>Escudo: ${row.col3}`, `Protocolo: ${row.col4}`);
+                else if (tipo === "ANOTACIONES_VOTO") createCard('container-anotaciones', 'Anotación Anónima', row.col2);
             });
 
             updateCharts(d1Counts, d2Counts, ireCounts, d4Counts);
