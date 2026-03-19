@@ -33,8 +33,11 @@
         body { background-color: var(--bg-color); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
 
         header { background-color: var(--card-bg); padding: 0.8rem 1rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); z-index: 10; position: sticky; top: 0; border-bottom: 3px solid var(--blue-sos); }
-        .logo-img { height: 45px; object-fit: contain; cursor: pointer; transition: transform 0.2s; }
+        
+        /* Logo interactivo hacia la web */
+        .logo-img { height: 45px; object-fit: contain; cursor: pointer; transition: transform 0.2s, opacity 0.2s; }
         .logo-img:active { transform: scale(0.95); }
+        .logo-img:hover { opacity: 0.8; }
         
         .btn-sos { background-color: var(--blue-sos); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 999px; font-weight: bold; cursor: pointer; font-size: 0.8rem; box-shadow: 0 4px 10px rgba(25, 118, 210, 0.3); transition: background 0.2s; }
         .btn-sos:hover { background-color: var(--blue-dark); }
@@ -140,7 +143,7 @@
 <body>
 
     <header>
-        <img src="05 logo, nombre, eslogan, sin fondo.png" alt="PsycoIntera Logo" class="logo-img" onclick="goHome()">
+        <img src="05 logo, nombre, eslogan, sin fondo.png" alt="PsycoIntera Logo" class="logo-img" onclick="window.open('https://www.psycointera.com/', '_blank')" title="Visitar PsycoIntera.com">
         <button class="btn-sos" onclick="toggleSOS()">🔥 RESET 4-7-8</button>
     </header>
 
@@ -172,11 +175,52 @@
                 <button class="btn-dash mod-4 locked" id="btn-d7" onclick="openGated('d7')"><i>🤝</i> D7: Compromiso 24H (Protocolo PRP)</button>
             </div>
 
-            <h3 class="module-title" style="color: var(--blue-sos); border-color: var(--blue-sos);">Herramientas Libres (Día a Día)</h3>
+            <h3 class="module-title" style="color: var(--blue-dark); margin-top: 1.5rem;">Soluciones para Empresas</h3>
+            <div class="dashboard-grid" style="grid-template-columns: 1fr;">
+                <button class="btn-dash" style="background: linear-gradient(135deg, var(--blue-dark) 0%, var(--blue-sos) 100%); flex-direction: row; justify-content: space-between; padding: 1.5rem; text-align: left;" onclick="openFree('psycointera')">
+                    <div>
+                        <div style="font-size: 1.1rem; margin-bottom: 0.3rem;">🚀 Impulsa tu Equipo</div>
+                        <div style="font-size: 0.75rem; font-weight: 400; opacity: 0.9;">Auditoría, Clima Laboral y Formación</div>
+                    </div>
+                    <i style="font-size: 1.5rem;">→</i>
+                </button>
+            </div>
+
+            <h3 class="module-title" style="color: var(--blue-sos); border-color: var(--blue-sos); margin-top: 1.5rem;">Herramientas Libres (Día a Día)</h3>
             <div class="dashboard-grid">
                 <button class="btn-dash mod-free" onclick="openFree('judo')"><i>💬</i> Judo Verbal</button>
                 <button class="btn-dash mod-free" onclick="openFree('reporte')"><i>📊</i> Enviar Reporte</button>
             </div>
+        </section>
+
+        <section id="view-psycointera" class="view-section section-card">
+            <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
+            
+            <div style="text-align: center; margin-bottom: 1.5rem;">
+                <img src="1728575056445~4-A1a52p0oeGhX86oy.jpg" alt="Raúl Cobo Palomino" style="width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--blue-sos); object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <h2 style="margin-top: 0.8rem; margin-bottom: 0.2rem;">Raúl Cobo Palomino</h2>
+                <p style="color: var(--blue-sos); font-weight: bold; font-size: 0.9rem;">Psicólogo Organizacional</p>
+            </div>
+            
+            <p style="font-size:0.9rem; color:#475569; margin-bottom:1.5rem; text-align: center; line-height: 1.6;">
+                ¿El estrés y el conflicto están afectando la productividad y el clima de tu departamento? Descubre cómo podemos intervenir con soluciones basadas en la ciencia del comportamiento.
+            </p>
+
+            <div style="background: #f8fafc; border-left: 4px solid var(--blue-sos); padding: 1rem; margin-bottom: 1rem; border-radius: 0 8px 8px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <strong style="color: var(--text-main);">📊 Diagnóstico Fino</strong><br>
+                <span style="font-size: 0.85rem; color: #475569; display: block; margin-top: 0.3rem;">Análisis de clima y cultura para detectar focos de desgaste y oportunidades de mejora.</span>
+            </div>
+            <div style="background: #f8fafc; border-left: 4px solid var(--blue-light); padding: 1rem; margin-bottom: 1rem; border-radius: 0 8px 8px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <strong style="color: var(--text-main);">🎯 Gestión de Talento</strong><br>
+                <span style="font-size: 0.85rem; color: #475569; display: block; margin-top: 0.3rem;">Auditoría de perfiles (Audeo) para asegurar el encaje ideal y potenciar el rendimiento.</span>
+            </div>
+            <div style="background: #f8fafc; border-left: 4px solid var(--blue-dark); padding: 1rem; margin-bottom: 1.5rem; border-radius: 0 8px 8px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                <strong style="color: var(--text-main);">🛠️ Intervención Directa</strong><br>
+                <span style="font-size: 0.85rem; color: #475569; display: block; margin-top: 0.3rem;">Formación especializada en liderazgo, comunicación táctica y programas de resiliencia corporativa.</span>
+            </div>
+
+            <button class="btn-submit" onclick="window.open('https://www.psycointera.com/', '_blank')">🌐 Visitar PsycoIntera.com</button>
+            <button class="btn-submit" style="background-color: white; color: var(--blue-sos); border: 2px solid var(--blue-sos); margin-top: 0.8rem;" onclick="window.open('mailto:raulcobo@psycointera.com', '_blank')">✉️ Contactar con Raúl</button>
         </section>
 
         <section id="view-d1" class="view-section section-card">
@@ -466,7 +510,7 @@
             <button style="width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--green-success); color: white; cursor: pointer;" id="btn-enviar" onclick="enviarMetricas()" disabled>Enviar Reporte Anónimo</button>
         </section>
 
-        <footer>PsycoIntera - Escudo Mental v2.5</footer>
+        <footer>PsycoIntera - Equipos que Impulsan © 2026</footer>
     </main>
 
     <div id="pin-modal">
@@ -504,7 +548,7 @@
             'd1': 'view-d1', 'd2': 'view-d2', 'a1': 'view-a1', 
             'd3': 'view-d3', 'd4': 'view-d4', 'a2': 'view-a2', 
             'd5': 'view-d5', 'd6': 'view-d6',
-            'a3': 'view-a3', 'd7': 'view-d7'
+            'a3': 'view-a3', 'd7': 'view-d7', 'psycointera': 'view-psycointera'
         };
 
         let currentTargetId = null;
@@ -517,7 +561,7 @@
 
         function openFree(viewId) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            document.getElementById('view-' + viewId).classList.add('active');
+            document.getElementById(VIEW_MAP[viewId] || 'view-' + viewId).classList.add('active');
             window.scrollTo(0,0);
         }
 
