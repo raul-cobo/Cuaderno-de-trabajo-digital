@@ -11,19 +11,16 @@
 
     <style>
         :root {
-            /* Colores Corporativos PsycoIntera (Azul y Blanco) */
             --bg-color: #f4f7f9;
             --text-main: #1f2937;
             --blue-sos: #1976D2; 
             --blue-dark: #1565C0;
             --blue-light: #2196F3;
-            
             --red-btn: #dc2626;
             --orange-btn: #f97316;
             --yellow-btn: #eab308;
             --green-success: #10b981;
             --purple-mod: #8b5cf6;
-            
             --card-bg: #ffffff;
             --border-color: #e2e8f0;
         }
@@ -33,8 +30,6 @@
         body { background-color: var(--bg-color); color: var(--text-main); display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
 
         header { background-color: var(--card-bg); padding: 0.8rem 1rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.08); z-index: 10; position: sticky; top: 0; border-bottom: 3px solid var(--blue-sos); }
-        
-        /* Logo interactivo hacia la web */
         .logo-img { height: 45px; object-fit: contain; cursor: pointer; transition: transform 0.2s, opacity 0.2s; }
         .logo-img:active { transform: scale(0.95); }
         .logo-img:hover { opacity: 0.8; }
@@ -49,17 +44,14 @@
         .section-card { background: white; padding: 1.2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: relative; border: 1px solid var(--border-color); }
         .autosave-status { font-size: 0.75rem; color: var(--green-success); font-weight: bold; position: absolute; top: 1.2rem; right: 1.2rem; opacity: 0; transition: opacity 0.3s; }
 
-        /* Vistas SPA */
         .view-section { display: none; animation: fadeIn 0.3s ease-in-out; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Contenedores de Actividad y Enunciados */
         .intro-container { text-align: left; padding: 0.5rem 0; }
         .intro-container p { color: #475569; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem; }
         .activity-container { display: none; animation: fadeIn 0.3s ease-in-out; }
 
-        /* Dashboard Grid */
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem; }
         .btn-dash { padding: 1.2rem 0.5rem; border: none; border-radius: 12px; font-size: 0.85rem; font-weight: 700; color: white; cursor: pointer; transition: transform 0.1s, box-shadow 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0.5rem; box-shadow: 0 4px 6px rgba(25, 118, 210, 0.2); }
         .btn-dash:active { transform: scale(0.97); }
@@ -67,7 +59,6 @@
         .btn-dash.locked::after { content: '🔒'; position: absolute; top: 8px; right: 8px; font-size: 0.7rem; }
         .btn-dash.unlocked::after { content: '🔓'; position: absolute; top: 8px; right: 8px; font-size: 0.7rem; opacity: 0.7;}
         
-        /* Paleta Corporativa para el Menú */
         .mod-1 { background-color: var(--blue-dark); }
         .mod-2 { background-color: var(--blue-sos); }
         .mod-3 { background-color: var(--blue-light); }
@@ -77,7 +68,6 @@
         .btn-back { display: inline-flex; align-items: center; gap: 0.5rem; background: #f1f5f9; color: var(--blue-dark); border: 1px solid var(--border-color); padding: 0.6rem 1rem; border-radius: 8px; font-weight: bold; margin-bottom: 1.5rem; cursor: pointer; transition: background 0.2s; }
         .btn-back:hover { background: #e2e8f0; }
 
-        /* PIN Modal */
         #pin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(15, 23, 42, 0.95); z-index: 200; flex-direction: column; justify-content: center; align-items: center; padding: 1rem; }
         .pin-box { background: white; padding: 2.5rem 2rem; border-radius: 16px; text-align: center; width: 100%; max-width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
         .pin-box h3 { color: var(--blue-dark); margin-bottom: 1rem; }
@@ -89,7 +79,6 @@
         .btn-cancel { background: #e2e8f0; color: #475569; }
         .btn-unlock { background: var(--blue-sos); color: white; }
 
-        /* Controles Formularios */
         .grid-conflicts { display: grid; gap: 0.8rem; margin-top: 1rem; }
         .btn-conflict { width: 100%; padding: 1.2rem; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; color: white; cursor: pointer; transition: transform 0.1s; }
         .btn-conflict:active { transform: scale(0.97); }
@@ -110,11 +99,9 @@
         .pct-input { display: none; margin-top: 0.5rem; display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem;}
         .pct-input input { padding: 0.4rem; width: 80px; }
 
-        /* Componentes Específicos */
         .case-box { font-size: 0.95rem; color: #334155; margin-bottom: 1.5rem; padding: 1rem; background: #f0f7ff; border-left: 4px solid var(--blue-sos); border-radius: 0 8px 8px 0; line-height: 1.6; font-style: italic;}
         .success-msg { display:none; text-align: center; padding: 1rem; color: var(--blue-dark); font-weight: bold; background: #e0f2fe; border-radius: 8px; margin-top: 1rem; border: 1px solid #bae6fd;}
 
-        /* Termómetro de Riesgos */
         .ranking-container { margin-top: 1rem; }
         .ranking-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 0.85rem; font-weight: bold; color: var(--blue-dark); background: #f0f7ff; padding: 0.8rem; border-radius: 8px; border: 1px solid #bae6fd; }
         .ranking-list { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -124,7 +111,15 @@
         .ranking-number { min-width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #94a3b8; display: flex; justify-content: center; align-items: center; font-size: 0.75rem; font-weight: bold; color: #94a3b8; margin-right: 0.8rem; }
         .ranking-item.selected .ranking-number { background-color: var(--blue-sos); border-color: var(--blue-sos); color: white; }
 
-        /* Legal / Consent */
+        /* Acordeón Glosario */
+        .accordion { background-color: #f8fafc; color: var(--blue-dark); cursor: pointer; padding: 1rem; width: 100%; text-align: left; border: 1px solid var(--border-color); outline: none; transition: 0.4s; font-weight: bold; border-radius: 8px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;}
+        .accordion.active, .accordion:hover { background-color: #e2e8f0; }
+        .accordion:after { content: '\\002B'; color: var(--blue-sos); font-weight: bold; font-size: 1.2rem; }
+        .accordion.active:after { content: "\\2212"; }
+        .panel { padding: 0 1rem; background-color: white; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; border-left: 3px solid var(--blue-sos); border-radius: 0 0 8px 8px; margin-top: -8px; margin-bottom: 1rem;}
+        .panel-content { padding: 1rem 0; font-size: 0.9rem; color: #475569; line-height: 1.6;}
+        .panel-func { background: #eff6ff; padding: 0.8rem; border-radius: 8px; margin-top: 0.8rem; color: var(--blue-dark); font-weight: 500;}
+
         .legal-consent { font-size: 0.75rem; color: #64748b; margin-bottom: 1rem; padding: 0.8rem; background: #f8fafc; border-radius: 8px; border: 1px solid var(--border-color); }
         .legal-consent a { color: var(--blue-sos); text-decoration: underline; font-weight: bold; }
         #btn-enviar:disabled { background-color: #94a3b8; cursor: not-allowed; opacity: 0.7; box-shadow: none; }
@@ -135,7 +130,6 @@
         .circle { width: 180px; height: 180px; border-radius: 50%; background-color: var(--blue-sos); display: flex; justify-content: center; align-items: center; font-size: 1.6rem; font-weight: 800; transition: all 4s linear; box-shadow: 0 0 40px rgba(25, 118, 210, 0.5); }
         .audio-toggle { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 0.5rem 1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.8rem; cursor: pointer; }
         
-        /* Controles de Vídeo D1 Custom */
         .video-controls { display: flex; gap: 8px; margin-bottom: 1rem; }
         .btn-video-ctrl { flex: 1; padding: 0.8rem 0.5rem; border: none; border-radius: 8px; font-weight: bold; color: white; cursor: pointer; font-size: 0.85rem; transition: background 0.2s;}
     </style>
@@ -188,25 +182,23 @@
 
             <h3 class="module-title" style="color: var(--blue-sos); border-color: var(--blue-sos); margin-top: 1.5rem;">Herramientas Libres (Día a Día)</h3>
             <div class="dashboard-grid">
+                <button class="btn-dash mod-free" onclick="openFree('glosario')"><i>🧠</i> Biblioteca Mental</button>
                 <button class="btn-dash mod-free" onclick="openFree('judo')"><i>💬</i> Judo Verbal</button>
                 <button class="btn-dash mod-free" onclick="openFree('anotaciones')"><i>📝</i> Anotaciones</button>
-                <button class="btn-dash mod-free" onclick="openFree('reporte')" style="grid-column: span 2;"><i>📊</i> Enviar Reporte Final</button>
+                <button class="btn-dash mod-free" onclick="openFree('reporte')"><i>📊</i> Reporte Final</button>
             </div>
         </section>
 
         <section id="view-psycointera" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
-            
             <div style="text-align: center; margin-bottom: 1.5rem;">
                 <img src="1728575056445~4-A1a52p0oeGhX86oy.jpg" alt="Raúl Cobo Palomino" style="width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--blue-sos); object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                 <h2 style="margin-top: 0.8rem; margin-bottom: 0.2rem;">Raúl Cobo Palomino</h2>
                 <p style="color: var(--blue-sos); font-weight: bold; font-size: 0.9rem;">Psicólogo Organizacional</p>
             </div>
-            
             <p style="font-size:0.9rem; color:#475569; margin-bottom:1.5rem; text-align: center; line-height: 1.6;">
                 ¿El estrés y el conflicto están afectando la productividad y el clima de tu departamento? Descubre cómo podemos intervenir con soluciones basadas en la ciencia del comportamiento.
             </p>
-
             <div style="background: #f8fafc; border-left: 4px solid var(--blue-sos); padding: 1rem; margin-bottom: 1rem; border-radius: 0 8px 8px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
                 <strong style="color: var(--text-main);">📊 Diagnóstico Fino</strong><br>
                 <span style="font-size: 0.85rem; color: #475569; display: block; margin-top: 0.3rem;">Análisis de clima y cultura para detectar focos de desgaste y oportunidades de mejora.</span>
@@ -219,9 +211,74 @@
                 <strong style="color: var(--text-main);">🛠️ Intervención Directa</strong><br>
                 <span style="font-size: 0.85rem; color: #475569; display: block; margin-top: 0.3rem;">Formación especializada en liderazgo, comunicación táctica y programas de resiliencia corporativa.</span>
             </div>
-
             <button class="btn-submit" onclick="window.open('https://www.psycointera.com/', '_blank')">🌐 Visitar PsycoIntera.com</button>
             <button class="btn-submit" style="background-color: white; color: var(--blue-sos); border: 2px solid var(--blue-sos); margin-top: 0.8rem;" onclick="window.open('mailto:raulcobo@psycointera.com', '_blank')">✉️ Contactar con Raúl</button>
+        </section>
+
+        <section id="view-glosario" class="view-section section-card">
+            <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
+            <h2>Biblioteca Mental</h2>
+            <p style="font-size:0.85rem; color:#64748b; margin-bottom:1rem;">Conceptos técnicos de neurociencia y psicología aplicados a la gestión telefónica.</p>
+
+            <button class="accordion">Amígdala Cerebelosa</button>
+            <div class="panel">
+                <div class="panel-content">
+                    <strong>¿Qué es?</strong> Estructura subcortical situada en el lóbulo temporal interno. Centro principal del procesamiento de emociones primarias y memoria asociativa. 
+                    <div class="panel-func">
+                        <strong>Impacto Operativo:</strong> Es tu radar de amenazas. Si el cliente levanta la voz, la amígdala lo interpreta como un ataque vital, paralizando la lógica y forzando una respuesta de ataque, huida o bloqueo.
+                    </div>
+                </div>
+            </div>
+
+            <button class="accordion">Córtex Prefrontal</button>
+            <div class="panel">
+                <div class="panel-content">
+                    <strong>¿Qué es?</strong> Región frontal del cerebro responsable de las funciones ejecutivas: planificación, toma de decisiones y regulación de impulsos.
+                    <div class="panel-func">
+                        <strong>Impacto Operativo:</strong> Es tu "director de orquesta". Te permite frenar el impulso de contestar mal y elegir usar técnicas como el Judo Verbal para desescalar el conflicto.
+                    </div>
+                </div>
+            </div>
+
+            <button class="accordion">Cortisol</button>
+            <div class="panel">
+                <div class="panel-content">
+                    <strong>¿Qué es?</strong> Hormona esteroidea liberada por las glándulas suprarrenales en respuesta al estrés, destinada a preparar el cuerpo para un esfuerzo prolongado.
+                    <div class="panel-func">
+                        <strong>Impacto Operativo:</strong> Tras varias llamadas difíciles, el cortisol se acumula. Si no aplicas un protocolo de "Reset" (limpieza química), acabará provocando fatiga crónica y síndrome de Burnout.
+                    </div>
+                </div>
+            </div>
+
+            <button class="accordion">Sistema Nervioso Autónomo</button>
+            <div class="panel">
+                <div class="panel-content">
+                    <strong>¿Qué es?</strong> Red nerviosa que controla respuestas involuntarias. Se divide en Simpático (acelerador) y Parasimpático (freno). 
+                    <div class="panel-func">
+                        <strong>Impacto Operativo:</strong> En un siniestro grave, el Simpático te da taquicardia y visión de túnel. Con la respiración táctica (4-7-8), fuerzas la activación del Parasimpático para recuperar el control físico y mental.
+                    </div>
+                </div>
+            </div>
+
+            <button class="accordion">Secuestro Emocional</button>
+            <div class="panel">
+                <div class="panel-content">
+                    <strong>¿Qué es?</strong> Fenómeno neurobiológico donde la amígdala inhibe las funciones del córtex prefrontal ante un estímulo que considera muy amenazante.
+                    <div class="panel-func">
+                        <strong>Impacto Operativo:</strong> Es el momento en que "pierdes los papeles". Te tomas la queja del cliente como un ataque personal y olvidas el protocolo técnico de la aseguradora.
+                    </div>
+                </div>
+            </div>
+
+            <button class="accordion">Disociación Empática</button>
+            <div class="panel">
+                <div class="panel-content">
+                    <strong>¿Qué es?</strong> Habilidad psicológica para separar el contenido emocional de un mensaje de su contenido puramente fáctico o técnico.
+                    <div class="panel-func">
+                        <strong>Impacto Operativo:</strong> Es tu "Escudo de Cristal". Te permite escuchar los gritos del cliente, dejar que la emoción resbale por el cristal, y permitir que solo el dato técnico (ej. "tubería rota") atraviese hacia tu cerebro.
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="view-d1" class="view-section section-card">
@@ -237,7 +294,6 @@
                 <div id="d1-video-container" style="position: relative; width: 100%; max-width: 400px; margin: 0 auto 1rem auto; border-radius: 12px; overflow: hidden; background: #000; height: 60vh; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
                     <video id="video-ejercicio" width="100%" height="100%" playsinline muted preload="metadata" style="display: block; object-fit: contain;">
                         <source src="laselva.mp4" type="video/mp4">
-                        Tu navegador no soporta video.
                     </video>
                 </div>
                 
@@ -255,7 +311,7 @@
                         <button class="btn-conflict bg-red" onclick="votarD1('saltar')">Salto hacia atrás</button>
                     </div>
                 </div>
-                <div id="d1-success" class="success-msg">Respuesta anónima registrada. Puedes volver a ver el vídeo si lo deseas.</div>
+                <div id="d1-success" class="success-msg">Respuesta anónima registrada.</div>
             </div>
         </section>
 
@@ -264,20 +320,18 @@
             <h2>Dinámica 2: Termómetro de Riesgos</h2>
             
             <div id="intro-d2" class="intro-container">
-                <p><strong>Enunciado:</strong> El estrés en la gestión de siniestros rara vez es un hecho aislado. Revisa la siguiente lista de 10 disparadores psicosociales habituales en el sector y selecciona las <strong>3 situaciones</strong> que te generan mayor nivel de tensión, ansiedad o bloqueo emocional durante tu turno de trabajo.</p>
+                <p><strong>Enunciado:</strong> Selecciona las <strong>3 situaciones</strong> que te generan mayor nivel de tensión, ansiedad o bloqueo emocional durante tu turno de trabajo.</p>
                 <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d2')">Entrar en la Dinámica</button>
             </div>
 
             <div id="content-d2" class="activity-container">
-                <div class="autosave-status">Guardado ✓</div>
-                <label class="title-label" style="margin-top: 1rem;">Selecciona tus 3 mayores disparadores psicosociales:</label>
+                <label class="title-label" style="margin-top: 1rem;">Selecciona tus 3 mayores disparadores:</label>
                 <div class="ranking-container">
                     <div class="ranking-header"><span>Estado actual:</span><span id="ranking-counter">0/3</span></div>
                     <div class="ranking-list" id="ranking-list"></div>
                 </div>
-                
-                <button class="btn-submit" id="btn-submit-d2" onclick="enviarD2()" style="margin-top: 1.5rem;">Enviar Ranking de forma anónima</button>
-                <div id="d2-success" class="success-msg">¡Ranking enviado al facilitador! Puedes modificarlo más tarde.</div>
+                <button class="btn-submit" id="btn-submit-d2" onclick="enviarD2()" style="margin-top: 1.5rem;">Enviar Ranking Anónimo</button>
+                <div id="d2-success" class="success-msg">¡Ranking enviado!</div>
             </div>
         </section>
 
@@ -286,22 +340,22 @@
             <h2>A1: Mapa de Alerta (IRE)</h2>
             
             <div id="intro-a1" class="intro-container">
-                <p><strong>Enunciado:</strong> El primer paso para evitar el secuestro emocional es detectarlo a tiempo. Basándote en el Inventario de Reactividad al Estrés (IRE), marca los <strong>3 síntomas físicos</strong> que notas primero cuando una llamada se complica, e indica con qué frecuencia (en %) te ocurren.</p>
+                <p><strong>Enunciado:</strong> Basándote en el Inventario de Reactividad al Estrés, marca los <strong>3 síntomas físicos</strong> que notas primero cuando una llamada se complica, e indica su frecuencia.</p>
                 <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('a1')">Entrar en la Actividad</button>
             </div>
 
             <div id="content-a1" class="activity-container">
                 <div class="autosave-status" id="a1-autosave">Guardado ✓</div>
-                <label class="title-label" style="margin-top: 1rem;">Marca las 3 sintomatologías más frecuentes e indica la frecuencia (%):</label>
+                <label class="title-label" style="margin-top: 1rem;">Marca las 3 sintomatologías más frecuentes:</label>
                 <div id="a1-symptoms-list" class="checkbox-group"></div>
 
-                <label class="title-label" style="margin-top: 1.5rem;">Otras sintomatologías (No en la lista):</label>
-                <input type="text" id="a1-otro1" placeholder="Síntoma extra 1" class="input-group">
-                <input type="text" id="a1-otro2" placeholder="Síntoma extra 2" class="input-group">
-                <input type="text" id="a1-otro3" placeholder="Síntoma extra 3" class="input-group">
+                <label class="title-label" style="margin-top: 1.5rem;">Otras sintomatologías:</label>
+                <input type="text" id="a1-otro1" class="input-group">
+                <input type="text" id="a1-otro2" class="input-group">
+                <input type="text" id="a1-otro3" class="input-group">
                 
-                <button class="btn-submit" id="btn-submit-a1" onclick="enviarA1()">Enviar Mapa de forma anónima</button>
-                <div id="a1-success" class="success-msg">¡Datos enviados al facilitador!</div>
+                <button class="btn-submit" id="btn-submit-a1" onclick="enviarA1()">Enviar Mapa Anónimo</button>
+                <div id="a1-success" class="success-msg">¡Datos enviados!</div>
             </div>
         </section>
 
@@ -310,44 +364,38 @@
             <h2>D3: Espejo Profesional</h2>
             
             <div id="intro-d3" class="intro-container">
-                <p><strong>Enunciado:</strong> Ejercicio de "Espejo Profesional". Se te asignará de forma aleatoria una frase real con alta carga emocional por parte de un asegurado. Tu objetivo es entrenar la <strong>Disociación Empática</strong>: reescribe la frase eliminando toda la parte emocional (ataques, quejas) para extraer únicamente el <em>problema técnico real</em> que debes resolver.</p>
+                <p><strong>Enunciado:</strong> Entrena la <strong>Disociación Empática</strong>: reescribe la frase eliminando la parte emocional para extraer el problema técnico.</p>
                 <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d3')">Entrar en la Dinámica</button>
             </div>
 
             <div id="content-d3" class="activity-container">
-                <p style="font-size:0.85rem; color:#64748b; margin-bottom:1rem;">Reescribe esta frase despojándola de la emoción y dejando solo el problema técnico (Disociación Empática).</p>
+                <div class="autosave-status" id="d3-autosave">Guardado ✓</div>
                 <div id="d3-case-box" class="case-box">Cargando caso...</div>
                 <label class="title-label">Tu Respuesta Técnica:</label>
                 <textarea id="d3-respuesta" rows="4" placeholder="Escribe aquí tu reencuadre..."></textarea>
-                <button class="btn-submit" id="btn-submit-d3" onclick="enviarD3()">Enviar Análisis anónimo</button>
-                <div id="d3-success" class="success-msg">Respuesta enviada. Atiende a la pantalla del facilitador.</div>
+                <button class="btn-submit" id="btn-submit-d3" onclick="enviarD3()">Enviar Análisis Anónimo</button>
+                <div id="d3-success" class="success-msg">Respuesta enviada.</div>
             </div>
         </section>
         
         <section id="view-d4" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
-            <h2>D4: Test Biofeedback (Reset 4-7-8)</h2>
-            
+            <h2>D4: Test Biofeedback (4-7-8)</h2>
             <div id="intro-d4" class="intro-container">
-                <p><strong>Enunciado:</strong> El objetivo de esta prueba es validar empíricamente la efectividad de la maniobra de Reset Fisiológico (activación del nervio vago). Anota tu nivel de tensión actual, realiza el ciclo y comprueba el efecto.</p>
+                <p><strong>Enunciado:</strong> Valida empíricamente el Reset Fisiológico. Realiza el ciclo y comprueba el efecto.</p>
                 <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d4')">Entrar en la Dinámica</button>
             </div>
-
             <div id="content-d4" class="activity-container">
-                <label class="title-label">1. ¿Qué nivel de tensión sientes ahora mismo?</label>
+                <label class="title-label">1. ¿Nivel de tensión inicial?</label>
                 <input type="range" id="d4-slider" min="1" max="10" value="5" style="width: 100%;" oninput="document.getElementById('d4-valor').innerText = this.value">
                 <div style="text-align: center; font-size: 2.5rem; font-weight: 800; margin: 1rem 0; color: var(--blue-sos);" id="d4-valor">5</div>
-                
-                <p style="font-size:0.85rem; color:#64748b; margin-bottom:1rem; text-align: center;">Pulsa el botón inferior para activar la herramienta de Reset. Realiza 3 ciclos completos guiados por el estímulo visual y auditivo.</p>
-                
                 <button class="btn-submit" style="background-color: var(--orange-btn); margin-bottom: 1.5rem;" onclick="toggleSOS()">🔥 INICIAR TEST (4-7-8)</button>
-                
-                <label class="title-label">2. Tras realizar la prueba, ¿te sientes más centrado/a?</label>
+                <label class="title-label">2. Tras la prueba, ¿te sientes más centrado/a?</label>
                 <div style="display: flex; gap: 10px; margin-top: 0.5rem;" id="d4-botones-respuesta">
                     <button class="btn-conflict" style="background: var(--green-success);" onclick="enviarD4('Sí')">Sí, lo noto</button>
                     <button class="btn-conflict" style="background: #94a3b8;" onclick="enviarD4('No')">No mucho</button>
                 </div>
-                <div id="d4-success" class="success-msg">Evaluación enviada. Gracias por participar.</div>
+                <div id="d4-success" class="success-msg">Evaluación enviada.</div>
             </div>
         </section>
 
@@ -356,31 +404,29 @@
             <h2>D5: Laboratorio de Frases</h2>
             
             <div id="intro-d5" class="intro-container">
-                <p><strong>Enunciado:</strong> Laboratorio de Frases Críticas. Fase 1: Escribe de forma anónima la frase más difícil, injusta o agresiva que hayas escuchado de un cliente. Estas frases se "barajarán" y se repartirán entre tus compañeros para ser neutralizadas mediante Judo Verbal.</p>
+                <p><strong>Enunciado:</strong> Escribe la frase más difícil que hayas escuchado. Se barajarán para ser neutralizadas por compañeros.</p>
                 <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d5')">Entrar en la Dinámica</button>
             </div>
 
             <div id="content-d5" class="activity-container">
                 <div id="d5-fase-envio">
                     <label class="title-label">Tu frase crítica (la que recibiste):</label>
-                    <textarea id="d5-frase-propia" rows="3" placeholder="Ej: Llevo pagando 10 años para que ahora me digas que..."></textarea>
+                    <textarea id="d5-frase-propia" rows="3" placeholder="Ej: Llevo pagando 10 años..."></textarea>
                     <button class="btn-submit" id="btn-envio-d5" onclick="faseEnvioD5()">Subir frase de forma anónima</button>
                 </div>
 
                 <div id="d5-fase-judo" style="display:none;">
                     <div id="d5-loading" style="text-align:center; padding: 1rem; color: var(--blue-sos); font-weight: bold;">⏳ Barajando frases del grupo...</div>
-                    
                     <div id="d5-judo-interactivo" style="display:none;">
-                        <p style="font-size:0.85rem; color:var(--blue-dark); font-weight:bold; margin-bottom:1rem;">Te ha tocado neutralizar esta frase:</p>
+                        <div class="autosave-status" id="d5-autosave">Guardado ✓</div>
+                        <p style="font-size:0.85rem; color:var(--blue-dark); font-weight:bold; margin-bottom:1rem;">Neutraliza esta frase:</p>
                         <div id="d5-frase-asignada" class="case-box" style="border-left-color: var(--red-btn);">...</div>
-                        
-                        <label class="title-label">Aplica Judo Verbal (Respuesta Técnica):</label>
+                        <label class="title-label">Aplica Judo Verbal:</label>
                         <textarea id="d5-respuesta-judo" rows="4" placeholder="Amortiguador + Pivote + Gancho..."></textarea>
                         <button class="btn-submit" id="btn-submit-d5-final" onclick="enviarRespuestaD5()">Enviar Respuesta anónima</button>
                     </div>
                 </div>
-
-                <div id="d5-success" class="success-msg">Análisis enviado. El facilitador mostrará las mejores neutralizaciones en pantalla.</div>
+                <div id="d5-success" class="success-msg">Análisis enviado.</div>
             </div>
         </section>
 
@@ -389,22 +435,20 @@
             <h2>D6: Aduana de Palabras</h2>
             
             <div id="intro-d6" class="intro-container">
-                <p><strong>Enunciado:</strong> La Aduana de Palabras. Ciertas expresiones actúan como "gasolina" para la amígdala del cliente. Propón una alternativa técnica y profesional para cada una de estas frases prohibidas.</p>
+                <p><strong>Enunciado:</strong> Propón una alternativa técnica y profesional para cada una de estas frases prohibidas.</p>
                 <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d6')">Entrar en la Dinámica</button>
             </div>
 
             <div id="content-d6" class="activity-container">
+                <div class="autosave-status" id="d6-autosave">Guardado ✓</div>
                 <label class="title-label">En lugar de decir "¡Cálmese!" diré:</label>
-                <input type="text" id="d6-alt1" class="input-group" placeholder="Tu alternativa...">
-                
+                <input type="text" id="d6-alt1" class="input-group">
                 <label class="title-label">En lugar de decir "Usted tiene la culpa" diré:</label>
-                <input type="text" id="d6-alt2" class="input-group" placeholder="Tu alternativa...">
-
+                <input type="text" id="d6-alt2" class="input-group">
                 <label class="title-label">En lugar de decir "No me grite" diré:</label>
-                <input type="text" id="d6-alt3" class="input-group" placeholder="Tu alternativa...">
-
-                <button class="btn-submit" id="btn-submit-d6" onclick="enviarD6()">Pasar la Aduana de forma anónima</button>
-                <div id="d6-success" class="success-msg">Alternativas enviadas con éxito.</div>
+                <input type="text" id="d6-alt3" class="input-group">
+                <button class="btn-submit" id="btn-submit-d6" onclick="enviarD6()">Pasar la Aduana (Anónimo)</button>
+                <div id="d6-success" class="success-msg">Alternativas enviadas.</div>
             </div>
         </section>
 
@@ -413,63 +457,61 @@
             <h2>A2: El Muro de Cristal</h2>
             
             <div id="intro-a2" class="intro-container">
-                <p><strong>Enunciado:</strong> Análisis del "Muro de Cristal". Lee atentamente la transcripción del siniestro que se te ha asignado. Analiza la situación y divide la información en dos bloques: ¿qué palabras agresivas o emocionales deben <strong>rebotar</strong> en tu escudo y qué datos operativos deben <strong>atravesarlo</strong> para poder continuar con la gestión técnica?</p>
+                <p><strong>Enunciado:</strong> Divide la información de la llamada en dos bloques: qué rebota y qué atraviesa.</p>
                 <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('a2')">Entrar en la Actividad</button>
             </div>
 
             <div id="content-a2" class="activity-container">
-                <p style="font-size:0.85rem; color:#64748b; margin-bottom:1rem;">Analiza la transcripción. ¿Qué palabras deben frenar y qué datos deben atravesar tu muro?</p>
+                <div class="autosave-status" id="a2-autosave">Guardado ✓</div>
                 <div id="a2-case-box" class="case-box">Cargando conversación...</div>
-                <label class="title-label">Lo que debe pasar a tu pensamiento (Emoción/Ataque):</label>
-                <textarea id="a2-rebotar" rows="2" placeholder="Ej: inútiles, estafadores..."></textarea>
-                <label class="title-label" style="margin-top:1rem;">Lo que debe ATRAVESAR (Hecho Técnico):</label>
-                <textarea id="a2-atravesar" rows="2" placeholder="Ej: Rotura de tubería..."></textarea>
+                <label class="title-label">Rebota en tu muro (Ataque):</label>
+                <textarea id="a2-rebotar" rows="2"></textarea>
+                <label class="title-label" style="margin-top:1rem;">ATRAVESAR (Hecho Técnico):</label>
+                <textarea id="a2-atravesar" rows="2"></textarea>
                 <button class="btn-submit" id="btn-submit-a2" onclick="enviarA2()">Enviar Análisis anónimo</button>
-                <div id="a2-success" class="success-msg">Análisis enviado al facilitador.</div>
+                <div id="a2-success" class="success-msg">Análisis enviado.</div>
             </div>
         </section>
 
         <section id="view-a3" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
-            <h2>A3: Crear Puentes de Comunicación</h2>
+            <h2>A3: Crear Puentes</h2>
             
             <div id="intro-a3" class="intro-container">
-                <p><strong>Enunciado:</strong> Práctica de Judo Verbal. Se te mostrará una interacción ineficaz (reactiva) entre un cliente y un gestor. Deberás corregir la respuesta del gestor redactándola con la técnica táctica de 3 pasos: <strong>1) Amortiguador</strong> para absorber la emoción, <strong>2) Pivote</strong> para redirigir, y <strong>3) Gancho</strong> para tomar el control operativo.</p>
+                <p><strong>Enunciado:</strong> Corrige la respuesta del gestor redactándola con la técnica táctica de 3 pasos.</p>
                 <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('a3')">Entrar en la Actividad</button>
             </div>
 
             <div id="content-a3" class="activity-container">
-                <p style="font-size:0.85rem; color:#64748b; margin-bottom:1rem;">Corrige la interacción del gestor utilizando la estructura de 3 pasos tácticos.</p>
+                <div class="autosave-status" id="a3-autosave">Guardado ✓</div>
                 <div id="a3-case-box" class="case-box">Cargando interacción...</div>
-                <label class="title-label">1. Amortiguador (Validar Emoción):</label>
-                <input type="text" id="a3-amortiguador" class="input-group" placeholder="Ej: Entiendo que esta demora le cause frustración...">
-                <label class="title-label">2. Pivote (Conectar a lo Técnico):</label>
-                <input type="text" id="a3-pivote" class="input-group" placeholder="Ej: ...por eso mismo mi labor ahora es...">
-                <label class="title-label">3. Gancho (Acción):</label>
-                <input type="text" id="a3-gancho" class="input-group" placeholder="Ej: ...necesito que me confirme su DNI.">
+                <label class="title-label">1. Amortiguador:</label>
+                <input type="text" id="a3-amortiguador" class="input-group">
+                <label class="title-label">2. Pivote:</label>
+                <input type="text" id="a3-pivote" class="input-group">
+                <label class="title-label">3. Gancho:</label>
+                <input type="text" id="a3-gancho" class="input-group">
                 <button class="btn-submit" id="btn-submit-a3" onclick="enviarA3()">Enviar Puente anónimo</button>
-                <div id="a3-success" class="success-msg">Puente enviado. Revisaremos casos en público.</div>
+                <div id="a3-success" class="success-msg">Puente enviado.</div>
             </div>
         </section>
 
         <section id="view-d7" class="view-section section-card">
             <button class="btn-back" onclick="goHome()">← Volver al Menú</button>
             <h2>D7: Hoja de Ruta Personal (PRP)</h2>
-            
             <div id="intro-d7" class="intro-container">
-                <p><strong>Enunciado:</strong> Es el momento de diseñar tu Protocolo de Resiliencia Personal (PRP). Concreta tu "EPI Mental" para la jornada de mañana definiendo tres elementos clave: cuál será tu señal biológica de alerta, qué frase táctica automatizarás como escudo, y en qué momento harás el reset fisiológico para limpiar el cortisol.</p>
-                <button class="btn-submit" style="margin-top: 0;" onclick="startActivity('d7')">Entrar en la Dinámica</button>
+                <p><strong>Enunciado:</strong> Concreta tu "EPI Mental" para la jornada de mañana definiendo tres elementos clave.</p>
+                <button class="btn-submit" onclick="startActivity('d7')">Entrar en la Dinámica</button>
             </div>
-
             <div id="content-d7" class="activity-container">
-                <div class="autosave-status">Guardado ✓</div>
+                <div class="autosave-status" id="d7-autosave">Guardado ✓</div>
                 <div class="input-group" style="margin-top: 1rem;">
                     <label class="title-label">Mi Señal (Detección):</label>
-                    <input type="text" id="plan-senal" placeholder="Ej: Nudo en el estómago">
+                    <input type="text" id="plan-senal">
                 </div>
                 <div class="input-group">
                     <label class="title-label">Mi Escudo (Compromiso 24H):</label>
-                    <input type="text" id="plan-comp" placeholder="Ej: Validar urgencia sin dar la razón">
+                    <input type="text" id="plan-comp">
                 </div>
                 <div class="input-group" style="margin-bottom: 0;">
                     <label class="title-label">Mi Reset (Protocolo Post-Llamada):</label>
@@ -479,9 +521,8 @@
                         <option value="frase">Repetir mi frase de seguridad</option>
                     </select>
                 </div>
-                
-                <button class="btn-submit" id="btn-submit-d7" onclick="enviarD7()" style="margin-top: 1.5rem;">Enviar Protocolo de forma anónima</button>
-                <div id="d7-success" class="success-msg">¡Protocolo enviado! Queda guardado localmente en tu dispositivo.</div>
+                <button class="btn-submit" id="btn-submit-d7" onclick="enviarD7()" style="margin-top: 1.5rem;">Enviar Protocolo anónimo</button>
+                <div id="d7-success" class="success-msg">¡Protocolo enviado! Queda guardado localmente.</div>
             </div>
         </section>
 
@@ -493,10 +534,10 @@
                 <button class="btn-conflict bg-orange" onclick="showScript('orange')">Retraso / Urgencia</button>
                 <button class="btn-conflict bg-yellow" onclick="showScript('yellow')">Rechazo Cobertura</button>
             </div>
-            <div id="script-container">
-                <div class="script-step"><span class="step-label">Validar Emoción (Absorber)</span><div id="text-amortiguador" class="step-text">...</div></div>
-                <div class="script-step"><span class="step-label">Pivotar a lo Técnico (Redirigir)</span><div id="text-pivote" class="step-text">...</div></div>
-                <div class="script-step"><span class="step-label">Cierre de Control (Acción)</span><div id="text-gancho" class="step-text">...</div></div>
+            <div id="script-container" style="display:none; margin-top: 1rem; padding: 1rem; border-left: 4px solid var(--blue-sos); background: #f8fafc;">
+                <div class="script-step"><span style="font-size: 0.8rem; color: var(--blue-dark); font-weight: bold;">Validar Emoción (Absorber)</span><div id="text-amortiguador" style="font-style: italic; margin-bottom: 0.8rem;"></div></div>
+                <div class="script-step"><span style="font-size: 0.8rem; color: var(--blue-dark); font-weight: bold;">Pivotar a lo Técnico (Redirigir)</span><div id="text-pivote" style="font-style: italic; margin-bottom: 0.8rem;"></div></div>
+                <div class="script-step"><span style="font-size: 0.8rem; color: var(--blue-dark); font-weight: bold;">Cierre de Control (Acción)</span><div id="text-gancho" style="font-style: italic;"></div></div>
             </div>
         </section>
 
@@ -525,7 +566,7 @@
                     <span>Acepto el envío de mis datos estadísticos de forma anónima (Ver <a href="privacidad.html" target="_blank">Privacidad</a>).</span>
                 </label>
             </div>
-            <button style="width: 100%; padding: 1rem; border: none; border-radius: 8px; font-weight: bold; background-color: var(--green-success); color: white; cursor: pointer;" id="btn-enviar" onclick="enviarMetricas()" disabled>Enviar Reporte Final Anónimo</button>
+            <button class="btn-submit" id="btn-enviar" onclick="enviarMetricas()" disabled style="background-color: var(--green-success);">Enviar Reporte Final Anónimo</button>
         </section>
 
         <footer>PsycoIntera - Equipos que Impulsan © 2026</footer>
@@ -554,158 +595,75 @@
     <script>
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxjIImbQM24bu0wfEt1jvFSSfOJ39HYl0vn1KRvd2WHIv0WkAJuApA2vYA2gJKvQf-h/exec';
 
-        // --- SISTEMA DE NAVEGACIÓN Y PINES ---
-        const PINS = {
-            'd1': '1001', 'd2': '2026', 'a1': '1117', 
-            'd3': '3003', 'd4': '4004', 'a2': '2222',
-            'd5': '5005', 'd6': '6006', 'a3': '3333',
-            'd7': '7007', 'a4': '4444'
-        };
-
-        const VIEW_MAP = {
-            'd1': 'view-d1', 'd2': 'view-d2', 'a1': 'view-a1', 
-            'd3': 'view-d3', 'd4': 'view-d4', 'a2': 'view-a2', 
-            'd5': 'view-d5', 'd6': 'view-d6',
-            'a3': 'view-a3', 'd7': 'view-d7', 'psycointera': 'view-psycointera',
-            'anotaciones': 'view-anotaciones'
-        };
-
+        const PINS = { 'd1': '1001', 'd2': '2026', 'a1': '1117', 'd3': '3003', 'd4': '4004', 'a2': '2222', 'd5': '5005', 'd6': '6006', 'a3': '3333', 'd7': '7007', 'a4': '4444' };
+        const VIEW_MAP = { 'd1': 'view-d1', 'd2': 'view-d2', 'a1': 'view-a1', 'd3': 'view-d3', 'd4': 'view-d4', 'a2': 'view-a2', 'd5': 'view-d5', 'd6': 'view-d6', 'a3': 'view-a3', 'd7': 'view-d7', 'psycointera': 'view-psycointera', 'anotaciones': 'view-anotaciones', 'glosario': 'view-glosario' };
         let currentTargetId = null;
 
-        function goHome() {
-            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            document.getElementById('view-dashboard').classList.add('active');
-            window.scrollTo(0,0);
-        }
-
-        function openFree(viewId) {
-            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            document.getElementById(VIEW_MAP[viewId] || 'view-' + viewId).classList.add('active');
-            window.scrollTo(0,0);
-        }
-
+        function goHome() { document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active')); document.getElementById('view-dashboard').classList.add('active'); window.scrollTo(0,0); }
+        function openFree(viewId) { document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active')); document.getElementById(VIEW_MAP[viewId] || 'view-' + viewId).classList.add('active'); window.scrollTo(0,0); }
+        
         function openGated(id) {
-            const isUnlocked = localStorage.getItem('unlocked_' + id);
-            if (isUnlocked === 'true') {
-                showGatedView(id);
-            } else {
-                currentTargetId = id;
-                document.getElementById('pin-modal').style.display = 'flex';
-                const input = document.getElementById('pin-input');
-                input.value = '';
-                input.focus();
-                document.getElementById('pin-error').style.display = 'none';
-            }
+            if (localStorage.getItem('unlocked_' + id) === 'true') { showGatedView(id); } 
+            else { currentTargetId = id; document.getElementById('pin-modal').style.display = 'flex'; document.getElementById('pin-input').value = ''; document.getElementById('pin-input').focus(); document.getElementById('pin-error').style.display = 'none'; }
         }
-
         function closePinModal() { document.getElementById('pin-modal').style.display = 'none'; currentTargetId = null; }
-
+        
         function verifyPin() {
             const val = document.getElementById('pin-input').value;
             if (val === PINS[currentTargetId]) {
                 localStorage.setItem('unlocked_' + currentTargetId, 'true');
                 document.getElementById('pin-modal').style.display = 'none';
-                updateDashboardLocks();
-                showGatedView(currentTargetId);
-            } else {
-                const err = document.getElementById('pin-error');
-                err.style.display = 'block';
-                const box = document.querySelector('.pin-box');
-                box.style.transform = 'translateX(-10px)';
-                setTimeout(() => box.style.transform = 'translateX(10px)', 50);
-                setTimeout(() => box.style.transform = 'translateX(0)', 100);
-            }
+                updateDashboardLocks(); showGatedView(currentTargetId);
+            } else { document.getElementById('pin-error').style.display = 'block'; }
         }
 
         function showGatedView(id) {
             document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            const targetView = VIEW_MAP[id] || 'view-placeholder';
-            document.getElementById(targetView).classList.add('active');
-            
-            // Mostrar siempre el enunciado al entrar por primera vez
-            if (document.getElementById('intro-' + id) && document.getElementById('content-' + id)) {
-                document.getElementById('intro-' + id).style.display = 'block';
-                document.getElementById('content-' + id).style.display = 'none';
-            }
-
+            document.getElementById(VIEW_MAP[id] || 'view-placeholder').classList.add('active');
+            if (document.getElementById('intro-' + id) && document.getElementById('content-' + id)) { document.getElementById('intro-' + id).style.display = 'block'; document.getElementById('content-' + id).style.display = 'none'; }
             window.scrollTo(0,0);
-            
-            // Asignadores Aleatorios al entrar en la vista
             if(id === 'd3') asignarCasoAleatorio('d3_idx', frasesD3, 'd3-case-box', "Frase a reencuadrar:");
             if(id === 'a2') asignarCasoAleatorio('a2_idx', casosA2, 'a2-case-box', "Transcripción del siniestro:");
             if(id === 'a3') asignarInteraccionA3();
         }
+        function startActivity(id) { document.getElementById('intro-' + id).style.display = 'none'; document.getElementById('content-' + id).style.display = 'block'; }
+        function updateDashboardLocks() { Object.keys(PINS).forEach(id => { const btn = document.getElementById('btn-' + id); if (btn && localStorage.getItem('unlocked_' + id) === 'true') { btn.classList.remove('locked'); btn.classList.add('unlocked'); } }); }
 
-        function startActivity(id) {
-            document.getElementById('intro-' + id).style.display = 'none';
-            document.getElementById('content-' + id).style.display = 'block';
-        }
-
-        function updateDashboardLocks() {
-            Object.keys(PINS).forEach(id => {
-                const btn = document.getElementById('btn-' + id);
-                if (btn && localStorage.getItem('unlocked_' + id) === 'true') {
-                    btn.classList.remove('locked'); btn.classList.add('unlocked');
-                }
+        // Acordeón Glosario
+        document.querySelectorAll('.accordion').forEach(acc => {
+            acc.addEventListener('click', function() {
+                this.classList.toggle('active');
+                const panel = this.nextElementSibling;
+                if (panel.style.maxHeight) { panel.style.maxHeight = null; } 
+                else { panel.style.maxHeight = panel.scrollHeight + "px"; }
             });
-        }
+        });
 
-        // --- MOTOR DE AUDIO BIPS Y 4-7-8 ---
-        let audioCtx = null;
-        let isMuted = true;
-        let beepInterval = null;
-        let cycleTimeout1 = null, cycleTimeout2 = null;
-        let globalCycleInterval = null;
-
+        // Motor Audio
+        let audioCtx = null, isMuted = true, beepInterval = null, cycleTimeout1 = null, cycleTimeout2 = null, globalCycleInterval = null;
         function initAudio() { if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
         function toggleAudio() { initAudio(); isMuted = !isMuted; document.getElementById('audio-toggle').innerText = isMuted ? "🔊 SONIDO: OFF" : "🔊 SONIDO: ON"; }
-        
         function playBeep(freq, durationMs) {
             if (isMuted || !audioCtx) return;
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0, audioCtx.currentTime);
-            gain.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.02);
-            gain.gain.setValueAtTime(1, audioCtx.currentTime + (durationMs/1000) - 0.02);
-            gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + (durationMs/1000));
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(); osc.stop(audioCtx.currentTime + (durationMs/1000));
+            const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain();
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime); gain.gain.setValueAtTime(0, audioCtx.currentTime); gain.gain.linearRampToValueAtTime(1, audioCtx.currentTime + 0.02); gain.gain.setValueAtTime(1, audioCtx.currentTime + (durationMs/1000) - 0.02); gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + (durationMs/1000));
+            osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + (durationMs/1000));
         }
-
         function toggleSOS() {
-            const modal = document.getElementById('sos-modal');
-            const circle = document.getElementById('breathe-circle');
-            if (modal.style.display === 'flex') { 
-                modal.style.display = 'none'; 
-                clearInterval(globalCycleInterval); clearInterval(beepInterval);
-                clearTimeout(cycleTimeout1); clearTimeout(cycleTimeout2);
-                circle.style.transition = 'none'; circle.style.transform = 'scale(1)';
-            } else { 
-                modal.style.display = 'flex'; initAudio(); runCycle(circle); 
-                globalCycleInterval = setInterval(() => runCycle(circle), 19000); 
-            }
+            const modal = document.getElementById('sos-modal'); const circle = document.getElementById('breathe-circle');
+            if (modal.style.display === 'flex') { modal.style.display = 'none'; clearInterval(globalCycleInterval); clearInterval(beepInterval); clearTimeout(cycleTimeout1); clearTimeout(cycleTimeout2); circle.style.transition = 'none'; circle.style.transform = 'scale(1)'; } 
+            else { modal.style.display = 'flex'; initAudio(); runCycle(circle); globalCycleInterval = setInterval(() => runCycle(circle), 19000); }
         }
-
         function runCycle(c) {
             c.innerText = 'INSPIRA'; c.style.transition = 'all 4s linear'; c.style.transform = 'scale(1.5)'; 
             cycleTimeout1 = setTimeout(() => { c.innerText = 'RETÉN'; c.style.transition = 'none'; }, 4000);
             cycleTimeout2 = setTimeout(() => { c.innerText = 'EXHALA'; c.style.transition = 'all 8s linear'; c.style.transform = 'scale(1)'; }, 11000);
-
-            let sec = 1;
-            if(beepInterval) clearInterval(beepInterval);
-            function tick() {
-                if (sec <= 4) playBeep(440, sec === 4 ? 500 : 150); // Agudo
-                else if (sec <= 11) playBeep(220, sec === 11 ? 500 : 150); // Grave
-                else if (sec <= 19) playBeep(330, sec === 19 ? 500 : 150); // Medio
-                sec++;
-                if (sec > 19) clearInterval(beepInterval);
-            }
-            tick(); 
-            beepInterval = setInterval(tick, 1000);
+            let sec = 1; if(beepInterval) clearInterval(beepInterval);
+            function tick() { if (sec <= 4) playBeep(440, sec === 4 ? 500 : 150); else if (sec <= 11) playBeep(220, sec === 11 ? 500 : 150); else if (sec <= 19) playBeep(330, sec === 19 ? 500 : 150); sec++; if (sec > 19) clearInterval(beepInterval); }
+            tick(); beepInterval = setInterval(tick, 1000);
         }
 
-        // --- SISTEMA GENÉRICO DE ENVÍO ---
+        // Envío Genérico con persistencia de botón (Actualizar)
         function enviarEjercicio(tipo, payloadData, successId, btnId) {
             const btn = document.getElementById(btnId);
             btn.innerText = 'Enviando...'; btn.disabled = true;
@@ -713,467 +671,147 @@
             fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payloadData) })
             .then(() => { 
                 document.getElementById(successId).style.display = 'block'; 
-                btn.style.display = 'none';
-            }).catch(err => console.error(err));
-        }
-
-        // --- DINÁMICA 1 ---
-        function togglePlayD1() {
-            const vid = document.getElementById('video-ejercicio');
-            const btn = document.getElementById('btn-play-d1');
-            if (vid.paused) {
-                vid.play();
-                btn.innerText = "⏸ Pausa";
-            } else {
-                vid.pause();
-                btn.innerText = "▶ Play";
-            }
-        }
-        
-        function toggleSoundD1() {
-            const vid = document.getElementById('video-ejercicio');
-            const btn = document.getElementById('btn-sound-d1');
-            vid.muted = !vid.muted;
-            btn.innerText = vid.muted ? "🔇 Audio" : "🔊 Audio";
-            btn.style.backgroundColor = vid.muted ? "#64748b" : "var(--green-success)";
-        }
-
-        function toggleFullscreenD1() {
-            const vid = document.getElementById('video-ejercicio');
-            if (vid.requestFullscreen) {
-                vid.requestFullscreen();
-            } else if (vid.webkitRequestFullscreen) { /* Safari */
-                vid.webkitRequestFullscreen();
-            } else if (vid.msRequestFullscreen) { /* IE11 */
-                vid.msRequestFullscreen();
-            }
-        }
-
-        document.getElementById('video-ejercicio').addEventListener('ended', function() {
-            document.getElementById('btn-play-d1').innerText = "▶ Replay";
-            if(!localStorage.getItem('voto_d1')) {
-                document.getElementById('d1-interactive').style.display = 'block';
-                document.getElementById('d1-interactive').scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-
-        function votarD1(eleccion) {
-            document.getElementById('d1-interactive').style.display = 'none';
-            document.getElementById('d1-success').style.display = 'block';
-            localStorage.setItem('voto_d1', eleccion);
-            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ tipoEvento: "Voto_D1", eleccionD1: eleccion }) });
-        }
-
-        // --- D2: RANKING ENVÍO INDIVIDUAL ---
-        function enviarD2() {
-            if (selectedTriggers.length === 0) return alert("Selecciona al menos 1 disparador.");
-            enviarEjercicio('D2_VOTO', { triggersSeleccionados: selectedTriggers.join(',') }, 'd2-success', 'btn-submit-d2');
-        }
-
-        // --- D4: TEST BIOFEEDBACK ENVÍO ---
-        function enviarD4(respuesta) {
-            document.getElementById('d4-botones-respuesta').style.display = 'none';
-            document.getElementById('d4-success').style.display = 'block';
-            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ tipoEvento: "D4_VOTO", respuesta: respuesta }) });
-        }
-
-        // --- A1: MAPA DE ALERTA (IRE) ENVÍO ---
-        function enviarA1() {
-            if (selectedA1.length === 0) {
-                alert("Por favor, selecciona al menos un síntoma.");
-                return;
-            }
-
-            const btn = document.getElementById('btn-submit-a1');
-            btn.innerText = 'Enviando...';
-            btn.disabled = true;
-
-            const sintomasIds = selectedA1.join(',');
-            const detallesCualitativos = selectedA1.map(id => {
-                const nombre = ireSintomas.find(s => s.id === id).text;
-                const porcentaje = document.getElementById('val-' + id).value || "0";
-                return `${nombre} (${porcentaje}%)`;
-            }).join(' | ');
-
-            const otros = [
-                document.getElementById('a1-otro1').value,
-                document.getElementById('a1-otro2').value,
-                document.getElementById('a1-otro3').value
-            ].filter(v => v.trim() !== "").join(', ');
-
-            const payload = {
-                tipoEvento: "A1_VOTO",
-                sintomasIds: sintomasIds, 
-                detalles: detallesCualitativos, 
-                otros: otros
-            };
-
-            fetch(GOOGLE_SCRIPT_URL, { 
-                method: 'POST', 
-                mode: 'no-cors', 
-                body: JSON.stringify(payload) 
-            })
-            .then(() => {
-                document.getElementById('a1-success').style.display = 'block';
-                btn.innerText = '¡Mapa Enviado!';
-                btn.style.backgroundColor = 'var(--green-success)';
-                localStorage.setItem('a1_completado', 'true');
-            })
-            .catch(err => {
-                console.error(err);
+                btn.innerText = 'Actualizar envío'; 
                 btn.disabled = false;
-                btn.innerText = 'Error al enviar. Reintentar';
-            });
+                btn.style.backgroundColor = 'var(--blue-dark)';
+            }).catch(err => { console.error(err); btn.innerText = 'Reintentar envío'; btn.disabled = false; });
         }
 
-        // --- D7: PRP ENVÍO ---
-        function enviarD7() {
-            const senal = document.getElementById('plan-senal').value;
-            const escudo = document.getElementById('plan-comp').value;
-            const proto = document.getElementById('plan-proto').value;
-            if(!senal || !escudo) return alert("Por favor, completa tu señal y escudo antes de enviar.");
-            
-            enviarEjercicio('D7_VOTO', { senal: senal, escudo: escudo, reset: proto }, 'd7-success', 'btn-submit-d7');
+        // Dinámicas Específicas
+        function togglePlayD1() { const vid = document.getElementById('video-ejercicio'); const btn = document.getElementById('btn-play-d1'); if (vid.paused) { vid.play(); btn.innerText = "⏸ Pausa"; } else { vid.pause(); btn.innerText = "▶ Play"; } }
+        function toggleSoundD1() { const vid = document.getElementById('video-ejercicio'); const btn = document.getElementById('btn-sound-d1'); vid.muted = !vid.muted; btn.innerText = vid.muted ? "🔇 Audio" : "🔊 Audio"; btn.style.backgroundColor = vid.muted ? "#64748b" : "var(--green-success)"; }
+        function toggleFullscreenD1() { const vid = document.getElementById('video-ejercicio'); if (vid.requestFullscreen) { vid.requestFullscreen(); } else if (vid.webkitRequestFullscreen) { vid.webkitRequestFullscreen(); } else if (vid.msRequestFullscreen) { vid.msRequestFullscreen(); } }
+        document.getElementById('video-ejercicio').addEventListener('ended', function() { document.getElementById('btn-play-d1').innerText = "▶ Replay"; if(!localStorage.getItem('voto_d1')) { document.getElementById('d1-interactive').style.display = 'block'; document.getElementById('d1-interactive').scrollIntoView({ behavior: 'smooth' }); } });
+        function votarD1(eleccion) { document.getElementById('d1-interactive').style.display = 'none'; document.getElementById('d1-success').style.display = 'block'; localStorage.setItem('voto_d1', eleccion); fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ tipoEvento: "Voto_D1", eleccionD1: eleccion }) }); }
+
+        function enviarD2() { if (selectedTriggers.length === 0) return alert("Selecciona al menos 1 disparador."); enviarEjercicio('D2_VOTO', { triggersSeleccionados: selectedTriggers.join(',') }, 'd2-success', 'btn-submit-d2'); }
+        function enviarD4(respuesta) { document.getElementById('d4-botones-respuesta').style.display = 'none'; document.getElementById('d4-success').style.display = 'block'; fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ tipoEvento: "D4_VOTO", respuesta: respuesta }) }); }
+        
+        function enviarA1() {
+            if (selectedA1.length === 0) return alert("Selecciona al menos un síntoma.");
+            const btn = document.getElementById('btn-submit-a1'); btn.innerText = 'Enviando...'; btn.disabled = true;
+            const sintomasIds = selectedA1.join(',');
+            const detalles = selectedA1.map(id => `${ireSintomas.find(s => s.id === id).text} (${document.getElementById('val-' + id).value || "0"}%)`).join(' | ');
+            const otros = [document.getElementById('a1-otro1').value, document.getElementById('a1-otro2').value, document.getElementById('a1-otro3').value].filter(v => v.trim() !== "").join(', ');
+            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ tipoEvento: "A1_VOTO", sintomasIds: sintomasIds, detalles: detalles, otros: otros }) })
+            .then(() => { document.getElementById('a1-success').style.display = 'block'; btn.innerText = 'Actualizar Mapa'; btn.disabled = false; btn.style.backgroundColor = 'var(--blue-dark)'; localStorage.setItem('a1_completado', 'true'); })
+            .catch(err => { btn.disabled = false; btn.innerText = 'Error. Reintentar'; });
         }
 
-        // --- ANOTACIONES ENVÍO ---
-        function enviarAnotaciones() {
-            const notas = document.getElementById('texto-anotaciones').value;
-            if(notas.trim().length < 5) return alert("Escribe algo antes de enviar.");
-            enviarEjercicio('ANOTACIONES_VOTO', { notas: notas }, 'anotaciones-success', 'btn-submit-anotaciones');
-        }
+        function enviarD3() { enviarEjercicio('D3_VOTO', { casoId: localStorage.getItem('d3_idx'), respuesta: document.getElementById('d3-respuesta').value }, 'd3-success', 'btn-submit-d3'); }
+        function enviarD6() { enviarEjercicio('D6_VOTO', { alt1: document.getElementById('d6-alt1').value, alt2: document.getElementById('d6-alt2').value, alt3: document.getElementById('d6-alt3').value }, 'd6-success', 'btn-submit-d6'); }
+        function enviarA2() { enviarEjercicio('A2_VOTO', { casoId: localStorage.getItem('a2_idx'), rebotar: document.getElementById('a2-rebotar').value, atravesar: document.getElementById('a2-atravesar').value }, 'a2-success', 'btn-submit-a2'); }
+        function enviarA3() { enviarEjercicio('A3_VOTO', { casoId: localStorage.getItem('a3_idx'), amortiguador: document.getElementById('a3-amortiguador').value, pivote: document.getElementById('a3-pivote').value, gancho: document.getElementById('a3-gancho').value }, 'a3-success', 'btn-submit-a3'); }
+        function enviarD7() { const senal = document.getElementById('plan-senal').value; const escudo = document.getElementById('plan-comp').value; if(!senal || !escudo) return alert("Completa señal y escudo."); enviarEjercicio('D7_VOTO', { senal: senal, escudo: escudo, reset: document.getElementById('plan-proto').value }, 'd7-success', 'btn-submit-d7'); }
+        function enviarAnotaciones() { const notas = document.getElementById('texto-anotaciones').value; if(notas.trim().length < 5) return alert("Escribe algo."); enviarEjercicio('ANOTACIONES_VOTO', { notas: notas }, 'anotaciones-success', 'btn-submit-anotaciones'); }
 
-
-        // --- LÓGICA DINÁMICA 5 (REDISTRIBUCIÓN REAL) ---
         async function faseEnvioD5() {
             const frase = document.getElementById('d5-frase-propia').value;
             if(frase.trim().length < 5) return alert("Escribe una frase válida.");
-
-            const btn = document.getElementById('btn-envio-d5');
-            btn.innerText = 'Subiendo...';
-            btn.disabled = true;
-
+            const btn = document.getElementById('btn-envio-d5'); btn.innerText = 'Subiendo...'; btn.disabled = true;
             localStorage.setItem('mi_frase_d5', frase);
-
-            const payload = { tipoEvento: "D5_FRASE_ORIGINAL", frase: frase };
-
             try {
-                // Mandamos la frase sin esperar respuesta bloqueante
-                fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
-                
-                document.getElementById('d5-fase-envio').style.display = 'none';
-                document.getElementById('d5-fase-judo').style.display = 'block';
-                
-                // Pausa para dar tiempo a que los compañeros envíen
+                fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ tipoEvento: "D5_FRASE_ORIGINAL", frase: frase }) });
+                document.getElementById('d5-fase-envio').style.display = 'none'; document.getElementById('d5-fase-judo').style.display = 'block';
                 setTimeout(obtenerFraseAjenaD5, 3000); 
-            } catch(e) {
-                console.error("Error en D5:", e);
-                alert("Error de conexión. Inténtalo de nuevo.");
-                btn.disabled = false;
-                btn.innerText = 'Subir frase al servidor';
-            }
+            } catch(e) { btn.disabled = false; btn.innerText = 'Subir frase al servidor'; }
         }
 
         async function obtenerFraseAjenaD5() {
             try {
-                const response = await fetch(GOOGLE_SCRIPT_URL);
-                const data = await response.json();
-                
+                const response = await fetch(GOOGLE_SCRIPT_URL); const data = await response.json();
                 const frasesGrupo = [];
-                data.forEach(row => {
-                    const cols = Object.values(row);
-                    if (cols[1] === "D5_FRASE_ORIGINAL") {
-                        frasesGrupo.push(cols[2]);
-                    } else if (row.tipoEvento === "D5_FRASE_ORIGINAL") {
-                        frasesGrupo.push(row.frase || row.eleccionD1 || cols[2]);
-                    }
-                });
-
-                const miFrase = localStorage.getItem('mi_frase_d5');
-                const frasesFiltradas = frasesGrupo.filter(f => f && f !== miFrase);
-
-                if (frasesFiltradas.length === 0) {
-                    document.getElementById('d5-loading').innerText = "Esperando frases de compañeros...";
-                    setTimeout(obtenerFraseAjenaD5, 4000);
-                    return;
-                }
-
+                data.forEach(row => { const cols = Object.values(row); if (cols[1] === "D5_FRASE_ORIGINAL") frasesGrupo.push(cols[2]); else if (row.tipoEvento === "D5_FRASE_ORIGINAL") frasesGrupo.push(row.frase || row.eleccionD1 || cols[2]); });
+                const miFrase = localStorage.getItem('mi_frase_d5'); const frasesFiltradas = frasesGrupo.filter(f => f && f !== miFrase);
+                if (frasesFiltradas.length === 0) { document.getElementById('d5-loading').innerText = "Esperando frases..."; setTimeout(obtenerFraseAjenaD5, 4000); return; }
                 const fraseAzar = frasesFiltradas[Math.floor(Math.random() * frasesFiltradas.length)];
-                
-                document.getElementById('d5-frase-asignada').innerText = `"${fraseAzar}"`;
-                document.getElementById('d5-loading').style.display = 'none';
-                document.getElementById('d5-judo-interactivo').style.display = 'block';
-                
+                document.getElementById('d5-frase-asignada').innerText = `"${fraseAzar}"`; document.getElementById('d5-loading').style.display = 'none'; document.getElementById('d5-judo-interactivo').style.display = 'block';
                 localStorage.setItem('frase_que_estoy_respondiendo_d5', fraseAzar);
-
-            } catch(e) {
-                console.error("Error al obtener frases:", e);
-                document.getElementById('d5-loading').innerText = "Reintentando conectar...";
-                setTimeout(obtenerFraseAjenaD5, 4000);
-            }
+            } catch(e) { setTimeout(obtenerFraseAjenaD5, 4000); }
         }
 
-        function enviarRespuestaD5() {
-            const respuesta = document.getElementById('d5-respuesta-judo').value;
-            const fraseOriginal = localStorage.getItem('frase_que_estoy_respondiendo_d5');
-            
-            if(respuesta.trim().length < 5) return alert("Escribe tu neutralización.");
+        function enviarRespuestaD5() { const respuesta = document.getElementById('d5-respuesta-judo').value; if(respuesta.trim().length < 5) return alert("Escribe tu neutralización."); enviarEjercicio('D5_RESPUESTA_FINAL', { fraseOriginal: localStorage.getItem('frase_que_estoy_respondiendo_d5'), respuestaJudo: respuesta }, 'd5-success', 'btn-submit-d5-final'); document.getElementById('d5-judo-interactivo').style.display = 'none'; }
 
-            const payload = {
-                fraseOriginal: fraseOriginal,
-                respuestaJudo: respuesta
-            };
-
-            enviarEjercicio('D5_RESPUESTA_FINAL', payload, 'd5-success', 'btn-submit-d5-final');
-            document.getElementById('d5-judo-interactivo').style.display = 'none';
-        }
-
-        // --- A1: MAPA DE ALERTA (IRE) LISTA ---
-        const ireSintomas = [
-            { id: 'ire1', text: "Taquicardia / Calor en el pecho" }, { id: 'ire2', text: "Tensión en mandíbula / hombros" },
-            { id: 'ire3', text: "Sudoración / Agitación respiratoria" }, { id: 'ire4', text: "Nudo en el estómago / Náuseas" },
-            { id: 'ire5', text: "Temblores en manos o voz" }, { id: 'ire6', text: "Sequedad de boca" },
-            { id: 'ire7', text: "Visión de túnel / Pérdida de foco" }, { id: 'ire8', text: "Rumiación ('¿por qué me ataca?')" },
-            { id: 'ire9', text: "Irritabilidad instantánea" }, { id: 'ire10', text: "Apatía / Desconexión total" }
-        ];
+        const ireSintomas = [ { id: 'ire1', text: "Taquicardia / Calor en el pecho" }, { id: 'ire2', text: "Tensión en mandíbula / hombros" }, { id: 'ire3', text: "Sudoración / Agitación respiratoria" }, { id: 'ire4', text: "Nudo en el estómago / Náuseas" }, { id: 'ire5', text: "Temblores en manos o voz" }, { id: 'ire6', text: "Sequedad de boca" }, { id: 'ire7', text: "Visión de túnel / Pérdida de foco" }, { id: 'ire8', text: "Rumiación ('¿por qué me ataca?')" }, { id: 'ire9', text: "Irritabilidad instantánea" }, { id: 'ire10', text: "Apatía / Desconexión total" } ];
         let selectedA1 = [];
-
         function renderA1() {
-            const container = document.getElementById('a1-symptoms-list');
-            if(!container) return;
-            container.innerHTML = '';
+            const container = document.getElementById('a1-symptoms-list'); if(!container) return; container.innerHTML = '';
             ireSintomas.forEach(s => {
-                const isSelected = selectedA1.includes(s.id);
-                const div = document.createElement('div');
-                div.className = 'checkbox-item';
-                div.innerHTML = `
-                    <label class="checkbox-label">
-                        <input type="checkbox" id="cb-${s.id}" onchange="toggleA1('${s.id}')" ${isSelected?'checked':''}>
-                        ${s.text}
-                    </label>
-                    <div class="pct-input" id="pct-${s.id}" style="display: ${isSelected?'flex':'none'};">
-                        <span>Frecuencia:</span>
-                        <input type="number" id="val-${s.id}" placeholder="%" min="0" max="100">
-                    </div>
-                `;
+                const isSelected = selectedA1.includes(s.id); const div = document.createElement('div'); div.className = 'checkbox-item';
+                div.innerHTML = `<label class="checkbox-label"><input type="checkbox" id="cb-${s.id}" onchange="toggleA1('${s.id}')" ${isSelected?'checked':''}>${s.text}</label><div class="pct-input" id="pct-${s.id}" style="display: ${isSelected?'flex':'none'};"><span>Frecuencia:</span><input type="number" id="val-${s.id}" placeholder="%" min="0" max="100"></div>`;
                 container.appendChild(div);
             });
         }
+        function toggleA1(id) { const cb = document.getElementById('cb-' + id); const inputDiv = document.getElementById('pct-' + id); if (cb.checked) { if (selectedA1.length >= 3) { cb.checked = false; alert("Solo puedes seleccionar 3 síntomas."); return; } selectedA1.push(id); inputDiv.style.display = 'flex'; } else { selectedA1 = selectedA1.filter(i => i !== id); inputDiv.style.display = 'none'; } }
 
-        function toggleA1(id) {
-            const cb = document.getElementById('cb-' + id);
-            const inputDiv = document.getElementById('pct-' + id);
-            if (cb.checked) {
-                if (selectedA1.length >= 3) { cb.checked = false; alert("Solo puedes seleccionar 3 síntomas."); return; }
-                selectedA1.push(id); inputDiv.style.display = 'flex';
-            } else {
-                selectedA1 = selectedA1.filter(i => i !== id); inputDiv.style.display = 'none';
-            }
-        }
+        const frasesD3 = [ "¡Llevo 3 días con la casa inundada y sois unos inútiles, nadie me llama!", "Como no venga el perito hoy mismo, me voy al juzgado a denunciaros por estafa.", "Es una vergüenza que después de 20 años pagando, me digáis que esto no entra.", "¡Me habéis mandado a un chapuzas que me ha dejado el baño peor de lo que estaba!", "Si mi hijo se pone enfermo por el frío al no tener caldera, será culpa tuya.", "No me cuentes rollos de pólizas, yo quiero una solución ¡YA!", "Sois unos ladrones, cobráis el recibo muy rápido pero para arreglar os escondéis.", "Pásame con tu jefe inmediatamente, no voy a hablar con un operador incompetente.", "Me estáis toreando. ¡Exijo que me devuelvan mi dinero ahora mismo!", "¡Tengo a mi madre de 80 años sin luz, ten un poco de empatía!" ];
+        const casosA2 = [ "A ver, inútil. Ha reventado la tubería del fregadero, el agua sale a chorros y me está llegando al parquet. Y tú aquí haciéndome preguntas tontas.", "Estoy harto de vosotros. Es la tercera vez que se rompe la persiana del salón. ¡Quiero que me la cambien entera, estafadores!", "¡Mentira! El perito ni siquiera ha subido al tejado, solo ha mirado por la ventana. Sois unos vagos y quiero que mandéis a otro.", "Llevo dos horas esperando a la grúa en medio de la nada. Si me pasa algo os demando, ¿dónde demonios está?", "No me digas que no cubre la humedad. ¡Me lo vendisteis como el mejor seguro a todo riesgo, panda de sinvergüenzas!", "El electricista me ha dejado los cables pelados colgando en la cocina. Como se electrocute mi perro os busco la ruina.", "Vuestro reparador me acaba de romper un jarrón carísimo y encima se ha ido sin decir nada. ¡Quiero una hoja de reclamaciones!", "¡Me da igual que hoy sea festivo! Pago para que me atendáis las 24 horas, así que quiero a un fontanero en mi casa ya.", "Dile al perito que es un ciego. La gotera viene del vecino de arriba, pero como es de vuestra compañía no queréis pagar.", "Sois la peor aseguradora del país. Cancelo la póliza ahora mismo si no me enviáis un cerrajero, ¡me he dejado las llaves puestas!" ];
+        const casosA3 = [ { cliente: "¡Es inaceptable que el perito diga que mi filtración es mantenimiento!", gestor: "Señor, el perito es el experto, yo no puedo hacer nada si él lo dice." }, { cliente: "¡Llevo 3 semanas esperando la pieza, estafadores!", gestor: "Cálmese, la pieza viene de Alemania y nosotros no controlamos los tiempos." }, { cliente: "¡Me habéis subido la póliza sin avisar, ladrones!", gestor: "Usted tiene la culpa por no leer las condiciones del contrato." }, { cliente: "¡Mande una ambulancia, he tenido un golpe y me duele el cuello!", gestor: "No me grite, si no me da la matrícula no le mando nada." }, { cliente: "¡El albañil me ha dejado el baño lleno de escombros!", gestor: "Nosotros no limpiamos, eso es responsabilidad suya señora." }, { cliente: "¡Mi vecino me está inundando y no hacéis nada!", gestor: "Ya le dije que si él no da parte, nosotros tenemos las manos atadas." }, { cliente: "¡Quiero dar de baja mis seguros ahora mismo!", gestor: "Pues envíe un correo a bajas, yo solo soy de siniestros." }, { cliente: "¡Esto es una urgencia médica!", gestor: "Eso no es urgencia vital según el baremo, pida cita normal." }, { cliente: "¡Llevo 20 minutos con la musiquita!", gestor: "Hay cola hoy, si no quiere esperar hágalo por la web." }, { cliente: "¡Exijo hablar con su supervisor!", gestor: "Le va a decir exactamente lo mismo que yo, no se lo paso." } ];
+        function asignarCasoAleatorio(storageKey, dataArray, boxId, prefixText) { let idx = localStorage.getItem(storageKey); if (idx === null) { idx = Math.floor(Math.random() * dataArray.length); localStorage.setItem(storageKey, idx); } document.getElementById(boxId).innerHTML = `<strong>${prefixText}</strong><br>"${dataArray[idx]}"`; }
+        function asignarInteraccionA3() { let idx = localStorage.getItem('a3_idx'); if (idx === null) { idx = Math.floor(Math.random() * casosA3.length); localStorage.setItem('a3_idx', idx); } const c = casosA3[idx]; document.getElementById('a3-case-box').innerHTML = `<strong>Cliente:</strong> "${c.cliente}"<br><br><strong style="color:var(--red-btn)">Gestor Reactivo:</strong> "${c.gestor}"`; }
 
-        // --- BASES DE DATOS CASOS ALEATORIOS (D3, A2, A3) ---
-        const frasesD3 = [
-            "¡Llevo 3 días con la casa inundada y sois unos inútiles, nadie me llama!", "Como no venga el perito hoy mismo, me voy al juzgado a denunciaros por estafa.",
-            "Es una vergüenza que después de 20 años pagando, me digáis que esto no entra.", "¡Me habéis mandado a un chapuzas que me ha dejado el baño peor de lo que estaba!",
-            "Si mi hijo se pone enfermo por el frío al no tener caldera, será culpa tuya.", "No me cuentes rollos de pólizas, yo quiero una solución ¡YA!",
-            "Sois unos ladrones, cobráis el recibo muy rápido pero para arreglar os escondéis.", "Pásame con tu jefe inmediatamente, no voy a hablar con un operador incompetente.",
-            "Me estáis toreando. ¡Exijo que me devuelvan mi dinero ahora mismo!", "¡Tengo a mi madre de 80 años sin luz, ten un poco de empatía!"
-        ];
-
-        const casosA2 = [
-            "A ver, inútil. Ha reventado la tubería del fregadero, el agua sale a chorros y me está llegando al parquet. Y tú aquí haciéndome preguntas tontas.",
-            "Estoy harto de vosotros. Es la tercera vez que se rompe la persiana del salón. ¡Quiero que me la cambien entera, estafadores!",
-            "¡Mentira! El perito ni siquiera ha subido al tejado, solo ha mirado por la ventana. Sois unos vagos y quiero que mandéis a otro.",
-            "Llevo dos horas esperando a la grúa en medio de la nada. Si me pasa algo os demando, ¿dónde demonios está?",
-            "No me digas que no cubre la humedad. ¡Me lo vendisteis como el mejor seguro a todo riesgo, panda de sinvergüenzas!",
-            "El electricista me ha dejado los cables pelados colgando en la cocina. Como se electrocute mi perro os busco la ruina.",
-            "Vuestro reparador me acaba de romper un jarrón carísimo y encima se ha ido sin decir nada. ¡Quiero una hoja de reclamaciones!",
-            "¡Me da igual que hoy sea festivo! Pago para que me atendáis las 24 horas, así que quiero a un fontanero en mi casa ya.",
-            "Dile al perito que es un ciego. La gotera viene del vecino de arriba, pero como es de vuestra compañía no queréis pagar.",
-            "Sois la peor aseguradora del país. Cancelo la póliza ahora mismo si no me enviáis un cerrajero, ¡me he dejado las llaves puestas!"
-        ];
-
-        const casosA3 = [
-            { cliente: "¡Es inaceptable que el perito diga que mi filtración es mantenimiento!", gestor: "Señor, el perito es el experto, yo no puedo hacer nada si él lo dice." },
-            { cliente: "¡Llevo 3 semanas esperando la pieza, estafadores!", gestor: "Cálmese, la pieza viene de Alemania y nosotros no controlamos los tiempos." },
-            { cliente: "¡Me habéis subido la póliza sin avisar, ladrones!", gestor: "Usted tiene la culpa por no leer las condiciones del contrato." },
-            { cliente: "¡Mande una ambulancia, he tenido un golpe y me duele el cuello!", gestor: "No me grite, si no me da la matrícula no le mando nada." },
-            { cliente: "¡El albañil me ha dejado el baño lleno de escombros!", gestor: "Nosotros no limpiamos, eso es responsabilidad suya señora." },
-            { cliente: "¡Mi vecino me está inundando y no hacéis nada!", gestor: "Ya le dije que si él no da parte, nosotros tenemos las manos atadas." },
-            { cliente: "¡Quiero dar de baja mis seguros ahora mismo!", gestor: "Pues envíe un correo a bajas, yo solo soy de siniestros." },
-            { cliente: "¡Esto es una urgencia médica!", gestor: "Eso no es urgencia vital según el baremo, pida cita normal." },
-            { cliente: "¡Llevo 20 minutos con la musiquita!", gestor: "Hay cola hoy, si no quiere esperar hágalo por la web." },
-            { cliente: "¡Exijo hablar con su supervisor!", gestor: "Le va a decir exactamente lo mismo que yo, no se lo paso." }
-        ];
-
-        function asignarCasoAleatorio(storageKey, dataArray, boxId, prefixText) {
-            let idx = localStorage.getItem(storageKey);
-            if (idx === null) { idx = Math.floor(Math.random() * dataArray.length); localStorage.setItem(storageKey, idx); }
-            document.getElementById(boxId).innerHTML = `<strong>${prefixText}</strong><br>"${dataArray[idx]}"`;
-        }
-
-        function asignarInteraccionA3() {
-            let idx = localStorage.getItem('a3_idx');
-            if (idx === null) { idx = Math.floor(Math.random() * casosA3.length); localStorage.setItem('a3_idx', idx); }
-            const c = casosA3[idx];
-            document.getElementById('a3-case-box').innerHTML = `<strong>Cliente:</strong> "${c.cliente}"<br><br><strong style="color:var(--red-btn)">Gestor Reactivo:</strong> "${c.gestor}"`;
-        }
-
-        function enviarD3() {
-            const resp = document.getElementById('d3-respuesta').value;
-            enviarEjercicio('D3_VOTO', { casoId: localStorage.getItem('d3_idx'), respuesta: resp }, 'd3-success', 'btn-submit-d3');
-        }
-
-        function enviarD6() {
-            const alt1 = document.getElementById('d6-alt1').value;
-            const alt2 = document.getElementById('d6-alt2').value;
-            const alt3 = document.getElementById('d6-alt3').value;
-            enviarEjercicio('D6_VOTO', { alt1: alt1, alt2: alt2, alt3: alt3 }, 'd6-success', 'btn-submit-d6');
-        }
-        function enviarA2() {
-            const reb = document.getElementById('a2-rebotar').value;
-            const atr = document.getElementById('a2-atravesar').value;
-            enviarEjercicio('A2_VOTO', { casoId: localStorage.getItem('a2_idx'), rebotar: reb, atravesar: atr }, 'a2-success', 'btn-submit-a2');
-        }
-        function enviarA3() {
-            const am = document.getElementById('a3-amortiguador').value;
-            const pi = document.getElementById('a3-pivote').value;
-            const ga = document.getElementById('a3-gancho').value;
-            enviarEjercicio('A3_VOTO', { casoId: localStorage.getItem('a3_idx'), amortiguador: am, pivote: pi, gancho: ga }, 'a3-success', 'btn-submit-a3');
-        }
-
-        // --- DINÁMICA 2: RIESGOS ---
-        const disparadores = [
-            { id: 't1', text: "El cliente insulta o falta al respeto" }, { id: 't2', text: "Explicar que un daño no tiene cobertura" },
-            { id: 't3', text: "Llamadas en espera continuas (Carga de trabajo)" }, { id: 't4', text: "El reparador falla y el cliente te grita a ti" },
-            { id: 't5', text: "Falta de información por parte del perito" }, { id: 't6', text: "Amenaza de reclamación o denuncia" },
-            { id: 't7', text: "Siniestros con alta carga emocional (inundación/incendio)" }, { id: 't8', text: "Pedir datos a un cliente que ya está enfadado" },
-            { id: 't9', text: "Presión por cumplir el TMO" }, { id: 't10', text: "Fallos del sistema mientras atiendes una urgencia" }
-        ];
+        const disparadores = [ { id: 't1', text: "El cliente insulta o falta al respeto" }, { id: 't2', text: "Explicar que un daño no tiene cobertura" }, { id: 't3', text: "Llamadas en espera continuas (Carga de trabajo)" }, { id: 't4', text: "El reparador falla y el cliente te grita a ti" }, { id: 't5', text: "Falta de información por parte del perito" }, { id: 't6', text: "Amenaza de reclamación o denuncia" }, { id: 't7', text: "Siniestros con alta carga emocional (inundación/incendio)" }, { id: 't8', text: "Pedir datos a un cliente que ya está enfadado" }, { id: 't9', text: "Presión por cumplir el TMO" }, { id: 't10', text: "Fallos del sistema mientras atiendes una urgencia" } ];
         let selectedTriggers = [];
-
         function renderRankingList() {
-            const listContainer = document.getElementById('ranking-list');
-            if (!listContainer) return;
-            listContainer.innerHTML = '';
-            disparadores.forEach(disp => {
-                const isSelected = selectedTriggers.includes(disp.id);
-                const item = document.createElement('div');
-                item.className = `ranking-item ${isSelected ? 'selected' : ''}`;
-                if (selectedTriggers.length >= 3 && !isSelected) { item.style.opacity = '0.5'; item.style.cursor = 'not-allowed'; }
-                item.innerHTML = `<div class="ranking-number">${isSelected ? '✓' : ''}</div><span>${disp.text}</span>`;
-                item.onclick = () => toggleTrigger(disp.id, item);
-                listContainer.appendChild(item);
-            });
+            const listContainer = document.getElementById('ranking-list'); if (!listContainer) return; listContainer.innerHTML = '';
+            disparadores.forEach(disp => { const isSelected = selectedTriggers.includes(disp.id); const item = document.createElement('div'); item.className = `ranking-item ${isSelected ? 'selected' : ''}`; if (selectedTriggers.length >= 3 && !isSelected) { item.style.opacity = '0.5'; item.style.cursor = 'not-allowed'; } item.innerHTML = `<div class="ranking-number">${isSelected ? '✓' : ''}</div><span>${disp.text}</span>`; item.onclick = () => toggleTrigger(disp.id, item); listContainer.appendChild(item); });
             document.getElementById('ranking-counter').innerText = `${selectedTriggers.length}/3`;
         }
+        function toggleTrigger(id, element) { const index = selectedTriggers.indexOf(id); if (index > -1) { selectedTriggers.splice(index, 1); } else { if (selectedTriggers.length >= 3) return; selectedTriggers.push(id); } localStorage.setItem('selectedTriggers', JSON.stringify(selectedTriggers)); renderRankingList(); }
 
-        function toggleTrigger(id, element) {
-            const index = selectedTriggers.indexOf(id);
-            if (index > -1) { selectedTriggers.splice(index, 1); } 
-            else {
-                if (selectedTriggers.length >= 3) return; 
-                selectedTriggers.push(id);
-            }
-            localStorage.setItem('selectedTriggers', JSON.stringify(selectedTriggers));
-            renderRankingList();
-        }
-
-        // --- ENVÍO FINAL (REPORTE GRUPAL) ---
-        function toggleSendBtn() {
-            const consentChecked = document.getElementById('check-consentimiento').checked;
-            document.getElementById('btn-enviar').disabled = !consentChecked;
-            localStorage.setItem('user-consent', consentChecked);
-        }
-
+        function toggleSendBtn() { const consentChecked = document.getElementById('check-consentimiento').checked; document.getElementById('btn-enviar').disabled = !consentChecked; localStorage.setItem('user-consent', consentChecked); }
         function enviarMetricas() {
-            // Ya no es obligatorio enviar D2 aquí si ya se envió antes, pero podemos mandar un backup
-            const btn = document.getElementById('btn-enviar'); 
-            btn.innerText = 'Enviando...'; btn.disabled = true;
-
-            const payload = { 
-                tipoEvento: "REPORTE_GRAL",
-                nivelEstres: document.getElementById('estres-slider').value,
-                triggersSeleccionados: selectedTriggers.join(','),
-                diagUmbral: document.getElementById('diag-umbral') ? document.getElementById('diag-umbral').value : "0",
-                planProto: document.getElementById('plan-proto').value
-            };
-
-            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) })
+            const btn = document.getElementById('btn-enviar'); btn.innerText = 'Enviando...'; btn.disabled = true;
+            fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ tipoEvento: "REPORTE_GRAL", nivelEstres: document.getElementById('estres-slider').value, triggersSeleccionados: selectedTriggers.join(','), planProto: document.getElementById('plan-proto').value }) })
             .then(() => { btn.innerText = '¡Reporte Enviado!'; btn.style.backgroundColor = 'var(--green-success)'; });
         }
 
-        // --- INICIALIZACIÓN ---
-        const autoSaveElements = [ { id: 'plan-senal', type: 'value' }, { id: 'plan-comp', type: 'value' }, { id: 'plan-proto', type: 'value' }, { id: 'texto-anotaciones', type: 'value', statusId: 'autosave-anotaciones' } ];
+        // --- SISTEMA DE AUTOGUARDADO GLOBAL ---
+        const autoSaveElements = [ 
+            { id: 'plan-senal', statusId: 'd7-autosave' }, 
+            { id: 'plan-comp', statusId: 'd7-autosave' }, 
+            { id: 'plan-proto', statusId: 'd7-autosave' }, 
+            { id: 'texto-anotaciones', statusId: 'autosave-anotaciones' },
+            { id: 'd3-respuesta', statusId: 'd3-autosave' },
+            { id: 'd6-alt1', statusId: 'd6-autosave' },
+            { id: 'd6-alt2', statusId: 'd6-autosave' },
+            { id: 'd6-alt3', statusId: 'd6-autosave' },
+            { id: 'a2-rebotar', statusId: 'a2-autosave' },
+            { id: 'a2-atravesar', statusId: 'a2-autosave' },
+            { id: 'a3-amortiguador', statusId: 'a3-autosave' },
+            { id: 'a3-pivote', statusId: 'a3-autosave' },
+            { id: 'a3-gancho', statusId: 'a3-autosave' },
+            { id: 'a1-otro1', statusId: 'a1-autosave' },
+            { id: 'a1-otro2', statusId: 'a1-autosave' },
+            { id: 'a1-otro3', statusId: 'a1-autosave' },
+            { id: 'd5-respuesta-judo', statusId: 'd5-autosave' }
+        ];
 
-        function triggerSaveStatus(element, customStatusId) {
-            let statusIndicator = null;
-            if(customStatusId) {
-                statusIndicator = document.getElementById(customStatusId);
-            } else {
-                const card = element.closest('.section-card'); if(!card) return;
-                statusIndicator = card.querySelector('.autosave-status');
-            }
-            
+        function triggerSaveStatus(customStatusId) {
+            if(!customStatusId) return;
+            const statusIndicator = document.getElementById(customStatusId);
             if (statusIndicator) { statusIndicator.style.opacity = '1'; setTimeout(() => statusIndicator.style.opacity = '0', 2000); }
         }
 
         window.onload = () => {
-            updateDashboardLocks();
-            renderA1();
+            updateDashboardLocks(); renderA1();
+            if(localStorage.getItem('voto_d1')) { const interactive = document.getElementById('d1-interactive'); if (interactive) interactive.style.display = 'none'; const successDiv = document.getElementById('d1-success'); if (successDiv) successDiv.style.display = 'block'; }
             
-            // D1 Logic Restore
-            if(localStorage.getItem('voto_d1')) {
-                const interactive = document.getElementById('d1-interactive'); if (interactive) interactive.style.display = 'none';
-                const successDiv = document.getElementById('d1-success'); if (successDiv) successDiv.style.display = 'block';
-            }
+            const savedTriggers = localStorage.getItem('selectedTriggers'); if (savedTriggers) { try { selectedTriggers = JSON.parse(savedTriggers); } catch (e) { selectedTriggers = []; } } renderRankingList();
 
-            // A1 Logic Restore
-            if(localStorage.getItem('a1_completado') === 'true') {
-                const btnA1 = document.getElementById('btn-submit-a1');
-                if(btnA1) {
-                    btnA1.innerText = '¡Mapa Enviado!';
-                    btnA1.disabled = true;
-                    btnA1.style.backgroundColor = 'var(--green-success)';
-                    document.getElementById('a1-success').style.display = 'block';
-                }
-            }
-            
-            const savedTriggers = localStorage.getItem('selectedTriggers');
-            if (savedTriggers) { try { selectedTriggers = JSON.parse(savedTriggers); } catch (e) { selectedTriggers = []; } }
-            renderRankingList();
-
+            // Cargar datos locales para todos los inputs
             autoSaveElements.forEach(item => {
                 const el = document.getElementById(item.id); if (!el) return;
                 const saved = localStorage.getItem(item.id);
                 if (saved !== null) el.value = saved;
-                el.addEventListener('input', () => { localStorage.setItem(item.id, el.value); triggerSaveStatus(el, item.statusId); });
+                el.addEventListener('input', () => { localStorage.setItem(item.id, el.value); triggerSaveStatus(item.statusId); });
             });
 
-            if (localStorage.getItem('user-consent') === 'true') {
-                const chk = document.getElementById('check-consentimiento');
-                if(chk) chk.checked = true;
-                const btnEnv = document.getElementById('btn-enviar');
-                if(btnEnv) btnEnv.disabled = false;
-            }
+            if (localStorage.getItem('user-consent') === 'true') { const chk = document.getElementById('check-consentimiento'); if(chk) chk.checked = true; const btnEnv = document.getElementById('btn-enviar'); if(btnEnv) btnEnv.disabled = false; }
         };
 
-        // Scripts de Judo Verbal (Libre)
-        const scripts = {
-            red: { color: 'var(--red-btn)', amortiguador: '"Entiendo que esta situación le esté generando mucha frustración..."', pivote: '"...mi labor ahora es centrarme en los datos técnicos para ver cómo avanzar."', gancho: '"¿Podemos retomar el número de expediente para agilizar el parte?"' },
-            orange: { color: 'var(--orange-btn)', amortiguador: '"Comprendo perfectamente la urgencia y el malestar por el retraso..."', pivote: '"...voy a verificar en este momento el estado de la asignación técnica."', gancho: '"¿Sigue siendo el mismo teléfono de contacto para que el técnico le llame?"' },
-            yellow: { color: 'var(--yellow-btn)', amortiguador: '"Veo que hay una discrepancia importante entre la póliza y lo solicitado..."', pivote: '"...mi función es detallarle lo que figura en la resolución técnica del perito."', gancho: '"¿Le parece si revisamos punto por punto lo que indica el informe oficial?"' }
-        };
-        function showScript(type) {
-            const data = scripts[type];
-            document.getElementById('text-amortiguador').innerText = data.amortiguador;
-            document.getElementById('text-pivote').innerText = data.pivote;
-            document.getElementById('text-gancho').innerText = data.gancho;
-            const container = document.getElementById('script-container');
-            container.style.display = 'block'; container.style.borderLeftColor = data.color;
-            container.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
+        const scripts = { red: { color: 'var(--red-btn)', amortiguador: '"Entiendo que esta situación le esté generando mucha frustración..."', pivote: '"...mi labor ahora es centrarme en los datos técnicos para ver cómo avanzar."', gancho: '"¿Podemos retomar el número de expediente para agilizar el parte?"' }, orange: { color: 'var(--orange-btn)', amortiguador: '"Comprendo perfectamente la urgencia y el malestar por el retraso..."', pivote: '"...voy a verificar en este momento el estado de la asignación técnica."', gancho: '"¿Sigue siendo el mismo teléfono de contacto para que el técnico le llame?"' }, yellow: { color: 'var(--yellow-btn)', amortiguador: '"Veo que hay una discrepancia importante entre la póliza y lo solicitado..."', pivote: '"...mi función es detallarle lo que figura en la resolución técnica del perito."', gancho: '"¿Le parece si revisamos punto por punto lo que indica el informe oficial?"' } };
+        function showScript(type) { const data = scripts[type]; document.getElementById('text-amortiguador').innerText = data.amortiguador; document.getElementById('text-pivote').innerText = data.pivote; document.getElementById('text-gancho').innerText = data.gancho; const container = document.getElementById('script-container'); container.style.display = 'block'; container.style.borderLeftColor = data.color; container.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
         if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
     </script>
 </body>
