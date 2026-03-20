@@ -10,31 +10,40 @@
             --text-light: #f8fafc; --text-muted: #94a3b8; --accent-green: #10b981;
             --accent-red: #ef4444; --orange-btn: #f97316; --border-color: #334155;
         }
-        body { font-family: sans-serif; background: var(--bg-dark); color: var(--text-light); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-dark); color: var(--text-light); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Navegación Modular Restaurada */
         nav { width: 260px; background: var(--panel-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 15px 0; overflow-y:auto; flex-shrink: 0;}
         .nav-brand { text-align: center; color: var(--blue-corp); font-weight: 900; font-size: 1.1rem; margin-bottom: 15px; letter-spacing: 1px; padding: 0 10px;}
         .nav-group { font-size: 0.7rem; color: var(--text-muted); padding: 15px 20px 5px 20px; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 5px;}
         .nav-btn { background: transparent; border: none; color: var(--text-muted); padding: 10px 20px; text-align: left; font-size: 0.9rem; font-weight: bold; cursor: pointer; transition: 0.2s; border-left: 4px solid transparent; }
         .nav-btn:hover { background: rgba(25, 118, 210, 0.1); color: var(--text-light); }
         .nav-btn.active { color: var(--blue-corp); border-left-color: var(--blue-corp); background: rgba(25, 118, 210, 0.2); }
+        
         .sync-btn { margin: 20px; padding: 12px; background: var(--accent-green); border: none; color: white; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); transition: transform 0.1s;}
         .sync-btn:active { transform: scale(0.96); }
+
         main { flex: 1; padding: 30px; overflow-y: auto; background: radial-gradient(circle at top right, #1e293b 0%, #0f172a 100%); }
         .view-section { display: none; animation: fadeIn 0.3s ease; }
         .view-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
         h2.view-title { color: var(--blue-corp); margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 25px; display: flex; align-items: center; gap: 10px; }
+        
         .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
         .text-card { background: var(--panel-bg); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); border-left: 5px solid var(--blue-corp); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .text-card-header { font-size: 0.75rem; color: var(--blue-corp); margin-bottom: 10px; text-transform: uppercase; font-weight: 800; }
         .text-card-body { font-size: 1.1rem; line-height: 1.5; color: var(--text-light); font-style: italic; }
         .text-card-footer { margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); color: var(--accent-green); font-weight: 600; font-size: 0.95rem; }
+        
         .card-chart { background: var(--panel-bg); padding: 25px; border-radius: 16px; margin-bottom: 20px; border: 1px solid var(--border-color); }
         .card-chart h3 { margin-top: 0; color: var(--text-light); font-size: 1.1rem; text-align: center; margin-bottom: 20px;}
+
         #login-gate { position: fixed; inset: 0; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 1000; }
         .pin-box { background: white; padding: 40px; border-radius: 16px; text-align: center; color: #1f2937; }
         .pin-box input { font-size: 2.5rem; width: 180px; text-align: center; margin-bottom: 20px; padding: 10px; border: 2px solid #cbd5e1; border-radius: 8px; outline: none; }
         .btn-unlock { display:block; width:100%; padding:12px; background:var(--blue-corp); color:white; border:none; border-radius:8px; font-weight:bold; cursor:pointer; font-size: 1rem;}
+        
         .btn-repartir { width: 100%; padding: 15px; background: var(--orange-btn); color: white; font-weight: bold; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.2);}
         .btn-repartir:active { transform: scale(0.98); }
     </style>
@@ -93,25 +102,55 @@
 
         <div id="view-a1" class="view-section">
             <h2 class="view-title">A1: Mapa de Reactividad al Estrés (IRE)</h2>
-            <div class="card-chart"><canvas id="chartIRE"></canvas></div>
+            <div class="card-chart">
+                <canvas id="chartIRE"></canvas>
+            </div>
             <div id="container-otros-a1" style="margin-top:20px; color:var(--text-muted); font-size:0.9rem;"></div>
         </div>
 
-        <div id="view-d3" class="view-section"><h2 class="view-title">D3: Espejo Profesional</h2><div class="grid-cards" id="container-d3"></div></div>
-        <div id="view-d5" class="view-section"><h2 class="view-title">D5: Laboratorio de Frases</h2><button class="btn-repartir" onclick="repartirD5(this)">🔀 REPARTIR FRASES (Iniciar Judo Verbal)</button><div class="grid-cards" id="container-d5"></div></div>
-        <div id="view-d6" class="view-section"><h2 class="view-title">D6: Aduana de Palabras</h2><div class="grid-cards" id="container-d6"></div></div>
-        <div id="view-a2" class="view-section"><h2 class="view-title">A2: El Muro de Cristal</h2><div class="grid-cards" id="container-a2"></div></div>
-        <div id="view-a3" class="view-section"><h2 class="view-title">A3: Puentes de Comunicación</h2><div class="grid-cards" id="container-a3"></div></div>
-        <div id="view-d7" class="view-section"><h2 class="view-title">D7: Compromisos Personales (PRP)</h2><div class="grid-cards" id="container-d7"></div></div>
-        <div id="view-anotaciones" class="view-section"><h2 class="view-title">📝 Anotaciones de los Participantes</h2><div class="grid-cards" id="container-anotaciones"></div></div>
+        <div id="view-d3" class="view-section">
+            <h2 class="view-title">D3: Espejo Profesional</h2>
+            <div class="grid-cards" id="container-d3"></div>
+        </div>
+
+        <div id="view-d5" class="view-section">
+            <h2 class="view-title">D5: Laboratorio de Frases</h2>
+            <button class="btn-repartir" onclick="repartirD5(this)">🔀 REPARTIR FRASES (Iniciar Judo Verbal)</button>
+            <div class="grid-cards" id="container-d5"></div>
+        </div>
+        
+        <div id="view-d6" class="view-section">
+            <h2 class="view-title">D6: Aduana de Palabras</h2>
+            <div class="grid-cards" id="container-d6"></div>
+        </div>
+
+        <div id="view-a2" class="view-section">
+            <h2 class="view-title">A2: El Muro de Cristal</h2>
+            <div class="grid-cards" id="container-a2"></div>
+        </div>
+
+        <div id="view-a3" class="view-section">
+            <h2 class="view-title">A3: Puentes de Comunicación</h2>
+            <div class="grid-cards" id="container-a3"></div>
+        </div>
+
+        <div id="view-d7" class="view-section">
+            <h2 class="view-title">D7: Compromisos Personales (PRP)</h2>
+            <div class="grid-cards" id="container-d7"></div>
+        </div>
+
+        <div id="view-anotaciones" class="view-section">
+            <h2 class="view-title">📝 Anotaciones de los Participantes</h2>
+            <div class="grid-cards" id="container-anotaciones"></div>
+        </div>
     </main>
 
     <script>
-        // ¡PEGA AQUÍ LA NUEVA URL RECIÉN CREADA EN GOOGLE!
-        const GOOGLE_URL = 'https://script.google.com/macros/s/AKfycbxkbad_lBAdjyE-cbLMlmhbGIbOtowdH1NTcBHomj2eDC1Y8420Qh_jxjTgePFkJCeX/exec'; 
+        const GOOGLE_URL = 'https://script.google.com/macros/s/AKfycbxlAerqfiEcwtjx7UBzprnq7PHE5Oy4zczNEDoUbaLhAwB1yZY0lSB4q_jm86FOgeZ8/exec'; 
         const MASTER_PIN = '5629';
         
         let chart1, chart2, chart3, chart4;
+
         Chart.defaults.color = '#94a3b8'; 
         Chart.defaults.borderColor = '#334155';
 
@@ -136,22 +175,12 @@
             btn.innerText = '⌛ DESCARGANDO...';
             try {
                 const res = await fetch(GOOGLE_URL);
-                if (!res.ok) throw new Error("Error HTTP: " + res.status);
-                
-                const textResponse = await res.text();
-                let data;
-                try {
-                    data = JSON.parse(textResponse);
-                } catch (jsonErr) {
-                    throw new Error("El servidor devolvió una web en lugar de datos JSON. ¡Te falta la función doGet o no has publicado una Nueva Implementación!");
-                }
-
+                const data = await res.json();
                 processData(data);
                 btn.innerText = '✅ ACTUALIZADO';
                 setTimeout(() => btn.innerText = '🔄 SINCRONIZAR DATOS', 3000);
             } catch (e) { 
                 console.error(e);
-                alert("Fallo crítico en la Consola: \n" + e.message);
                 btn.innerText = '❌ ERROR'; 
                 setTimeout(() => btn.innerText = '🔄 SINCRONIZAR DATOS', 3000); 
             }
@@ -172,13 +201,16 @@
             const card = document.createElement('div');
             card.className = 'text-card';
             if(isRed) card.style.borderLeftColor = 'var(--accent-red)';
+            
             let html = `<div class="text-card-header">${header}</div><div class="text-card-body">${body}</div>`;
             if(footer) html += `<div class="text-card-footer">${footer}</div>`;
+            
             card.innerHTML = html;
             container.appendChild(card);
         }
 
         function processData(rows) {
+            // Limpiar contenedores
             ['container-d3', 'container-d5', 'container-d6', 'container-a2', 'container-a3', 'container-d7', 'container-anotaciones'].forEach(id => {
                 let el = document.getElementById(id);
                 if(el) el.innerHTML = '';
@@ -190,6 +222,7 @@
             let d4 = { si:0, no:0 };
             let otrosA1 = [];
 
+            // Diccionario Base para D2 (Seguridad contra fallos)
             const d2Labels = { 
                 "t1": "Falta Respeto", "t2": "No Cobertura", "t3": "Carga Trabajo", 
                 "t4": "Fallo Reparador", "t5": "Falta Info Perito", "t6": "Amenaza Recl.", 
@@ -200,16 +233,20 @@
                 const t = r.col1;
                 if (!t) return;
 
-                if (t === "Voto_D1" && r.col2) {
-                    let v = String(r.col2).trim().toLowerCase();
-                    if (d1[v] !== undefined) d1[v]++;
+                if (t === "Voto_D1") {
+                    if(r.col2) {
+                        let v = String(r.col2).trim().toLowerCase();
+                        if (d1[v] !== undefined) d1[v]++;
+                    }
                 }
-                else if ((t === "D2_VOTO" || t === "REPORTE_GRAL")) {
+                else if (t === "D2_VOTO" || t === "REPORTE_GRAL") {
                     const targetCol = t === "D2_VOTO" ? r.col2 : r.col3;
                     if (targetCol) {
                         String(targetCol).split(',').forEach(v => {
                             let clean = v.trim().toLowerCase();
-                            if (clean && d2Labels.hasOwnProperty(clean)) { d2[clean] = (d2[clean] || 0) + 1; }
+                            if (clean && d2Labels.hasOwnProperty(clean)) {
+                                d2[clean] = (d2[clean] || 0) + 1;
+                            }
                         });
                     }
                 }
@@ -220,38 +257,77 @@
                     });
                     if (r.col4) otrosA1.push(String(r.col4));
                 }
-                else if (t === "D3_VOTO") createCard('container-d3', 'Caso Asignado', r.col3, `Reencuadre: <span style="color:var(--text-light)">${r.col4}</span>`);
-                else if (t === "D4_VOTO" && r.col2) {
-                    let val = String(r.col2).trim().toLowerCase();
-                    if (val === "sí" || val === "si") d4.si++;
-                    else if (val === "no") d4.no++;
+                else if (t === "D3_VOTO") {
+                    createCard('container-d3', 'Caso Asignado', r.col3, `Reencuadre: <span style="color:var(--text-light)">${r.col4}</span>`);
                 }
-                else if (t === "D5_RESPUESTA_FINAL") createCard('container-d5', 'Cliente: '+r.col2, `Judo Verbal: <span style="color:var(--text-light)">${r.col3}</span>`, null, true);
-                else if (t === "D6_VOTO") createCard('container-d6', 'Alternativas', `Cálmese ➔ <span style="color:var(--accent-green)">${r.col2}</span><br><br>Culpa ➔ <span style="color:var(--accent-green)">${r.col3}</span><br><br>Grite ➔ <span style="color:var(--accent-green)">${r.col4}</span>`);
-                else if (t === "A2_VOTO") createCard('container-a2', 'Muro', `<span style="color:var(--accent-red)">Rebota:</span> ${r.col3}<br><br><span style="color:var(--accent-green)">Atraviesa:</span> ${r.col4}`);
-                else if (t === "A3_VOTO") createCard('container-a3', 'Puente', `1. ${r.col3}<br><br>2. ${r.col4}<br><br>3. ${r.col5}`);
-                else if (t === "D7_VOTO") createCard('container-d7', 'PRP', `Señal: ${r.col2} | Escudo: ${r.col3}`, `Reset: ${r.col4}`);
-                else if (t === "ANOTACIONES_VOTO") createCard('container-anotaciones', 'Nota Anónima', r.col2);
+                else if (t === "D4_VOTO") {
+                    if(r.col2) {
+                        let val = String(r.col2).trim().toLowerCase();
+                        if (val === "sí" || val === "si") d4.si++;
+                        else if (val === "no") d4.no++;
+                    }
+                }
+                else if (t === "D5_RESPUESTA_FINAL") {
+                    createCard('container-d5', 'Cliente: '+r.col2, `Judo Verbal: <span style="color:var(--text-light)">${r.col3}</span>`, null, true);
+                }
+                else if (t === "D6_VOTO") {
+                    createCard('container-d6', 'Alternativas', `Cálmese ➔ <span style="color:var(--accent-green)">${r.col2}</span><br><br>Culpa ➔ <span style="color:var(--accent-green)">${r.col3}</span><br><br>Grite ➔ <span style="color:var(--accent-green)">${r.col4}</span>`);
+                }
+                else if (t === "A2_VOTO") {
+                    createCard('container-a2', 'Muro', `<span style="color:var(--accent-red)">Rebota:</span> ${r.col3}<br><br><span style="color:var(--accent-green)">Atraviesa:</span> ${r.col4}`);
+                }
+                else if (t === "A3_VOTO") {
+                    createCard('container-a3', 'Puente', `1. ${r.col3}<br><br>2. ${r.col4}<br><br>3. ${r.col5}`);
+                }
+                else if (t === "D7_VOTO") {
+                    createCard('container-d7', 'PRP', `Señal: ${r.col2} | Escudo: ${r.col3}`, `Reset: ${r.col4}`);
+                }
+                else if (t === "ANOTACIONES_VOTO") {
+                    createCard('container-anotaciones', 'Nota Anónima', r.col2);
+                }
             });
 
             renderCharts(d1, d2, ire, d4, d2Labels);
+            
             const divOtros = document.getElementById('container-otros-a1');
-            if(divOtros) divOtros.innerHTML = otrosA1.length > 0 ? "<strong>Síntomas extraídos:</strong> " + otrosA1.join(' | ') : "";
+            if(divOtros) {
+                divOtros.innerHTML = otrosA1.length > 0 ? "<strong>Síntomas cualitativos extraídos:</strong> " + otrosA1.join(' | ') : "";
+            }
         }
 
         function renderCharts(d1, d2, ire, d4, d2Labels) {
+            // Chart D1
             if (chart1) chart1.destroy();
-            chart1 = new Chart(document.getElementById('chartD1'), { type: 'pie', data: { labels: ['Saltar (Instinto)', 'Observar (Córtex)', 'Avanzar (Peligro)'], datasets: [{ data: [d1.saltar, d1.observar, d1.avanzar], backgroundColor: ['#ef4444', '#3b82f6', '#f97316'], borderWidth: 0 }] }, options: { plugins: { legend: { position: 'bottom', labels: { color: '#f8fafc' } } } } });
+            chart1 = new Chart(document.getElementById('chartD1'), { 
+                type: 'pie', 
+                data: { labels: ['Saltar (Instinto)', 'Observar (Córtex)', 'Avanzar (Peligro)'], datasets: [{ data: [d1.saltar, d1.observar, d1.avanzar], backgroundColor: ['#ef4444', '#3b82f6', '#f97316'], borderWidth: 0 }] }, 
+                options: { plugins: { legend: { position: 'bottom', labels: { color: '#f8fafc' } } } } 
+            });
 
+            // Chart D2
             const d2Data = Object.keys(d2Labels).map(k => ({ label: d2Labels[k], value: d2[k] || 0 })).sort((a,b) => b.value - a.value);
             if (chart2) chart2.destroy();
-            chart2 = new Chart(document.getElementById('chartD2'), { type: 'bar', options: { indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { stepSize: 1, color: '#94a3b8' } }, y: { ticks: { color: '#94a3b8' } } } }, data: { labels: d2Data.map(d => d.label), datasets: [{ data: d2Data.map(d => d.value), backgroundColor: '#10b981', borderRadius: 4 }] } });
+            chart2 = new Chart(document.getElementById('chartD2'), { 
+                type: 'bar', 
+                options: { indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { stepSize: 1, color: '#94a3b8' } }, y: { ticks: { color: '#94a3b8' } } } }, 
+                data: { labels: d2Data.map(d => d.label), datasets: [{ data: d2Data.map(d => d.value), backgroundColor: '#10b981', borderRadius: 4 }] } 
+            });
 
+            // Chart D4
             if (chart4) chart4.destroy();
-            chart4 = new Chart(document.getElementById('chartD4'), { type: 'doughnut', data: { labels: ['Sienten Calma', 'Sin Efecto'], datasets: [{ data: [d4.si, d4.no], backgroundColor: ['#10b981', '#94a3b8'], borderWidth: 0 }] }, options: { plugins: { legend: { position: 'bottom', labels: { color: '#f8fafc' } } } } });
+            chart4 = new Chart(document.getElementById('chartD4'), { 
+                type: 'doughnut', 
+                data: { labels: ['Sienten Calma', 'Sin Efecto'], datasets: [{ data: [d4.si, d4.no], backgroundColor: ['#10b981', '#94a3b8'], borderWidth: 0 }] }, 
+                options: { plugins: { legend: { position: 'bottom', labels: { color: '#f8fafc' } } } } 
+            });
 
+            // Chart IRE
             if (chart3) chart3.destroy();
-            chart3 = new Chart(document.getElementById('chartIRE'), { type: 'bar', options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1, color: '#94a3b8' } }, x: { ticks: { color: '#94a3b8' } } } }, data: { labels: ['Taquicardia', 'Tensión', 'Sudoración', 'Nudo Estómago', 'Temblores', 'Sequedad', 'Visión Túnel', 'Rumiación', 'Irritabilidad', 'Apatía'], datasets: [{ data: Object.values(ire), backgroundColor: '#1976D2', borderRadius: 4 }] } });
+            chart3 = new Chart(document.getElementById('chartIRE'), { 
+                type: 'bar', 
+                options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1, color: '#94a3b8' } }, x: { ticks: { color: '#94a3b8' } } } }, 
+                data: { labels: ['Taquicardia', 'Tensión', 'Sudoración', 'Nudo Estómago', 'Temblores', 'Sequedad', 'Visión Túnel', 'Rumiación', 'Irritabilidad', 'Apatía'], datasets: [{ data: Object.values(ire), backgroundColor: '#1976D2', borderRadius: 4 }] } 
+            });
         }
     </script>
 </body>
