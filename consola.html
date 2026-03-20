@@ -10,17 +10,17 @@
             --text-light: #f8fafc; --text-muted: #94a3b8; --accent-green: #10b981;
             --accent-red: #ef4444; --orange-btn: #f97316; --border-color: #334155;
         }
-        body { font-family: sans-serif; background: var(--bg-dark); color: var(--text-light); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg-dark); color: var(--text-light); margin: 0; display: flex; height: 100vh; overflow: hidden; }
         
         /* Navegación Modular Restaurada */
-        nav { width: 260px; background: var(--panel-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 15px 0; overflow-y:auto;}
+        nav { width: 260px; background: var(--panel-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; padding: 15px 0; overflow-y:auto; flex-shrink: 0;}
         .nav-brand { text-align: center; color: var(--blue-corp); font-weight: 900; font-size: 1.1rem; margin-bottom: 15px; letter-spacing: 1px; padding: 0 10px;}
         .nav-group { font-size: 0.7rem; color: var(--text-muted); padding: 15px 20px 5px 20px; text-transform: uppercase; font-weight: bold; letter-spacing: 1px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 5px;}
         .nav-btn { background: transparent; border: none; color: var(--text-muted); padding: 10px 20px; text-align: left; font-size: 0.9rem; font-weight: bold; cursor: pointer; transition: 0.2s; border-left: 4px solid transparent; }
         .nav-btn:hover { background: rgba(25, 118, 210, 0.1); color: var(--text-light); }
         .nav-btn.active { color: var(--blue-corp); border-left-color: var(--blue-corp); background: rgba(25, 118, 210, 0.2); }
         
-        .sync-btn { margin: 20px; padding: 12px; background: var(--accent-green); border: none; color: white; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); flex-shrink: 0; transition: transform 0.1s;}
+        .sync-btn { margin: 20px; padding: 12px; background: var(--accent-green); border: none; color: white; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3); transition: transform 0.1s;}
         .sync-btn:active { transform: scale(0.96); }
 
         main { flex: 1; padding: 30px; overflow-y: auto; background: radial-gradient(circle at top right, #1e293b 0%, #0f172a 100%); }
@@ -37,7 +37,8 @@
         .text-card-footer { margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); color: var(--accent-green); font-weight: 600; font-size: 0.95rem; }
         
         .card-chart { background: var(--panel-bg); padding: 25px; border-radius: 16px; margin-bottom: 20px; border: 1px solid var(--border-color); }
-        
+        .card-chart h3 { margin-top: 0; color: var(--text-light); font-size: 1.1rem; text-align: center; margin-bottom: 20px;}
+
         #login-gate { position: fixed; inset: 0; background: var(--bg-dark); display: flex; justify-content: center; align-items: center; z-index: 1000; }
         .pin-box { background: white; padding: 40px; border-radius: 16px; text-align: center; color: #1f2937; }
         .pin-box input { font-size: 2.5rem; width: 180px; text-align: center; margin-bottom: 20px; padding: 10px; border: 2px solid #cbd5e1; border-radius: 8px; outline: none; }
@@ -61,43 +62,49 @@
         <div class="nav-brand">PSYCOINTERA PRO</div>
         
         <div class="nav-group">Módulo 1</div>
-        <button class="nav-btn active" onclick="switchView('d1', this)">🪢 D1: La Selva</button>
-        <button class="nav-btn" onclick="switchView('d2', this)">🌡️ D2: Termómetro</button>
-        <button class="nav-btn" onclick="switchView('a1', this)">🗺️ A1: Mapa Alerta</button>
+        <button class="nav-btn active" onclick="switchView('graficas', this)">📊 Gráficas D1 / D2 / D4</button>
+        <button class="nav-btn" onclick="switchView('a1', this)">🗺️ A1: Mapa Alerta (IRE)</button>
 
         <div class="nav-group">Módulo 2</div>
-        <button class="nav-btn" onclick="switchView('d3', this)">🪞 D3: Espejo</button>
-        <button class="nav-btn" onclick="switchView('d4', this)">🫁 D4: Biofeedback</button>
-        <button class="nav-btn" onclick="switchView('a2', this)">🛡️ A2: Muro Cristal</button>
+        <button class="nav-btn" onclick="switchView('d3', this)">🪞 D3: Espejo Profesional</button>
+        <button class="nav-btn" onclick="switchView('a2', this)">🛡️ A2: Muro de Cristal</button>
 
         <div class="nav-group">Módulo 3</div>
-        <button class="nav-btn" onclick="switchView('d5', this)">🥋 D5: Laboratorio</button>
-        <button class="nav-btn" onclick="switchView('d6', this)">🛂 D6: Aduana</button>
-        <button class="nav-btn" onclick="switchView('a3', this)">🌉 A3: Puentes</button>
+        <button class="nav-btn" onclick="switchView('d5', this)">🥋 D5: Laboratorio Frases</button>
+        <button class="nav-btn" onclick="switchView('d6', this)">🛂 D6: Aduana Palabras</button>
+        <button class="nav-btn" onclick="switchView('a3', this)">🌉 A3: Puentes (Judo)</button>
 
         <div class="nav-group">Módulo 4</div>
         <button class="nav-btn" onclick="switchView('d7', this)">🤝 D7: Compromiso PRP</button>
         
         <div class="nav-group">Herramientas</div>
-        <button class="nav-btn" onclick="switchView('anotaciones', this)">📝 Anotaciones</button>
+        <button class="nav-btn" onclick="switchView('anotaciones', this)">📝 Anotaciones Privadas</button>
         
         <button class="sync-btn" onclick="fetchData()">🔄 SINCRONIZAR DATOS</button>
     </nav>
 
     <main>
-        <div id="view-d1" class="view-section active">
-            <h2 class="view-title">D1: Vía Rápida vs Vía Lenta</h2>
-            <div class="card-chart" style="max-width: 500px; margin: 0 auto;"><canvas id="chartD1"></canvas></div>
-        </div>
-
-        <div id="view-d2" class="view-section">
-            <h2 class="view-title">D2: Ranking de Disparadores</h2>
-            <div class="card-chart"><canvas id="chartD2"></canvas></div>
+        <div id="view-graficas" class="view-section active">
+            <h2 class="view-title">Métricas de Grupo</h2>
+            <div class="card-chart" style="max-width: 500px; margin: 0 auto 20px auto;">
+                <h3>D1: La Selva (Instinto vs Lógica)</h3>
+                <canvas id="chartD1"></canvas>
+            </div>
+            <div class="card-chart">
+                <h3>D2: Top Disparadores de Estrés</h3>
+                <canvas id="chartD2"></canvas>
+            </div>
+            <div class="card-chart" style="max-width: 400px; margin: 0 auto;">
+                <h3>D4: Efectividad Reset Biofeedback</h3>
+                <canvas id="chartD4"></canvas>
+            </div>
         </div>
 
         <div id="view-a1" class="view-section">
             <h2 class="view-title">A1: Mapa de Reactividad al Estrés (IRE)</h2>
-            <div class="card-chart"><canvas id="chartIRE"></canvas></div>
+            <div class="card-chart">
+                <canvas id="chartIRE"></canvas>
+            </div>
             <div id="container-otros-a1" style="margin-top:20px; color:var(--text-muted); font-size:0.9rem;"></div>
         </div>
 
@@ -106,11 +113,6 @@
             <div class="grid-cards" id="container-d3"></div>
         </div>
 
-        <div id="view-d4" class="view-section">
-            <h2 class="view-title">D4: Test Biofeedback (4-7-8)</h2>
-            <div class="card-chart" style="max-width: 400px; margin: 0 auto;"><canvas id="chartD4"></canvas></div>
-        </div>
-        
         <div id="view-d5" class="view-section">
             <h2 class="view-title">D5: Laboratorio de Frases</h2>
             <button class="btn-repartir" onclick="repartirD5(this)">🔀 REPARTIR FRASES (Iniciar Judo Verbal)</button>
@@ -146,7 +148,8 @@
     <script>
         const GOOGLE_URL = 'https://script.google.com/macros/s/AKfycbxlAerqfiEcwtjx7UBzprnq7PHE5Oy4zczNEDoUbaLhAwB1yZY0lSB4q_jm86FOgeZ8/exec'; 
         const MASTER_PIN = '5629';
-        let charts = {};
+        
+        let chart1, chart2, chart3, chart4;
 
         Chart.defaults.color = '#94a3b8'; 
         Chart.defaults.borderColor = '#334155';
@@ -207,7 +210,7 @@
         }
 
         function processData(rows) {
-            // Limpiar contenedores de texto
+            // Limpiar contenedores
             ['container-d3', 'container-d5', 'container-d6', 'container-a2', 'container-a3', 'container-d7', 'container-anotaciones'].forEach(id => {
                 let el = document.getElementById(id);
                 if(el) el.innerHTML = '';
@@ -218,6 +221,13 @@
             let ire = { ire1:0, ire2:0, ire3:0, ire4:0, ire5:0, ire6:0, ire7:0, ire8:0, ire9:0, ire10:0 };
             let d4 = { si:0, no:0 };
             let otrosA1 = [];
+
+            // Diccionario Base para D2 (Seguridad contra fallos)
+            const d2Labels = { 
+                "t1": "Falta Respeto", "t2": "No Cobertura", "t3": "Carga Trabajo", 
+                "t4": "Fallo Reparador", "t5": "Falta Info Perito", "t6": "Amenaza Recl.", 
+                "t7": "Carga Emocional", "t8": "Pedir Datos", "t9": "Presión TMO", "t10": "Fallo Sistema" 
+            };
 
             rows.forEach(r => {
                 const t = r.col1;
@@ -230,12 +240,15 @@
                     }
                 }
                 else if (t === "D2_VOTO" || t === "REPORTE_GRAL") {
-                    // Col2 para envío individual D2, Col3 para el reporte general final
                     const targetCol = t === "D2_VOTO" ? r.col2 : r.col3;
-                    if (targetCol) String(targetCol).split(',').forEach(v => {
-                        let clean = v.trim().toLowerCase();
-                        if (clean) d2[clean] = (d2[clean] || 0) + 1;
-                    });
+                    if (targetCol) {
+                        String(targetCol).split(',').forEach(v => {
+                            let clean = v.trim().toLowerCase();
+                            if (clean && d2Labels.hasOwnProperty(clean)) {
+                                d2[clean] = (d2[clean] || 0) + 1;
+                            }
+                        });
+                    }
                 }
                 else if (t === "A1_VOTO") {
                     if (r.col2) String(r.col2).split(',').forEach(id => {
@@ -274,43 +287,43 @@
                 }
             });
 
-            renderCharts(d1, d2, ire, d4);
+            renderCharts(d1, d2, ire, d4, d2Labels);
+            
             const divOtros = document.getElementById('container-otros-a1');
             if(divOtros) {
                 divOtros.innerHTML = otrosA1.length > 0 ? "<strong>Síntomas cualitativos extraídos:</strong> " + otrosA1.join(' | ') : "";
             }
         }
 
-        function renderCharts(d1, d2, ire, d4) {
+        function renderCharts(d1, d2, ire, d4, d2Labels) {
             // Chart D1
-            if(charts.c1) charts.c1.destroy();
-            charts.c1 = new Chart(document.getElementById('chartD1'), { 
+            if(chart1) chart1.destroy();
+            chart1 = new Chart(document.getElementById('chartD1'), { 
                 type:'pie', 
                 data:{ labels:['Saltar (Instinto)','Observar (Córtex)','Avanzar (Peligro)'], datasets:[{data:[d1.saltar, d1.observar, d1.avanzar], backgroundColor:['#ef4444','#3b82f6','#f97316'], borderWidth:0}] }, 
                 options:{plugins:{legend:{labels:{color:'#f8fafc'}}}}
             });
             
             // Chart D2
-            const labelsD2 = {t1:"Falta Respeto", t2:"No Cobertura", t3:"Carga Trabajo", t4:"Fallo Reparador", t5:"Falta Info", t6:"Amenaza Recl.", t7:"Carga Emocional", t8:"Pedir Datos", t9:"Presión TMO", t10:"Fallo Sistema"};
-            const d2Data = Object.keys(labelsD2).map(k => ({l:labelsD2[k], v:d2[k]||0})).sort((a,b) => b.val - a.val);
-            if(charts.c2) charts.c2.destroy();
-            charts.c2 = new Chart(document.getElementById('chartD2'), { 
+            const d2Data = Object.keys(d2Labels).map(k => ({l:d2Labels[k], v:d2[k]||0})).sort((a,b) => b.v - a.v);
+            if(chart2) chart2.destroy();
+            chart2 = new Chart(document.getElementById('chartD2'), { 
                 type:'bar', 
                 options:{indexAxis:'y', plugins:{legend:{display:false}}, scales:{x:{ticks:{stepSize:1, color:'#94a3b8'}}, y:{ticks:{color:'#94a3b8'}}}}, 
                 data:{ labels:d2Data.map(x=>x.l), datasets:[{data:d2Data.map(x=>x.v), backgroundColor:'#10b981', borderRadius:4}]}
             });
 
             // Chart IRE A1
-            if(charts.c3) charts.c3.destroy();
-            charts.c3 = new Chart(document.getElementById('chartIRE'), { 
+            if(chart3) chart3.destroy();
+            chart3 = new Chart(document.getElementById('chartIRE'), { 
                 type:'bar', 
                 options:{plugins:{legend:{display:false}}, scales:{y:{ticks:{stepSize:1, color:'#94a3b8'}}, x:{ticks:{color:'#94a3b8'}}}}, 
                 data:{ labels:['Taqui','Tensión','Sudor','Nudo','Temblor','Sequedad','Túnel','Rumiación','Irritabilidad','Apatía'], datasets:[{data:Object.values(ire), backgroundColor:'#1976D2', borderRadius:4}]}
             });
 
             // Chart D4
-            if(charts.c4) charts.c4.destroy();
-            charts.c4 = new Chart(document.getElementById('chartD4'), { 
+            if(chart4) chart4.destroy();
+            chart4 = new Chart(document.getElementById('chartD4'), { 
                 type:'doughnut', 
                 data:{ labels:['Sienten Calma','Sin cambio'], datasets:[{data:[d4.si, d4.no], backgroundColor:['#10b981','#94a3b8'], borderWidth:0}]}, 
                 options:{plugins:{legend:{labels:{color:'#f8fafc'}}}}
